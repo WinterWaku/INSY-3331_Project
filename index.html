@@ -1,0 +1,2707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShiftCover | Pre-Shift Peer Coverage Log</title>
+  <meta name="description" content="Eliminates 6:00 AM texting chaos by providing a live peer-coverage log for retail and coffee shops.">
+  <style>
+    /* ==========================================================================
+       CSS Variables & Design Tokens (Warm Espresso / Cafe Theme)
+       ========================================================================== */
+    :root {
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      --bg-color: #f8f6f3;
+      --card-bg: #ffffff;
+      --surface-subtle: #f2eee8;
+      --border-color: #e5dfd7;
+      --border-focus: #b45309;
+
+      /* Primary Warm Amber / Espresso */
+      --primary: #92400e;
+      --primary-hover: #78350f;
+      --primary-light: #fef3c7;
+      --primary-border: #fcd34d;
+
+      /* Brand Accents */
+      --espresso: #3e2723;
+      --caramel: #d97706;
+      --cream: #fbf9f6;
+
+      /* Text Colors */
+      --text-main: #292524;
+      --text-muted: #78716c;
+      --text-light: #a8a29e;
+
+      /* Urgency & Status Badges */
+      --urgent-critical-bg: #fee2e2;
+      --urgent-critical-text: #b91c1c;
+      --urgent-critical-border: #fca5a5;
+
+      --urgent-soon-bg: #ffedd5;
+      --urgent-soon-text: #c2410c;
+      --urgent-soon-border: #fdba74;
+
+      --urgent-normal-bg: #e0f2fe;
+      --urgent-normal-text: #0369a1;
+      --urgent-normal-border: #bae6fd;
+
+      --status-open-bg: #ecfdf5;
+      --status-open-text: #047857;
+      --status-open-border: #a7f3d0;
+
+      --status-claimed-bg: #f3e8ff;
+      --status-claimed-text: #6b21a8;
+      --status-claimed-border: #d8b4fe;
+
+      /* Elevation & Radii */
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -4px rgba(0,0,0,0.04);
+      --shadow-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+
+      --transition-fast: 0.15s ease;
+      --transition-base: 0.25s ease;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 70px; /* Space for mobile navigation */
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    /* ==========================================================================
+       Layout & Container
+       ========================================================================== */
+    .app-container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .app-container {
+        padding: 28px 24px 60px 24px;
+      }
+      body {
+        padding-bottom: 0;
+      }
+    }
+
+    /* ==========================================================================
+       Header & Branding
+       ========================================================================== */
+    .app-header {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #78350f, #b45309);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(120, 53, 15, 0.25);
+    }
+
+    .app-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--espresso);
+      letter-spacing: -0.02em;
+    }
+
+    .store-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+    }
+
+    .store-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    .app-tagline {
+      font-size: 0.98rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 450;
+    }
+
+    /* Live Summary Stats Bar */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .stat-card {
+      background: var(--surface-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .stat-number {
+      font-size: 1.45rem;
+      font-weight: 750;
+      line-height: 1.1;
+      color: var(--espresso);
+    }
+
+    .stat-number.alert {
+      color: var(--urgent-critical-text);
+    }
+
+    .stat-number.highlight {
+      color: var(--primary);
+    }
+
+    .stat-label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       Navigation Tabs (Desktop & Mobile)
+       ========================================================================== */
+    .tabs-nav {
+      display: flex;
+      gap: 8px;
+      background: var(--surface-subtle);
+      padding: 5px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      margin-bottom: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 130px;
+      background: transparent;
+      border: none;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      background: var(--card-bg);
+      color: var(--espresso);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      background: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .tab-btn.active .tab-badge {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Mobile Floating Bottom Bar */
+    @media (max-width: 767px) {
+      .tabs-nav {
+        display: none; /* Hide top bar on mobile */
+      }
+
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-top: 1px solid var(--border-color);
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+        z-index: 100;
+        padding: 6px 4px 8px 4px;
+        justify-content: space-around;
+      }
+
+      .mobile-nav-item {
+        flex: 1;
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        font-size: 0.74rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 4px 0;
+        position: relative;
+      }
+
+      .mobile-nav-item.active {
+        color: var(--primary);
+      }
+
+      .mobile-nav-item svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .mobile-badge {
+        position: absolute;
+        top: 2px;
+        right: calc(50% - 18px);
+        background: #dc2626;
+        color: #ffffff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: var(--radius-full);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .mobile-bottom-nav {
+        display: none;
+      }
+    }
+
+    /* ==========================================================================
+       Views Container
+       ========================================================================== */
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       Filter / Search Bar
+       ========================================================================== */
+    .filter-bar {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .search-input-wrapper svg {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 9px 12px 9px 34px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      background: var(--cream);
+      color: var(--text-main);
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+    }
+
+    .filter-select {
+      padding: 9px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: var(--text-main);
+      background-color: var(--cream);
+      outline: none;
+      cursor: pointer;
+      min-width: 135px;
+    }
+
+    .filter-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* ==========================================================================
+       Shift Cards & Lists
+       ========================================================================== */
+    .shifts-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .shift-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shift-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .shift-card.critical-shift {
+      border-left: 5px solid var(--urgent-critical-text);
+    }
+
+    .shift-card.urgent-shift {
+      border-left: 5px solid var(--urgent-soon-text);
+    }
+
+    .shift-card.standard-shift {
+      border-left: 5px solid var(--urgent-normal-text);
+    }
+
+    .shift-card.claimed-card {
+      border-left: 5px solid var(--status-claimed-text);
+      opacity: 0.92;
+      background: #faf8fd;
+    }
+
+    .shift-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .shift-meta-badges {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-critical {
+      background: var(--urgent-critical-bg);
+      color: var(--urgent-critical-text);
+      border: 1px solid var(--urgent-critical-border);
+    }
+
+    .badge-urgent {
+      background: var(--urgent-soon-bg);
+      color: var(--urgent-soon-text);
+      border: 1px solid var(--urgent-soon-border);
+    }
+
+    .badge-standard {
+      background: var(--urgent-normal-bg);
+      color: var(--urgent-normal-text);
+      border: 1px solid var(--urgent-normal-border);
+    }
+
+    .badge-open {
+      background: var(--status-open-bg);
+      color: var(--status-open-text);
+      border: 1px solid var(--status-open-border);
+    }
+
+    .badge-claimed {
+      background: var(--status-claimed-bg);
+      color: var(--status-claimed-text);
+      border: 1px solid var(--status-claimed-border);
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background-color: currentColor;
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.3); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .shift-role-title {
+      font-size: 1.22rem;
+      font-weight: 750;
+      color: var(--espresso);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .shift-details-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      background: var(--surface-subtle);
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+    }
+
+    @media (min-width: 600px) {
+      .shift-details-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--text-main);
+    }
+
+    .detail-item svg {
+      color: var(--primary);
+      flex-shrink: 0;
+      width: 17px;
+      height: 17px;
+    }
+
+    .detail-item strong {
+      font-weight: 650;
+    }
+
+    .shift-notes {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      background: var(--cream);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--border-color);
+      font-style: italic;
+    }
+
+    /* Peer Matching Indicator */
+    .matching-peers-alert {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 550;
+    }
+
+    .shift-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 4px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .shift-poster-info {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .claim-action-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      padding: 9px 18px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 0.9rem;
+      min-height: 42px; /* Touch target minimum */
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(146, 64, 14, 0.2);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-success {
+      background: #059669;
+      color: #ffffff;
+    }
+
+    .btn-success:hover {
+      background: #047857;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-outline:hover {
+      background: var(--surface-subtle);
+      border-color: var(--text-muted);
+    }
+
+    .btn-danger-outline {
+      background: transparent;
+      border-color: #fecaca;
+      color: #dc2626;
+      font-size: 0.82rem;
+      padding: 6px 12px;
+      min-height: 34px;
+    }
+
+    .btn-danger-outline:hover {
+      background: #fee2e2;
+    }
+
+    .btn-claim {
+      background: linear-gradient(135deg, #059669, #047857);
+      color: #ffffff;
+      font-weight: 700;
+      padding: 10px 20px;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-claim:hover {
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 2px dashed var(--border-color);
+    }
+
+    .empty-icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 12px auto;
+      color: var(--caramel);
+    }
+
+    .empty-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--espresso);
+      margin-bottom: 6px;
+    }
+
+    .empty-text {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      max-width: 420px;
+      margin: 0 auto 16px auto;
+    }
+
+    /* ==========================================================================
+       Forms (Post Shift & Availability)
+       ========================================================================== */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .form-header {
+      margin-bottom: 22px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .form-header h2 {
+      font-size: 1.35rem;
+      font-weight: 750;
+      color: var(--espresso);
+      margin-bottom: 4px;
+    }
+
+    .form-header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    @media (min-width: 640px) {
+      .form-grid.two-cols {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      font-size: 0.88rem;
+      font-weight: 650;
+      color: var(--espresso);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-label .required {
+      color: #dc2626;
+      margin-left: 3px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      background: var(--cream);
+      color: var(--text-main);
+      outline: none;
+      transition: all var(--transition-fast);
+      min-height: 44px;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.12);
+    }
+
+    .form-control.error {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .error-hint {
+      color: #dc2626;
+      font-size: 0.78rem;
+      font-weight: 550;
+      display: none;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .error-hint.visible {
+      display: flex;
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .helper-text {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .urgency-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .urgency-option {
+      cursor: pointer;
+    }
+
+    .urgency-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .urgency-box {
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px 8px;
+      text-align: center;
+      transition: all var(--transition-fast);
+      background: var(--surface-subtle);
+    }
+
+    .urgency-box .title {
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .urgency-box .sub {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .urgency-option input:checked + .urgency-box.opt-critical {
+      border-color: #ef4444;
+      background: var(--urgent-critical-bg);
+      color: #991b1b;
+    }
+
+    .urgency-option input:checked + .urgency-box.opt-urgent {
+      border-color: #f59e0b;
+      background: var(--urgent-soon-bg);
+      color: #9a3412;
+    }
+
+    .urgency-option input:checked + .urgency-box.opt-standard {
+      border-color: #3b82f6;
+      background: var(--urgent-normal-bg);
+      color: #1e40af;
+    }
+
+    .form-actions {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* ==========================================================================
+       Staff Roster Cards & Grid
+       ========================================================================== */
+    .roster-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 640px) {
+      .roster-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 900px) {
+      .roster-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .staff-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+    }
+
+    .staff-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .staff-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d97706, #78350f);
+      color: #ffffff;
+      font-weight: 750;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .staff-info {
+      flex: 1;
+    }
+
+    .staff-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+
+    .staff-roles {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .staff-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      margin-top: 6px;
+    }
+
+    .status-available {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .status-standby {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+
+    .status-unavailable {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .staff-notes-box {
+      font-size: 0.8rem;
+      background: var(--surface-subtle);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+    }
+
+    .staff-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px dashed var(--border-color);
+      padding-top: 8px;
+    }
+
+    /* ==========================================================================
+       Claim Shift Modal Dialog
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(41, 37, 36, 0.65);
+      backdrop-filter: blur(2px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-container {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      max-width: 520px;
+      width: 100%;
+      box-shadow: var(--shadow-modal);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .modal-header {
+      padding: 18px 22px;
+      background: var(--espresso);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-header h3 {
+      font-size: 1.18rem;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: #e5dfd7;
+      cursor: pointer;
+      font-size: 1.4rem;
+      line-height: 1;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+    }
+
+    .modal-close-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-body {
+      padding: 22px;
+    }
+
+    .shift-summary-preview {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      font-size: 0.88rem;
+    }
+
+    .preview-role {
+      font-weight: 750;
+      font-size: 1.05rem;
+      color: var(--espresso);
+      margin-bottom: 4px;
+    }
+
+    .preview-meta {
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    /* ==========================================================================
+       Toast Notifications
+       ========================================================================== */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+      max-width: 380px;
+      width: calc(100% - 40px);
+    }
+
+    .toast {
+      background: #1c1917;
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      pointer-events: auto;
+      animation: slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border-left: 4px solid var(--caramel);
+    }
+
+    .toast.success {
+      border-left-color: #10b981;
+    }
+
+    .toast.error {
+      border-left-color: #ef4444;
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       Footer & Helpers
+       ========================================================================== */
+    .app-footer {
+      margin-top: 36px;
+      padding: 20px 0 10px 0;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-text {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px;
+    }
+
+    .btn-text:hover {
+      color: var(--text-main);
+    }
+
+    /* Print / Utility */
+    @media print {
+      .tabs-nav, .mobile-bottom-nav, .filter-bar, .form-actions, .btn {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Container for friendly alerts -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+
+    <!-- Top Header & Branding -->
+    <header class="app-header">
+      <div class="brand-row">
+        <div class="logo-group">
+          <div class="logo-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+              <line x1="6" y1="1" x2="6" y2="4"/>
+              <line x1="10" y1="1" x2="10" y2="4"/>
+              <line x1="14" y1="1" x2="14" y2="4"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="app-title">ShiftCover</h1>
+          </div>
+        </div>
+
+        <div class="store-badge">
+          <span class="store-dot"></span>
+          <span id="headerStoreName">Downtown Roastery & Cafe #04</span>
+        </div>
+      </div>
+
+      <!-- Single-sentence statement defining the app -->
+      <p class="app-tagline">
+        Eliminates 6:00 AM texting chaos by providing a live peer-coverage log for retail and coffee shops.
+      </p>
+
+      <!-- Quick Metrics Bar -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <span id="statOpenCount" class="stat-number highlight">0</span>
+          <span class="stat-label">Open Shifts</span>
+        </div>
+        <div class="stat-card">
+          <span id="statUrgentCount" class="stat-number alert">0</span>
+          <span class="stat-label">Urgent / Critical</span>
+        </div>
+        <div class="stat-card">
+          <span id="statStaffAvailable" class="stat-number">0</span>
+          <span class="stat-label">Peers on Standby</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs (Laptop & Tablet) -->
+    <nav class="tabs-nav" aria-label="Main Navigation">
+      <button type="button" class="tab-btn active" data-tab="open-shifts">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Open Shifts</span>
+        <span id="tabOpenBadge" class="tab-badge">0</span>
+      </button>
+
+      <button type="button" class="tab-btn" data-tab="post-shift">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Request Coverage</span>
+      </button>
+
+      <button type="button" class="tab-btn" data-tab="staff-roster">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span>Peer Availability Roster</span>
+        <span id="tabRosterBadge" class="tab-badge">0</span>
+      </button>
+
+      <button type="button" class="tab-btn" data-tab="covered-history">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        <span>Covered Log</span>
+        <span id="tabCoveredBadge" class="tab-badge">0</span>
+      </button>
+    </nav>
+
+    <!-- ======================================================================
+         VIEW 1: Live Open Shift Requests (Peer Coverage Log)
+         ====================================================================== -->
+    <section id="view-open-shifts" class="view-section active">
+
+      <!-- Filter & Search Tooling -->
+      <div class="filter-bar">
+        <div class="search-input-wrapper">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search by role, name, or location...">
+        </div>
+
+        <select id="roleFilter" class="filter-select" aria-label="Filter by Role">
+          <option value="ALL">All Roles</option>
+          <option value="Opening Barista">Opening Barista</option>
+          <option value="Mid Barista">Mid Barista</option>
+          <option value="Closing Barista">Closing Barista</option>
+          <option value="Shift Supervisor">Shift Supervisor</option>
+          <option value="Cashier / Register">Cashier / Register</option>
+          <option value="Baker / Kitchen Prep">Baker / Kitchen Prep</option>
+        </select>
+
+        <select id="urgencyFilter" class="filter-select" aria-label="Filter by Urgency">
+          <option value="ALL">All Urgencies</option>
+          <option value="CRITICAL">🚨 Critical (&lt; 6 hrs)</option>
+          <option value="URGENT">⚡ Urgent (Tomorrow)</option>
+          <option value="STANDARD">📅 Standard</option>
+        </select>
+
+        <select id="locationFilter" class="filter-select" aria-label="Filter by Store Location">
+          <option value="ALL">All Locations</option>
+          <option value="Downtown Roastery">Downtown Roastery</option>
+          <option value="Main St. Flagship">Main St. Flagship</option>
+          <option value="Uptown Express">Uptown Express</option>
+          <option value="Campus Kiosk">Campus Kiosk</option>
+        </select>
+      </div>
+
+      <!-- Live Cards Grid -->
+      <div id="shiftsContainer" class="shifts-grid">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 2: Request Shift Coverage (Streamlined Form)
+         ====================================================================== -->
+    <section id="view-post-shift" class="view-section">
+      <div class="form-card">
+        <div class="form-header">
+          <h2>Post an Open Shift Request</h2>
+          <p>Instantly alert available teammates when you need sudden or planned shift coverage.</p>
+        </div>
+
+        <form id="shiftRequestForm" novalidate>
+          <div class="form-grid two-cols">
+
+            <!-- Requester Name -->
+            <div class="form-group">
+              <label for="requesterName" class="form-label">
+                Your Name / Requester <span class="required">*</span>
+              </label>
+              <input type="text" id="requesterName" class="form-control" placeholder="e.g. Jordan Miller" required>
+              <div id="err-requesterName" class="error-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                Please enter who is requesting this coverage.
+              </div>
+            </div>
+
+            <!-- Role Needed -->
+            <div class="form-group">
+              <label for="shiftRole" class="form-label">
+                Role Needed <span class="required">*</span>
+              </label>
+              <select id="shiftRole" class="form-control" required>
+                <option value="" disabled selected>Select Role...</option>
+                <option value="Opening Barista">☕ Opening Barista</option>
+                <option value="Mid Barista">☕ Mid Barista</option>
+                <option value="Closing Barista">☕ Closing Barista</option>
+                <option value="Shift Supervisor">🔑 Shift Supervisor</option>
+                <option value="Cashier / Register">💵 Cashier / Register</option>
+                <option value="Baker / Kitchen Prep">🥐 Baker / Kitchen Prep</option>
+              </select>
+              <div id="err-shiftRole" class="error-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                Please select the required role.
+              </div>
+            </div>
+
+            <!-- Store Location -->
+            <div class="form-group">
+              <label for="shiftLocation" class="form-label">
+                Store Location <span class="required">*</span>
+              </label>
+              <select id="shiftLocation" class="form-control" required>
+                <option value="Downtown Roastery" selected>Downtown Roastery & Cafe #04</option>
+                <option value="Main St. Flagship">Main St. Flagship #01</option>
+                <option value="Uptown Express">Uptown Express #07</option>
+                <option value="Campus Kiosk">Campus Kiosk #12</option>
+              </select>
+            </div>
+
+            <!-- Shift Date -->
+            <div class="form-group">
+              <label for="shiftDate" class="form-label">
+                Shift Date <span class="required">*</span>
+              </label>
+              <input type="date" id="shiftDate" class="form-control" required>
+              <div id="err-shiftDate" class="error-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                Please choose a valid upcoming date.
+              </div>
+            </div>
+
+            <!-- Time Window: Start Time -->
+            <div class="form-group">
+              <label for="shiftStartTime" class="form-label">
+                Start Time <span class="required">*</span>
+              </label>
+              <input type="time" id="shiftStartTime" class="form-control" value="06:00" required>
+              <div id="err-shiftStartTime" class="error-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                Start time is required.
+              </div>
+            </div>
+
+            <!-- Time Window: End Time -->
+            <div class="form-group">
+              <label for="shiftEndTime" class="form-label">
+                End Time <span class="required">*</span>
+              </label>
+              <input type="time" id="shiftEndTime" class="form-control" value="12:30" required>
+              <div id="err-shiftEndTime" class="error-hint">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                End time must be after start time.
+              </div>
+            </div>
+
+            <!-- Urgency Level Selection -->
+            <div class="form-group full-width">
+              <label class="form-label">
+                Urgency Level <span class="required">*</span>
+              </label>
+              <div class="urgency-selector">
+                <label class="urgency-option">
+                  <input type="radio" name="urgency" value="CRITICAL">
+                  <div class="urgency-box opt-critical">
+                    <span class="title">🚨 Critical</span>
+                    <span class="sub">Starts &lt; 6 hrs / Today</span>
+                  </div>
+                </label>
+                <label class="urgency-option">
+                  <input type="radio" name="urgency" value="URGENT" checked>
+                  <div class="urgency-box opt-urgent">
+                    <span class="title">⚡ Urgent</span>
+                    <span class="sub">Tomorrow / &lt; 24 hrs</span>
+                  </div>
+                </label>
+                <label class="urgency-option">
+                  <input type="radio" name="urgency" value="STANDARD">
+                  <div class="urgency-box opt-standard">
+                    <span class="title">📅 Standard</span>
+                    <span class="sub">2+ Days Ahead</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Notes / Reason -->
+            <div class="form-group full-width">
+              <label for="shiftNotes" class="form-label">
+                Notes / Hand-off Instructions (Optional)
+              </label>
+              <textarea id="shiftNotes" class="form-control" placeholder="e.g. Needs keyholder for register opening, sudden fever, or swap for Sunday shift."></textarea>
+              <span class="helper-text">Add any specifics like store opening duties, espresso calibration, or contact preference.</span>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-outline" id="btnResetForm">Clear</button>
+            <button type="submit" class="btn btn-primary" id="btnSubmitShift">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              Publish to Peer Board
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 3: Peer Availability Roster (Who is available to cover)
+         ====================================================================== -->
+    <section id="view-staff-roster" class="view-section">
+
+      <!-- Fast Update Your Own Status Card -->
+      <div class="form-card" style="margin-bottom: 20px;">
+        <div class="form-header">
+          <h2>Update Your Standby Availability</h2>
+          <p>Let teammates know if you're open to picking up shifts without group-text blast spam.</p>
+        </div>
+
+        <form id="rosterStatusForm">
+          <div class="form-grid two-cols">
+            <div class="form-group">
+              <label for="staffMemberName" class="form-label">Your Name <span class="required">*</span></label>
+              <input type="text" id="staffMemberName" class="form-control" placeholder="e.g. Taylor Quinn" required>
+              <div id="err-staffMemberName" class="error-hint">Please enter your name.</div>
+            </div>
+
+            <div class="form-group">
+              <label for="staffStatusSelect" class="form-label">Availability Status <span class="required">*</span></label>
+              <select id="staffStatusSelect" class="form-control" required>
+                <option value="AVAILABLE" selected>🟢 Available & Ready to Cover Today</option>
+                <option value="STANDBY">🟡 Standby / Available with Notice</option>
+                <option value="UNAVAILABLE">⚪ Off-Duty / Unavailable</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="staffRolesQualified" class="form-label">Qualified Roles <span class="required">*</span></label>
+              <input type="text" id="staffRolesQualified" class="form-control" placeholder="e.g. Barista, Supervisor, Cashier" value="Opening Barista, Mid Barista" required>
+              <span class="helper-text">Comma-separated list of roles you are certified/trained to cover.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="staffAvailabilityNotes" class="form-label">Availability Window / Contact Info</label>
+              <input type="text" id="staffAvailabilityNotes" class="form-control" placeholder="e.g. Free after 11am • (555) 234-5678">
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save My Status</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Live Roster Cards -->
+      <div class="brand-row" style="margin-bottom: 12px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--espresso);">
+          Staff Standby Roster (<span id="rosterCount">0</span> peers)
+        </h3>
+      </div>
+      <div id="rosterContainer" class="roster-grid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 4: Covered / History Log
+         ====================================================================== -->
+    <section id="view-covered-history" class="view-section">
+      <div class="form-card">
+        <div class="form-header">
+          <h2>Resolved & Covered Shifts Log</h2>
+          <p>Record of peer coverage hand-offs, claimed shifts, and completed swaps.</p>
+        </div>
+
+        <div id="coveredContainer" class="shifts-grid">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- App Footer -->
+    <footer class="app-footer">
+      <div>
+        <span><strong>ShiftCover</strong> &bull; Pre-Shift Peer Coverage Log for Retail & Coffee Shops</span>
+      </div>
+      <div class="footer-actions">
+        <button type="button" class="btn-text" id="btnResetDemoData">Reset Demo Shifts</button>
+        <span>&bull;</span>
+        <button type="button" class="btn-text" id="btnClearAllData">Clear All</button>
+      </div>
+    </footer>
+
+  </div> <!-- /.app-container -->
+
+  <!-- ==========================================================================
+       Claim Shift Modal Dialog
+       ========================================================================== -->
+  <div id="claimModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalShiftTitle">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modalShiftTitle">Claim Shift Coverage</h3>
+        <button type="button" class="modal-close-btn" id="btnCloseModal" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="shift-summary-preview" id="modalShiftPreview">
+          <!-- Populated dynamically -->
+        </div>
+
+        <form id="claimShiftForm" novalidate>
+          <input type="hidden" id="claimShiftId">
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label for="claimerName" class="form-label">
+              Your Name <span class="required">*</span>
+            </label>
+            <input type="text" id="claimerName" class="form-control" placeholder="e.g. Alex Rivera" required>
+            <div id="err-claimerName" class="error-hint">Please enter your name to claim this shift.</div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 14px;">
+            <label for="claimerContact" class="form-label">
+              Your Phone Number / Contact <span class="required">*</span>
+            </label>
+            <input type="tel" id="claimerContact" class="form-control" placeholder="e.g. (555) 019-2834" required>
+            <div id="err-claimerContact" class="error-hint">Please provide contact info for confirmation.</div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 18px;">
+            <label for="claimNote" class="form-label">Note for Supervisor / Original Worker (Optional)</label>
+            <input type="text" id="claimNote" class="form-control" placeholder="e.g. I got you covered! See you at 5:50 AM.">
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button type="button" class="btn btn-outline" id="btnCancelClaim">Cancel</button>
+            <button type="submit" class="btn btn-claim" id="btnConfirmClaim">
+              Confirm & Claim Shift
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Floating Bottom Navigation -->
+  <div class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <button type="button" class="mobile-nav-item active" data-tab="open-shifts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <span>Open</span>
+      <span id="mobileOpenBadge" class="mobile-badge" style="display:none;">0</span>
+    </button>
+
+    <button type="button" class="mobile-nav-item" data-tab="post-shift">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      <span>Post</span>
+    </button>
+
+    <button type="button" class="mobile-nav-item" data-tab="staff-roster">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+      </svg>
+      <span>Roster</span>
+    </button>
+
+    <button type="button" class="mobile-nav-item" data-tab="covered-history">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      <span>Covered</span>
+    </button>
+  </div>
+
+  <!-- ==========================================================================
+       Application Logic (Pure Vanilla ES6 JavaScript)
+       ========================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // -----------------------------------------------------------------------
+      // Storage Keys & State
+      // -----------------------------------------------------------------------
+      const STORAGE_KEY_SHIFTS = 'shiftcover_shifts_data';
+      const STORAGE_KEY_ROSTER = 'shiftcover_roster_data';
+
+      // Realistic initial demo seed data (Coffee Shop Context)
+      const INITIAL_SHIFTS = [
+        {
+          id: 'shift_1',
+          requester: 'Elena Rostova',
+          role: 'Opening Barista',
+          location: 'Downtown Roastery',
+          date: getRelativeDate(0), // Today
+          startTime: '05:30',
+          endTime: '11:30',
+          urgency: 'CRITICAL',
+          notes: 'Sudden cold & lost voice overnight! Dial-in & batch brew setup keys needed.',
+          status: 'OPEN',
+          createdAt: new Date(Date.now() - 42 * 60 * 1000).toISOString(),
+          claimedBy: null,
+          claimedAt: null,
+          claimerContact: null
+        },
+        {
+          id: 'shift_2',
+          requester: 'Marcus Brody',
+          role: 'Shift Supervisor',
+          location: 'Downtown Roastery',
+          date: getRelativeDate(1), // Tomorrow
+          startTime: '06:00',
+          endTime: '14:30',
+          urgency: 'URGENT',
+          notes: 'Emergency dentist appointment early morning. Safe combination holder certified required.',
+          status: 'OPEN',
+          createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+          claimedBy: null,
+          claimedAt: null,
+          claimerContact: null
+        },
+        {
+          id: 'shift_3',
+          requester: 'Chloe Chen',
+          role: 'Cashier / Register',
+          location: 'Main St. Flagship',
+          date: getRelativeDate(2),
+          startTime: '12:00',
+          endTime: '18:00',
+          urgency: 'STANDARD',
+          notes: 'College midterm prep conflict. Willing to take someone’s Sunday closing shift in return!',
+          status: 'OPEN',
+          createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+          claimedBy: null,
+          claimedAt: null,
+          claimerContact: null
+        },
+        {
+          id: 'shift_4',
+          requester: 'Dave K.',
+          role: 'Mid Barista',
+          location: 'Uptown Express',
+          date: getRelativeDate(-1),
+          startTime: '08:00',
+          endTime: '14:00',
+          urgency: 'URGENT',
+          notes: 'Family event out of town.',
+          status: 'CLAIMED',
+          createdAt: new Date(Date.now() - 26 * 60 * 60 * 1000).toISOString(),
+          claimedBy: 'Sasha Vane',
+          claimedAt: new Date(Date.now() - 22 * 60 * 60 * 1000).toISOString(),
+          claimerContact: '(555) 782-9901'
+        }
+      ];
+
+      const INITIAL_ROSTER = [
+        {
+          id: 'staff_1',
+          name: 'Sasha Vane',
+          status: 'AVAILABLE',
+          roles: ['Opening Barista', 'Mid Barista', 'Closing Barista'],
+          notes: 'Free all morning today & tomorrow • (555) 782-9901'
+        },
+        {
+          id: 'staff_2',
+          name: 'Tyler Jackson',
+          status: 'AVAILABLE',
+          roles: ['Shift Supervisor', 'Opening Barista'],
+          notes: 'Keyholder certified • Available on 2-hour notice • (555) 431-8822'
+        },
+        {
+          id: 'staff_3',
+          name: 'Maya Lin',
+          status: 'STANDBY',
+          roles: ['Mid Barista', 'Cashier / Register'],
+          notes: 'Available after 1:00 PM on weekdays • (555) 901-3344'
+        },
+        {
+          id: 'staff_4',
+          name: 'Carlos Ruiz',
+          status: 'STANDBY',
+          roles: ['Baker / Kitchen Prep', 'Cashier / Register'],
+          notes: 'Morning shifts preferred • (555) 123-7766'
+        },
+        {
+          id: 'staff_5',
+          name: 'Jordan Miller',
+          status: 'UNAVAILABLE',
+          roles: ['Opening Barista'],
+          notes: 'Out of town until Monday'
+        }
+      ];
+
+      // App state
+      let shifts = loadFromStorage(STORAGE_KEY_SHIFTS, INITIAL_SHIFTS);
+      let roster = loadFromStorage(STORAGE_KEY_ROSTER, INITIAL_ROSTER);
+      let activeTab = 'open-shifts';
+
+      // -----------------------------------------------------------------------
+      // Date Helpers
+      // -----------------------------------------------------------------------
+      function getRelativeDate(daysOffset) {
+        const d = new Date();
+        d.setDate(d.getDate() + daysOffset);
+        return d.toISOString().split('T')[0];
+      }
+
+      function formatReadableDate(dateStr) {
+        if (!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        const dateObj = new Date(year, parseInt(month) - 1, day);
+        const todayStr = getRelativeDate(0);
+        const tomorrowStr = getRelativeDate(1);
+
+        let prefix = '';
+        if (dateStr === todayStr) prefix = 'Today, ';
+        else if (dateStr === tomorrowStr) prefix = 'Tomorrow, ';
+
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        return prefix + dateObj.toLocaleDateString(undefined, options);
+      }
+
+      function formatTime12h(time24) {
+        if (!time24) return '';
+        const [h, m] = time24.split(':');
+        let hours = parseInt(h, 10);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        return `${hours}:${m} ${ampm}`;
+      }
+
+      function calculateDurationHours(start, end) {
+        if (!start || !end) return 0;
+        const [sH, sM] = start.split(':').map(Number);
+        const [eH, eM] = end.split(':').map(Number);
+        let startMinutes = sH * 60 + sM;
+        let endMinutes = eH * 60 + eM;
+        if (endMinutes < startMinutes) {
+          // Cross midnight
+          endMinutes += 24 * 60;
+        }
+        return ((endMinutes - startMinutes) / 60).toFixed(1).replace('.0', '');
+      }
+
+      function timeAgo(isoString) {
+        if (!isoString) return '';
+        const seconds = Math.floor((new Date() - new Date(isoString)) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        return `${days}d ago`;
+      }
+
+      // -----------------------------------------------------------------------
+      // Audio Chime (Gentle browser web audio synthesis for claiming shift)
+      // -----------------------------------------------------------------------
+      function playClaimSuccessSound() {
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContext) return;
+          const ctx = new AudioContext();
+
+          const now = ctx.currentTime;
+          const osc1 = ctx.createOscillator();
+          const osc2 = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc1.type = 'triangle';
+          osc2.type = 'sine';
+
+          osc1.frequency.setValueAtTime(523.25, now); // C5
+          osc1.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+          osc1.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+
+          osc2.frequency.setValueAtTime(261.63, now); // C4
+          osc2.frequency.setValueAtTime(329.63, now + 0.1);
+
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc1.start(now);
+          osc2.start(now);
+          osc1.stop(now + 0.5);
+          osc2.stop(now + 0.5);
+        } catch (e) {
+          // Audio autoplay policies or unsupported; fail silently
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // Storage Helpers
+      // -----------------------------------------------------------------------
+      function loadFromStorage(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch (err) {
+          console.warn('LocalStorage error:', err);
+          return fallback;
+        }
+      }
+
+      function saveToStorage(key, data) {
+        try {
+          localStorage.setItem(key, JSON.stringify(data));
+        } catch (err) {
+          console.warn('LocalStorage save error:', err);
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // Toast System
+      // -----------------------------------------------------------------------
+      function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+
+        const iconSvg = type === 'success'
+          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+          : type === 'error'
+          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
+          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+
+        toast.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            ${iconSvg}
+            <span>${escapeHTML(message)}</span>
+          </div>
+          <button style="background: none; border: none; color: #a8a29e; cursor: pointer; font-size: 1.1rem; line-height: 1;">&times;</button>
+        `;
+
+        const closeBtn = toast.querySelector('button');
+        closeBtn.onclick = () => toast.remove();
+
+        container.appendChild(toast);
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.25s ease';
+            setTimeout(() => toast.remove(), 260);
+          }
+        }, 4000);
+      }
+
+      function escapeHTML(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // -----------------------------------------------------------------------
+      // Navigation / Tab Switching
+      // -----------------------------------------------------------------------
+      function switchTab(targetTabId) {
+        activeTab = targetTabId;
+
+        // Desktop nav
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.tab === targetTabId);
+        });
+
+        // Mobile bottom nav
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+          item.classList.toggle('active', item.dataset.tab === targetTabId);
+        });
+
+        // Sections
+        document.querySelectorAll('.view-section').forEach(sec => {
+          sec.classList.remove('active');
+        });
+        const activeSection = document.getElementById(`view-${targetTabId}`);
+        if (activeSection) {
+          activeSection.classList.add('active');
+        }
+
+        // Scroll to top of section smoothly on mobile
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        render();
+      }
+
+      // Attach tab event listeners
+      document.querySelectorAll('.tab-btn, .mobile-nav-item').forEach(button => {
+        button.addEventListener('click', () => {
+          const tabId = button.dataset.tab;
+          if (tabId) switchTab(tabId);
+        });
+      });
+
+      // -----------------------------------------------------------------------
+      // Peer Matching Helper: Find active staff who can cover a shift
+      // -----------------------------------------------------------------------
+      function getMatchingAvailableStaff(shift) {
+        return roster.filter(member => {
+          if (member.status === 'UNAVAILABLE') return false;
+          // Check role qualification
+          return member.roles.some(r => r.toLowerCase().trim() === shift.role.toLowerCase().trim());
+        });
+      }
+
+      // -----------------------------------------------------------------------
+      // Render Logic: Open Shifts List
+      // -----------------------------------------------------------------------
+      function renderOpenShifts() {
+        const container = document.getElementById('shiftsContainer');
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+        const roleFilter = document.getElementById('roleFilter').value;
+        const urgencyFilter = document.getElementById('urgencyFilter').value;
+        const locationFilter = document.getElementById('locationFilter').value;
+
+        // Filter shifts that are OPEN
+        const openShifts = shifts.filter(s => s.status === 'OPEN').filter(shift => {
+          if (roleFilter !== 'ALL' && shift.role !== roleFilter) return false;
+          if (urgencyFilter !== 'ALL' && shift.urgency !== urgencyFilter) return false;
+          if (locationFilter !== 'ALL' && !shift.location.includes(locationFilter)) return false;
+
+          if (searchTerm) {
+            const haystack = `${shift.role} ${shift.requester} ${shift.location} ${shift.notes || ''}`.toLowerCase();
+            if (!haystack.includes(searchTerm)) return false;
+          }
+          return true;
+        });
+
+        // Sort: CRITICAL first, then URGENT, then STANDARD, then by date
+        openShifts.sort((a, b) => {
+          const urgencyOrder = { CRITICAL: 1, URGENT: 2, STANDARD: 3 };
+          if (urgencyOrder[a.urgency] !== urgencyOrder[b.urgency]) {
+            return urgencyOrder[a.urgency] - urgencyOrder[b.urgency];
+          }
+          return new Date(a.date) - new Date(b.date);
+        });
+
+        if (openShifts.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <h3 class="empty-title">All Shifts Are Currently Covered!</h3>
+              <p class="empty-text">No active coverage requests match your filters. Need someone to cover for you? Submit a request below.</p>
+              <button type="button" class="btn btn-primary" onclick="window.shiftCoverApp.goToPostShift()">
+                + Request Shift Coverage
+              </button>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = openShifts.map(shift => {
+          const urgencyBadgeClass = shift.urgency === 'CRITICAL'
+            ? 'badge-critical'
+            : shift.urgency === 'URGENT'
+            ? 'badge-urgent'
+            : 'badge-standard';
+
+          const cardBorderClass = shift.urgency === 'CRITICAL'
+            ? 'critical-shift'
+            : shift.urgency === 'URGENT'
+            ? 'urgent-shift'
+            : 'standard-shift';
+
+          const urgencyLabel = shift.urgency === 'CRITICAL'
+            ? '<span class="pulse-dot"></span> ASAP / CRITICAL'
+            : shift.urgency === 'URGENT'
+            ? '⚡ URGENT'
+            : '📅 UPCOMING';
+
+          const durationHours = calculateDurationHours(shift.startTime, shift.endTime);
+          const readableDate = formatReadableDate(shift.date);
+          const timeWindow = `${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)}`;
+
+          // Find matching peers on standby
+          const matchingPeers = getMatchingAvailableStaff(shift);
+          let peerMatchHtml = '';
+          if (matchingPeers.length > 0) {
+            const peerNames = matchingPeers.map(p => escapeHTML(p.name)).join(', ');
+            peerMatchHtml = `
+              <div class="matching-peers-alert">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                <span><strong>${matchingPeers.length} peer${matchingPeers.length > 1 ? 's' : ''} on standby</strong> for this role: ${peerNames}</span>
+              </div>
+            `;
+          }
+
+          return `
+            <div class="shift-card ${cardBorderClass}" id="card-${shift.id}">
+              <div class="shift-card-header">
+                <div>
+                  <div class="shift-meta-badges">
+                    <span class="badge ${urgencyBadgeClass}">${urgencyLabel}</span>
+                    <span class="badge badge-open">Seeking Coverage</span>
+                  </div>
+                  <h3 class="shift-role-title">
+                    <span>${escapeHTML(shift.role)}</span>
+                  </h3>
+                </div>
+                <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Claim This Shift
+                </button>
+              </div>
+
+              <div class="shift-details-grid">
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span><strong>Date:</strong> ${readableDate}</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span><strong>Time:</strong> ${timeWindow} (${durationHours} hrs)</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <span><strong>Store:</strong> ${escapeHTML(shift.location)}</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <span><strong>Original Staff:</strong> ${escapeHTML(shift.requester)}</span>
+                </div>
+              </div>
+
+              ${shift.notes ? `<div class="shift-notes">&ldquo;${escapeHTML(shift.notes)}&rdquo;</div>` : ''}
+
+              ${peerMatchHtml}
+
+              <div class="shift-card-footer">
+                <div class="shift-poster-info">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span>Posted ${timeAgo(shift.createdAt)}</span>
+                </div>
+
+                <div class="claim-action-group">
+                  <button type="button" class="btn btn-danger-outline" onclick="window.shiftCoverApp.deleteShift('${shift.id}')">
+                    Delete
+                  </button>
+                  <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
+                    Claim Shift &rarr;
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // -----------------------------------------------------------------------
+      // Render Logic: Covered Shifts Log
+      // -----------------------------------------------------------------------
+      function renderCoveredShifts() {
+        const container = document.getElementById('coveredContainer');
+        const covered = shifts.filter(s => s.status === 'CLAIMED');
+
+        // Sort descending by claimedAt
+        covered.sort((a, b) => new Date(b.claimedAt || 0) - new Date(a.claimedAt || 0));
+
+        if (covered.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <h3 class="empty-title">No Covered Shifts Yet</h3>
+              <p class="empty-text">When peers claim open shifts, resolved coverage hand-offs will appear here for supervisors and staff records.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = covered.map(shift => {
+          const durationHours = calculateDurationHours(shift.startTime, shift.endTime);
+          return `
+            <div class="shift-card claimed-card">
+              <div class="shift-card-header">
+                <div>
+                  <div class="shift-meta-badges">
+                    <span class="badge badge-claimed">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Covered by ${escapeHTML(shift.claimedBy || 'Peer')}
+                    </span>
+                    <span class="badge badge-open">Resolved</span>
+                  </div>
+                  <h3 class="shift-role-title">
+                    <span>${escapeHTML(shift.role)}</span>
+                  </h3>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-outline" style="font-size: 0.8rem; padding: 5px 10px; min-height: 32px;" onclick="window.shiftCoverApp.reopenShift('${shift.id}')">
+                    Re-open Shift
+                  </button>
+                </div>
+              </div>
+
+              <div class="shift-details-grid">
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span><strong>Date:</strong> ${formatReadableDate(shift.date)}</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span><strong>Time:</strong> ${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)} (${durationHours}h)</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <span><strong>Store:</strong> ${escapeHTML(shift.location)}</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <span><strong>Covered Peer Contact:</strong> ${escapeHTML(shift.claimerContact || 'On file')}</span>
+                </div>
+              </div>
+
+              <div class="shift-card-footer">
+                <span style="font-size: 0.8rem; color: var(--text-muted);">
+                  Original staff: <strong>${escapeHTML(shift.requester)}</strong> &bull; Claimed ${timeAgo(shift.claimedAt)}
+                </span>
+                <button type="button" class="btn btn-danger-outline" onclick="window.shiftCoverApp.deleteShift('${shift.id}')">
+                  Remove Record
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // -----------------------------------------------------------------------
+      // Render Logic: Staff Standby Roster
+      // -----------------------------------------------------------------------
+      function renderRoster() {
+        const container = document.getElementById('rosterContainer');
+        const countSpan = document.getElementById('rosterCount');
+        countSpan.textContent = roster.length;
+
+        if (roster.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <h3 class="empty-title">No Staff Currently on Roster</h3>
+              <p class="empty-text">Add your name and availability status above to help teammates spot available peers quickly.</p>
+            </div>
+          `;
+          return;
+        }
+
+        // Sort: AVAILABLE first, then STANDBY, then UNAVAILABLE
+        const sortedRoster = [...roster].sort((a, b) => {
+          const rank = { AVAILABLE: 1, STANDBY: 2, UNAVAILABLE: 3 };
+          return (rank[a.status] || 9) - (rank[b.status] || 9);
+        });
+
+        container.innerHTML = sortedRoster.map(member => {
+          const initials = member.name
+            .split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2) || 'ST';
+
+          const statusBadge = member.status === 'AVAILABLE'
+            ? '<span class="staff-status-pill status-available">🟢 Available Today</span>'
+            : member.status === 'STANDBY'
+            ? '<span class="staff-status-pill status-standby">🟡 Standby / Notice</span>'
+            : '<span class="staff-status-pill status-unavailable">⚪ Off-Duty</span>';
+
+          const rolesString = Array.isArray(member.roles) ? member.roles.join(', ') : member.roles;
+
+          return `
+            <div class="staff-card">
+              <div class="staff-card-top">
+                <div class="staff-avatar">${initials}</div>
+                <div class="staff-info">
+                  <div class="staff-name">${escapeHTML(member.name)}</div>
+                  <div class="staff-roles">${escapeHTML(rolesString)}</div>
+                  ${statusBadge}
+                </div>
+              </div>
+
+              ${member.notes ? `<div class="staff-notes-box">${escapeHTML(member.notes)}</div>` : ''}
+
+              <div class="staff-footer">
+                <span>Verified Peer</span>
+                <button type="button" class="btn-text" style="color: #dc2626;" onclick="window.shiftCoverApp.removeRosterMember('${member.id}')">
+                  Remove
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // -----------------------------------------------------------------------
+      // Metric Counters Update
+      // -----------------------------------------------------------------------
+      function updateStats() {
+        const openList = shifts.filter(s => s.status === 'OPEN');
+        const urgentCount = openList.filter(s => s.urgency === 'CRITICAL' || s.urgency === 'URGENT').length;
+        const availableCount = roster.filter(r => r.status === 'AVAILABLE').length;
+        const coveredCount = shifts.filter(s => s.status === 'CLAIMED').length;
+
+        // Header statistics
+        document.getElementById('statOpenCount').textContent = openList.length;
+        document.getElementById('statUrgentCount').textContent = urgentCount;
+        document.getElementById('statStaffAvailable').textContent = availableCount;
+
+        // Badges in tabs
+        document.getElementById('tabOpenBadge').textContent = openList.length;
+        document.getElementById('tabRosterBadge').textContent = roster.length;
+        document.getElementById('tabCoveredBadge').textContent = coveredCount;
+
+        // Mobile badges
+        const mobBadge = document.getElementById('mobileOpenBadge');
+        if (openList.length > 0) {
+          mobBadge.textContent = openList.length;
+          mobBadge.style.display = 'block';
+        } else {
+          mobBadge.style.display = 'none';
+        }
+      }
+
+      // Master render function
+      function render() {
+        renderOpenShifts();
+        renderCoveredShifts();
+        renderRoster();
+        updateStats();
+      }
+
+      // -----------------------------------------------------------------------
+      // Form: Post Shift Coverage Validation & Submission
+      // -----------------------------------------------------------------------
+      const shiftForm = document.getElementById('shiftRequestForm');
+
+      function validateShiftForm() {
+        let isValid = true;
+
+        // Clear previous error styles
+        document.querySelectorAll('.error-hint').forEach(el => el.classList.remove('visible'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+
+        // Requester name
+        const reqName = document.getElementById('requesterName');
+        if (!reqName.value.trim()) {
+          document.getElementById('err-requesterName').classList.add('visible');
+          reqName.classList.add('error');
+          isValid = false;
+        }
+
+        // Shift Role
+        const role = document.getElementById('shiftRole');
+        if (!role.value) {
+          document.getElementById('err-shiftRole').classList.add('visible');
+          role.classList.add('error');
+          isValid = false;
+        }
+
+        // Shift Date
+        const dateInput = document.getElementById('shiftDate');
+        if (!dateInput.value) {
+          document.getElementById('err-shiftDate').classList.add('visible');
+          dateInput.classList.add('error');
+          isValid = false;
+        }
+
+        // Start & End Time
+        const startTime = document.getElementById('shiftStartTime');
+        const endTime = document.getElementById('shiftEndTime');
+
+        if (!startTime.value) {
+          document.getElementById('err-shiftStartTime').classList.add('visible');
+          startTime.classList.add('error');
+          isValid = false;
+        }
+
+        if (!endTime.value) {
+          document.getElementById('err-shiftEndTime').classList.add('visible');
+          endTime.classList.add('error');
+          isValid = false;
+        } else if (startTime.value && endTime.value) {
+          // If start == end, invalid
+          if (startTime.value === endTime.value) {
+            const errEl = document.getElementById('err-shiftEndTime');
+            errEl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> End time cannot equal start time.`;
+            errEl.classList.add('visible');
+            endTime.classList.add('error');
+            isValid = false;
+          }
+        }
+
+        return isValid;
+      }
+
+      shiftForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        if (!validateShiftForm()) {
+          showToast('Please fix the highlighted fields before posting.', 'error');
+          return;
+        }
+
+        const urgencyRadio = document.querySelector('input[name="urgency"]:checked');
+        const urgencyVal = urgencyRadio ? urgencyRadio.value : 'URGENT';
+
+        const newShift = {
+          id: 'shift_' + Date.now(),
+          requester: document.getElementById('requesterName').value.trim(),
+          role: document.getElementById('shiftRole').value,
+          location: document.getElementById('shiftLocation').value,
+          date: document.getElementById('shiftDate').value,
+          startTime: document.getElementById('shiftStartTime').value,
+          endTime: document.getElementById('shiftEndTime').value,
+          urgency: urgencyVal,
+          notes: document.getElementById('shiftNotes').value.trim(),
+          status: 'OPEN',
+          createdAt: new Date().toISOString(),
+          claimedBy: null,
+          claimedAt: null,
+          claimerContact: null
+        };
+
+        shifts.unshift(newShift);
+        saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+
+        showToast(`Coverage requested for ${newShift.role}! Published to live log.`, 'success');
+        shiftForm.reset();
+
+        // Reset default date to tomorrow
+        document.getElementById('shiftDate').value = getRelativeDate(1);
+        document.getElementById('shiftStartTime').value = '06:00';
+        document.getElementById('shiftEndTime').value = '12:30';
+
+        // Switch to open shifts tab to view newly posted card
+        switchTab('open-shifts');
+      });
+
+      document.getElementById('btnResetForm').addEventListener('click', () => {
+        shiftForm.reset();
+        document.getElementById('shiftDate').value = getRelativeDate(1);
+        document.querySelectorAll('.error-hint').forEach(el => el.classList.remove('visible'));
+        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+      });
+
+      // -----------------------------------------------------------------------
+      // Form: Roster Availability Status Update
+      // -----------------------------------------------------------------------
+      const rosterForm = document.getElementById('rosterStatusForm');
+
+      rosterForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const nameInput = document.getElementById('staffMemberName');
+        const errName = document.getElementById('err-staffMemberName');
+
+        if (!nameInput.value.trim()) {
+          errName.classList.add('visible');
+          nameInput.classList.add('error');
+          showToast('Please enter your name.', 'error');
+          return;
+        } else {
+          errName.classList.remove('visible');
+          nameInput.classList.remove('error');
+        }
+
+        const rolesArray = document.getElementById('staffRolesQualified').value
+          .split(',')
+          .map(r => r.trim())
+          .filter(Boolean);
+
+        const newMember = {
+          id: 'staff_' + Date.now(),
+          name: nameInput.value.trim(),
+          status: document.getElementById('staffStatusSelect').value,
+          roles: rolesArray.length > 0 ? rolesArray : ['Barista'],
+          notes: document.getElementById('staffAvailabilityNotes').value.trim()
+        };
+
+        // Check if member with same name exists, update them; else add
+        const existingIdx = roster.findIndex(m => m.name.toLowerCase() === newMember.name.toLowerCase());
+        if (existingIdx !== -1) {
+          roster[existingIdx] = newMember;
+          showToast(`Updated standby status for ${newMember.name}!`, 'success');
+        } else {
+          roster.unshift(newMember);
+          showToast(`Added ${newMember.name} to standby roster!`, 'success');
+        }
+
+        saveToStorage(STORAGE_KEY_ROSTER, roster);
+        render();
+      });
+
+      // -----------------------------------------------------------------------
+      // Claim Shift Modal Workflow
+      // -----------------------------------------------------------------------
+      const claimModal = document.getElementById('claimModal');
+      const claimForm = document.getElementById('claimShiftForm');
+
+      function openClaimModal(shiftId) {
+        const shift = shifts.find(s => s.id === shiftId);
+        if (!shift) return;
+
+        document.getElementById('claimShiftId').value = shift.id;
+        document.getElementById('modalShiftTitle').textContent = `Claim ${shift.role}`;
+
+        const previewContainer = document.getElementById('modalShiftPreview');
+        previewContainer.innerHTML = `
+          <div class="preview-role">${escapeHTML(shift.role)}</div>
+          <div class="preview-meta">
+            <span>📅 <strong>Date:</strong> ${formatReadableDate(shift.date)}</span>
+            <span>⏰ <strong>Hours:</strong> ${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)} (${calculateDurationHours(shift.startTime, shift.endTime)} hrs)</span>
+            <span>📍 <strong>Location:</strong> ${escapeHTML(shift.location)}</span>
+            <span>👤 <strong>Requester:</strong> ${escapeHTML(shift.requester)}</span>
+            ${shift.notes ? `<span style="margin-top: 4px; font-style: italic;">&ldquo;${escapeHTML(shift.notes)}&rdquo;</span>` : ''}
+          </div>
+        `;
+
+        // Pre-fill from current active staff input if available
+        const staffNameInput = document.getElementById('staffMemberName').value.trim();
+        if (staffNameInput) {
+          document.getElementById('claimerName').value = staffNameInput;
+        }
+
+        // Reset errors
+        document.getElementById('err-claimerName').classList.remove('visible');
+        document.getElementById('err-claimerContact').classList.remove('visible');
+        document.getElementById('claimerName').classList.remove('error');
+        document.getElementById('claimerContact').classList.remove('error');
+
+        claimModal.classList.add('active');
+      }
+
+      function closeClaimModal() {
+        claimModal.classList.remove('active');
+        claimForm.reset();
+      }
+
+      document.getElementById('btnCloseModal').addEventListener('click', closeClaimModal);
+      document.getElementById('btnCancelClaim').addEventListener('click', closeClaimModal);
+
+      // Close modal on click outside container
+      claimModal.addEventListener('click', (e) => {
+        if (e.target === claimModal) closeClaimModal();
+      });
+
+      // Confirm claim submission
+      claimForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const shiftId = document.getElementById('claimShiftId').value;
+        const nameInput = document.getElementById('claimerName');
+        const contactInput = document.getElementById('claimerContact');
+        const noteInput = document.getElementById('claimNote');
+
+        let valid = true;
+        if (!nameInput.value.trim()) {
+          document.getElementById('err-claimerName').classList.add('visible');
+          nameInput.classList.add('error');
+          valid = false;
+        } else {
+          document.getElementById('err-claimerName').classList.remove('visible');
+          nameInput.classList.remove('error');
+        }
+
+        if (!contactInput.value.trim()) {
+          document.getElementById('err-claimerContact').classList.add('visible');
+          contactInput.classList.add('error');
+          valid = false;
+        } else {
+          document.getElementById('err-claimerContact').classList.remove('visible');
+          contactInput.classList.remove('error');
+        }
+
+        if (!valid) return;
+
+        const shift = shifts.find(s => s.id === shiftId);
+        if (shift) {
+          shift.status = 'CLAIMED';
+          shift.claimedBy = nameInput.value.trim();
+          shift.claimedAt = new Date().toISOString();
+          shift.claimerContact = contactInput.value.trim();
+          if (noteInput.value.trim()) {
+            shift.notes = (shift.notes ? shift.notes + ' | Note: ' : '') + noteInput.value.trim();
+          }
+
+          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          playClaimSuccessSound();
+          closeClaimModal();
+          showToast(`Shift confirmed! You claimed ${shift.role} on ${formatReadableDate(shift.date)}.`, 'success');
+          render();
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // Shift Actions (Delete, Re-open)
+      // -----------------------------------------------------------------------
+      function deleteShift(id) {
+        if (!confirm('Are you sure you want to remove this shift request?')) return;
+        shifts = shifts.filter(s => s.id !== id);
+        saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+        showToast('Shift removed.', 'info');
+        render();
+      }
+
+      function reopenShift(id) {
+        const shift = shifts.find(s => s.id === id);
+        if (shift) {
+          shift.status = 'OPEN';
+          shift.claimedBy = null;
+          shift.claimedAt = null;
+          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          showToast(`Re-opened coverage request for ${shift.role}.`, 'info');
+          render();
+        }
+      }
+
+      function removeRosterMember(id) {
+        if (!confirm('Remove this peer from the standby roster?')) return;
+        roster = roster.filter(m => m.id !== id);
+        saveToStorage(STORAGE_KEY_ROSTER, roster);
+        showToast('Staff member removed from roster.', 'info');
+        render();
+      }
+
+      // -----------------------------------------------------------------------
+      // Demo Data Reset & Filters
+      // -----------------------------------------------------------------------
+      document.getElementById('btnResetDemoData').addEventListener('click', () => {
+        if (confirm('Reset shift log and roster back to coffee shop demo state?')) {
+          shifts = JSON.parse(JSON.stringify(INITIAL_SHIFTS));
+          roster = JSON.parse(JSON.stringify(INITIAL_ROSTER));
+          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          saveToStorage(STORAGE_KEY_ROSTER, roster);
+          showToast('Demo data restored successfully!', 'success');
+          render();
+        }
+      });
+
+      document.getElementById('btnClearAllData').addEventListener('click', () => {
+        if (confirm('Clear all shifts and roster entries? (This cannot be undone)')) {
+          shifts = [];
+          roster = [];
+          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          saveToStorage(STORAGE_KEY_ROSTER, roster);
+          showToast('All logs cleared.', 'info');
+          render();
+        }
+      });
+
+      // Filter input event listeners
+      document.getElementById('searchInput').addEventListener('input', renderOpenShifts);
+      document.getElementById('roleFilter').addEventListener('change', renderOpenShifts);
+      document.getElementById('urgencyFilter').addEventListener('change', renderOpenShifts);
+      document.getElementById('locationFilter').addEventListener('change', renderOpenShifts);
+
+      // -----------------------------------------------------------------------
+      // Public App API for Inline HTML Handlers
+      // -----------------------------------------------------------------------
+      window.shiftCoverApp = {
+        openClaimModal,
+        deleteShift,
+        reopenShift,
+        removeRosterMember,
+        goToPostShift: () => switchTab('post-shift')
+      };
+
+      // -----------------------------------------------------------------------
+      // Initialization
+      // -----------------------------------------------------------------------
+      function init() {
+        // Set default date input to tomorrow
+        const dateInput = document.getElementById('shiftDate');
+        if (dateInput) {
+          dateInput.value = getRelativeDate(1);
+          dateInput.min = getRelativeDate(0); // Cannot pick dates in past
+        }
+
+        render();
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
