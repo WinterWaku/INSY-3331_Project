@@ -83,7 +83,7 @@
       color: var(--text-main);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 70px; /* Space for mobile navigation */
+      padding-bottom: 92px; /* Safe space for mobile floating navigation */
     }
 
     a {
@@ -191,11 +191,22 @@
     /* Live Summary Stats Bar */
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 10px;
       margin-top: 18px;
       padding-top: 16px;
       border-top: 1px dashed var(--border-color);
+    }
+
+    @media (max-width: 500px) {
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .stat-card.stat-pending-card {
+      border: 1px solid #c4b5fd;
+      background: #fbf9fe;
     }
 
     .stat-card {
@@ -392,8 +403,8 @@
 
     .search-input-wrapper {
       position: relative;
-      flex: 1;
-      min-width: 200px;
+      flex: 2 1 220px;
+      width: 100%;
     }
 
     .search-input-wrapper svg {
@@ -407,7 +418,7 @@
 
     .search-input {
       width: 100%;
-      padding: 9px 12px 9px 34px;
+      padding: 10px 12px 10px 36px;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
       font-size: 0.88rem;
@@ -415,6 +426,7 @@
       color: var(--text-main);
       outline: none;
       transition: border-color var(--transition-fast);
+      min-height: 44px;
     }
 
     .search-input:focus {
@@ -423,6 +435,7 @@
     }
 
     .filter-select {
+      flex: 1 1 140px;
       padding: 9px 12px;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
@@ -432,7 +445,19 @@
       background-color: var(--cream);
       outline: none;
       cursor: pointer;
-      min-width: 135px;
+      min-height: 44px;
+    }
+
+    @media (max-width: 640px) {
+      .search-input-wrapper {
+        flex: 1 1 100%;
+      }
+      .filter-select {
+        flex: 1 1 calc(50% - 6px);
+      }
+      .filter-select#locationFilter {
+        flex: 1 1 100%;
+      }
     }
 
     .filter-select:focus {
@@ -1291,6 +1316,429 @@
       color: var(--text-main);
     }
 
+    /* ==========================================================================
+       Header Auth Pill & Identity Bar
+       ========================================================================== */
+    .header-right-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .header-auth-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-color);
+      padding: 4px 10px 4px 6px;
+      border-radius: var(--radius-full);
+      font-size: 0.82rem;
+    }
+
+    .user-avatar-pill {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #78350f, #b45309);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 750;
+      font-size: 0.82rem;
+      flex-shrink: 0;
+    }
+
+    .user-avatar-pill.manager {
+      background: linear-gradient(135deg, #4c1d95, #6d28d9);
+    }
+
+    .user-identity-text {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .user-identity-name {
+      font-weight: 700;
+      color: var(--espresso);
+    }
+
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      font-weight: 750;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .role-badge.employee {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+
+    .role-badge.manager {
+      background: #ede9fe;
+      color: #5b21b6;
+      border: 1px solid #c4b5fd;
+    }
+
+    .role-badge.guest {
+      background: #f3f4f6;
+      color: #4b5563;
+      border: 1px solid #d1d5db;
+    }
+
+    .btn-sm-auth {
+      padding: 4px 10px !important;
+      min-height: 34px !important;
+      font-size: 0.78rem !important;
+      border-radius: var(--radius-full) !important;
+    }
+
+    /* Role Alert Banner */
+    .role-alert-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
+      margin-top: 14px;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .role-alert-banner.employee {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+
+    .role-alert-banner.manager {
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      color: #4c1d95;
+    }
+
+    .role-alert-banner.guest {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+    }
+
+    .role-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .role-banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ==========================================================================
+       Auth Gateway Screen (Gated Full-Page Login)
+       ========================================================================== */
+    .auth-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px 50px 16px;
+      background: var(--bg-color);
+    }
+
+    .auth-container {
+      max-width: 600px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .auth-gate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    /* ==========================================================================
+       Login View & Portal Switcher Styling
+       ========================================================================== */
+    .login-wrapper {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 6px 0;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    @media (min-width: 600px) {
+      .login-card {
+        padding: 36px 32px;
+      }
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .login-logo {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #78350f, #b45309);
+      border-radius: var(--radius-md);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 8px rgba(120, 53, 15, 0.2);
+    }
+
+    .login-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--espresso);
+      margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .portal-tabs {
+      display: flex;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      gap: 6px;
+      margin-bottom: 22px;
+    }
+
+    .portal-tab-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all var(--transition-fast);
+      min-height: 48px;
+    }
+
+    .portal-tab-btn.active {
+      background: #ffffff;
+      color: var(--espresso);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .portal-tab-btn.active.tab-manager {
+      color: #5b21b6;
+    }
+
+    .portal-tab-btn.active.tab-employee {
+      color: #92400e;
+    }
+
+    .portal-content {
+      display: none;
+    }
+
+    .portal-content.active {
+      display: block;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .portal-intro-badge {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+    }
+
+    .portal-intro-badge.employee-intro {
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      color: #78350f;
+    }
+
+    .portal-intro-badge.manager-intro {
+      background: #ede9fe;
+      border: 1px solid #c4b5fd;
+      color: #4c1d95;
+    }
+
+    .portal-intro-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .portal-intro-badge strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 0.92rem;
+    }
+
+    .portal-intro-badge p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .btn-manager-submit {
+      background: linear-gradient(135deg, #6d28d9, #5b21b6);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(91, 33, 182, 0.3);
+    }
+
+    .btn-manager-submit:hover {
+      background: linear-gradient(135deg, #5b21b6, #4c1d95);
+      color: #ffffff;
+    }
+
+    .btn-fast-demo {
+      width: 100%;
+      margin-top: 10px;
+      background: var(--cream);
+      border: 1px dashed var(--border-color);
+      color: var(--espresso);
+      font-size: 0.88rem;
+      padding: 10px 14px;
+      min-height: 48px;
+      border-radius: var(--radius-md);
+      font-weight: 650;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-fast-demo:hover {
+      background: #ffffff;
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-fast-demo.demo-mgr:hover {
+      border-color: #6d28d9;
+      color: #6d28d9;
+    }
+
+    .demo-credentials-card {
+      background: #fdfaf6;
+      border: 1px dashed var(--caramel);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-top: 22px;
+      font-size: 0.83rem;
+      color: var(--espresso);
+    }
+
+    .demo-credentials-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 520px) {
+      .demo-credentials-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .demo-account-box {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .demo-account-box code {
+      background: var(--surface-subtle);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: var(--espresso);
+    }
+
+    /* Shift Card Indicators for Current User */
+    .shift-tag-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .shift-tag-my-post {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+
+    .shift-tag-my-claim {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    .staff-avatar.manager {
+      background: linear-gradient(135deg, #4c1d95, #6d28d9);
+    }
+
+    .staff-card.my-roster-card {
+      border: 2px solid var(--primary-border);
+      background: #fffdf9;
+    }
+
     /* Print / Utility */
     @media print {
       .tabs-nav, .mobile-bottom-nav, .filter-bar, .form-actions, .btn {
@@ -1304,15 +1752,16 @@
   <!-- Toast Container for friendly alerts -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-  <!-- Main Container -->
-  <div class="app-container">
-
-    <!-- Top Header & Branding -->
-    <header class="app-header">
-      <div class="brand-row">
-        <div class="logo-group">
-          <div class="logo-icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- ========================================================================
+       AUTH GATEWAY SCREEN: Gated Login Page for Employee & Manager
+       Must be signed in before viewing open shifts, post-shift, roster, or log
+       ======================================================================== -->
+  <div id="authGatewayScreen" class="auth-screen">
+    <div class="auth-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="login-logo" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
               <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
               <line x1="6" y1="1" x2="6" y2="4"/>
@@ -1320,78 +1769,238 @@
               <line x1="14" y1="1" x2="14" y2="4"/>
             </svg>
           </div>
-          <div>
-            <h1 class="app-title">ShiftCover</h1>
+          <h1 class="login-title">ShiftCover</h1>
+          <p class="login-subtitle">Retail &amp; Cafe Peer Coverage Log &bull; Downtown Roastery #04</p>
+          <div class="auth-gate-badge">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>Staff &amp; Manager Authentication Required</span>
           </div>
         </div>
 
-        <div class="store-badge">
-          <span class="store-dot"></span>
-          <span id="headerStoreName">Downtown Roastery & Cafe #04</span>
+        <!-- Portal Switcher Tabs -->
+        <div class="portal-tabs" role="tablist">
+          <button type="button" class="portal-tab-btn tab-employee active" id="tabPortalEmployee" role="tab" aria-selected="true" aria-controls="portalPanelEmployee">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            <span>Employee Portal</span>
+          </button>
+          <button type="button" class="portal-tab-btn tab-manager" id="tabPortalManager" role="tab" aria-selected="false" aria-controls="portalPanelManager">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span>Manager Portal</span>
+          </button>
         </div>
+
+        <!-- Panel 1: Employee Login -->
+        <div id="portalPanelEmployee" class="portal-content active" role="tabpanel" aria-labelledby="tabPortalEmployee">
+          <div class="portal-intro-badge employee-intro">
+            <div class="portal-intro-icon">☕</div>
+            <div>
+              <strong>Barista &amp; Staff Coverage Portal</strong>
+              <p>Sign in to view live open shifts, claim peer coverage, post coverage requests, and manage standby availability.</p>
+            </div>
+          </div>
+
+          <form id="employeeLoginForm" novalidate>
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label for="empUsername" class="form-label">
+                Employee Username / Email <span class="required">*</span>
+              </label>
+              <input type="text" id="empUsername" class="form-control" placeholder="employee" value="employee" autocomplete="username" required>
+              <div id="err-empUsername" class="error-hint">Please enter employee username.</div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label for="empPassword" class="form-label">
+                Password <span class="required">*</span>
+              </label>
+              <input type="password" id="empPassword" class="form-control" placeholder="employee123" value="employee123" autocomplete="current-password" required>
+              <div id="err-empPassword" class="error-hint">Please enter password.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+              Sign In as Employee
+            </button>
+
+            <button type="button" class="btn-fast-demo" id="btnFastDemoEmp">
+              ⚡ 1-Click Fast Login: Alex Rivera (Barista)
+            </button>
+          </form>
+        </div>
+
+        <!-- Panel 2: Manager Login -->
+        <div id="portalPanelManager" class="portal-content" role="tabpanel" aria-labelledby="tabPortalManager">
+          <div class="portal-intro-badge manager-intro">
+            <div class="portal-intro-icon">🔑</div>
+            <div>
+              <strong>Store Supervisor &amp; Management Portal</strong>
+              <p>Full supervisory control: officially approve claimed shifts, delete requests, and manage the team standby roster.</p>
+            </div>
+          </div>
+
+          <form id="managerLoginForm" novalidate>
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label for="mgrUsername" class="form-label">
+                Supervisor Username / Email <span class="required">*</span>
+              </label>
+              <input type="text" id="mgrUsername" class="form-control" placeholder="manager" value="manager" autocomplete="username" required>
+              <div id="err-mgrUsername" class="error-hint">Please enter supervisor username.</div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label for="mgrPassword" class="form-label">
+                Password <span class="required">*</span>
+              </label>
+              <input type="password" id="mgrPassword" class="form-control" placeholder="manager123" value="manager123" autocomplete="current-password" required>
+              <div id="err-mgrPassword" class="error-hint">Please enter supervisor password.</div>
+            </div>
+
+            <button type="submit" class="btn btn-manager-submit" style="width: 100%;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Sign In as Store Manager
+            </button>
+
+            <button type="button" class="btn-fast-demo demo-mgr" id="btnFastDemoMgr">
+              ⚡ 1-Click Fast Login: Sarah Sterling (Store Manager)
+            </button>
+          </form>
+        </div>
+
+        <!-- Credentials Quick Reference Callout -->
+        <div class="demo-credentials-card">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <strong>📋 Test Credentials</strong>
+            <span style="font-size: 0.74rem; color: var(--text-muted);">Inputs or 1-click buttons</span>
+          </div>
+          <div class="demo-credentials-grid">
+            <div class="demo-account-box">
+              <span style="font-weight: 700; color: #92400e;">☕ Employee Account</span>
+              <span>Username: <code>employee</code></span>
+              <span>Password: <code>employee123</code></span>
+              <span style="color: var(--text-muted); font-size: 0.74rem;">Name: Alex Rivera (Barista)</span>
+            </div>
+            <div class="demo-account-box">
+              <span style="font-weight: 700; color: #5b21b6;">🔑 Manager Account</span>
+              <span>Username: <code>manager</code></span>
+              <span>Password: <code>manager123</code></span>
+              <span style="color: var(--text-muted); font-size: 0.74rem;">Name: Sarah Sterling (Manager)</span>
+            </div>
+          </div>
+        </div>
+
       </div>
+    </div>
+  </div>
 
-      <!-- Single-sentence statement defining the app -->
-      <p class="app-tagline">
-        Eliminates 6:00 AM texting chaos by providing a live peer-coverage log for retail and coffee shops.
-      </p>
+  <!-- ========================================================================
+       MAIN APP DASHBOARD SCREEN
+       Gated: Only displayed when an Employee or Manager is authenticated!
+       ======================================================================== -->
+  <div id="appDashboardScreen" style="display: none;">
 
-      <!-- Quick Metrics Bar -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <span id="statOpenCount" class="stat-number highlight">0</span>
-          <span class="stat-label">Open Shifts</span>
+    <div class="app-container">
+
+      <!-- Top Header & Branding -->
+      <header class="app-header">
+        <div class="brand-row">
+          <div class="logo-group">
+            <div class="logo-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                <line x1="6" y1="1" x2="6" y2="4"/>
+                <line x1="10" y1="1" x2="10" y2="4"/>
+                <line x1="14" y1="1" x2="14" y2="4"/>
+              </svg>
+            </div>
+            <div>
+              <h1 class="app-title">ShiftCover</h1>
+            </div>
+          </div>
+
+          <div class="header-right-meta">
+            <div class="store-badge">
+              <span class="store-dot"></span>
+              <span id="headerStoreName">Downtown Roastery & Cafe #04</span>
+            </div>
+            <div id="headerAuthPill" class="header-auth-pill">
+              <!-- Populated dynamically by JS -->
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-          <span id="statUrgentCount" class="stat-number alert">0</span>
-          <span class="stat-label">Urgent / Critical</span>
+
+        <!-- Single-sentence statement defining the app -->
+        <p class="app-tagline">
+          Eliminates 6:00 AM texting chaos by providing a live peer-coverage log for retail and coffee shops.
+        </p>
+
+        <!-- Quick Metrics Bar -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <span id="statOpenCount" class="stat-number highlight">0</span>
+            <span class="stat-label">Open Shifts</span>
+          </div>
+          <div class="stat-card">
+            <span id="statUrgentCount" class="stat-number alert">0</span>
+            <span class="stat-label">Urgent / Critical</span>
+          </div>
+          <div class="stat-card">
+            <span id="statStaffAvailable" class="stat-number">0</span>
+            <span class="stat-label">Peers on Standby</span>
+          </div>
+          <div class="stat-card stat-pending-card" id="statPendingCard" style="display: none;">
+            <span id="statPendingCount" class="stat-number alert">0</span>
+            <span class="stat-label">Pending Approval</span>
+          </div>
         </div>
-        <div class="stat-card">
-          <span id="statStaffAvailable" class="stat-number">0</span>
-          <span class="stat-label">Peers on Standby</span>
+
+        <!-- Role Alert Banner / Live Mode Indicator -->
+        <div id="roleAlertBanner" class="role-alert-banner" style="display: none;">
+          <!-- Populated dynamically by JS -->
         </div>
-      </div>
-    </header>
+      </header>
 
-    <!-- Navigation Tabs (Laptop & Tablet) -->
-    <nav class="tabs-nav" aria-label="Main Navigation">
-      <button type="button" class="tab-btn active" data-tab="open-shifts">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"></circle>
-          <polyline points="12 6 12 12 16 14"></polyline>
-        </svg>
-        <span>Open Shifts</span>
-        <span id="tabOpenBadge" class="tab-badge">0</span>
-      </button>
+      <!-- Navigation Tabs (Laptop & Tablet) -->
+      <nav class="tabs-nav" aria-label="Main Navigation">
+        <button type="button" class="tab-btn active" data-tab="open-shifts">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Open Shifts</span>
+          <span id="tabOpenBadge" class="tab-badge">0</span>
+        </button>
 
-      <button type="button" class="tab-btn" data-tab="post-shift">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        <span>Request Coverage</span>
-      </button>
+        <button type="button" class="tab-btn" data-tab="post-shift">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>Request Coverage</span>
+        </button>
 
-      <button type="button" class="tab-btn" data-tab="staff-roster">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span>Peer Availability Roster</span>
-        <span id="tabRosterBadge" class="tab-badge">0</span>
-      </button>
+        <button type="button" class="tab-btn" data-tab="staff-roster">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Peer Availability Roster</span>
+          <span id="tabRosterBadge" class="tab-badge">0</span>
+        </button>
 
-      <button type="button" class="tab-btn" data-tab="covered-history">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-        <span>Covered Log</span>
-        <span id="tabCoveredBadge" class="tab-badge">0</span>
-      </button>
-    </nav>
+        <button type="button" class="tab-btn" data-tab="covered-history">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <span>Covered Log</span>
+          <span id="tabCoveredBadge" class="tab-badge">0</span>
+        </button>
+      </nav>
 
     <!-- ======================================================================
          VIEW 1: Live Open Shift Requests (Peer Coverage Log)
@@ -1774,7 +2383,18 @@
       </svg>
       <span>Covered</span>
     </button>
+
+    <button type="button" class="mobile-nav-item" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+      <span>Sign Out</span>
+    </button>
   </div>
+
+  </div> <!-- /#appDashboardScreen -->
 
   <!-- ==========================================================================
        Application Logic (Pure Vanilla ES6 JavaScript)
@@ -1788,6 +2408,39 @@
       // -----------------------------------------------------------------------
       const STORAGE_KEY_SHIFTS = 'shiftcover_shifts_data';
       const STORAGE_KEY_ROSTER = 'shiftcover_roster_data';
+      const STORAGE_KEY_AUTH = 'shiftcover_auth_user';
+
+      // -----------------------------------------------------------------------
+      // Demo User Accounts (Employee & Manager Portals)
+      // -----------------------------------------------------------------------
+      const DEMO_USERS = {
+        employee: {
+          id: 'user_emp_1',
+          username: 'employee',
+          password: 'employee123',
+          role: 'EMPLOYEE',
+          name: 'Alex Rivera',
+          title: 'Opening & Mid Barista',
+          email: 'alex.barista@shiftcover.com',
+          phone: '(555) 019-2834',
+          location: 'Downtown Roastery',
+          qualifiedRoles: ['Opening Barista', 'Mid Barista', 'Cashier / Register'],
+          avatarInitials: 'AR'
+        },
+        manager: {
+          id: 'user_mgr_1',
+          username: 'manager',
+          password: 'manager123',
+          role: 'MANAGER',
+          name: 'Sarah Sterling',
+          title: 'Store Manager & Supervisor',
+          email: 'sarah.manager@shiftcover.com',
+          phone: '(555) 882-1049',
+          location: 'Downtown Roastery',
+          qualifiedRoles: ['Shift Supervisor', 'Opening Barista', 'Mid Barista', 'Closing Barista', 'Cashier / Register', 'Baker / Kitchen Prep'],
+          avatarInitials: 'SS'
+        }
+      };
 
       // Realistic initial demo seed data (Coffee Shop Context - Privacy-Safe Reasons)
       const INITIAL_SHIFTS = [
@@ -1861,11 +2514,45 @@
           claimedBy: 'Sasha Vane',
           claimedAt: new Date(Date.now() - 22 * 60 * 60 * 1000).toISOString(),
           claimerContact: '(555) 782-9901',
-          approved: true
+          approved: true,
+          approvedAt: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
+          approvedBy: 'Sarah Sterling'
+        },
+        {
+          id: 'shift_5',
+          requester: 'Jordan Miller',
+          role: 'Closing Barista',
+          location: 'Downtown Roastery',
+          date: getRelativeDate(0), // Today
+          startTime: '16:00',
+          endTime: '21:30',
+          urgency: 'CRITICAL',
+          reason: 'Unwell',
+          notes: 'Bar shutdown & espresso machine backflush duties.',
+          status: 'CLAIMED',
+          createdAt: new Date(Date.now() - 50 * 60 * 1000).toISOString(),
+          claimedBy: 'Alex Rivera',
+          claimedAt: new Date(Date.now() - 20 * 60 * 1000).toISOString(),
+          claimerContact: '(555) 019-2834',
+          approved: false // Pending Manager Approval!
         }
       ];
 
       const INITIAL_ROSTER = [
+        {
+          id: 'staff_alex',
+          name: 'Alex Rivera',
+          status: 'AVAILABLE',
+          roles: ['Opening Barista', 'Mid Barista', 'Cashier / Register'],
+          notes: 'Available for mornings & weekend coverage • (555) 019-2834'
+        },
+        {
+          id: 'staff_sarah',
+          name: 'Sarah Sterling',
+          status: 'AVAILABLE',
+          roles: ['Shift Supervisor', 'Store Manager'],
+          notes: 'Store Manager • Downtown Roastery • (555) 882-1049'
+        },
         {
           id: 'staff_1',
           name: 'Sasha Vane',
@@ -1906,6 +2593,10 @@
       // App state
       let shifts = loadFromStorage(STORAGE_KEY_SHIFTS, INITIAL_SHIFTS);
       let roster = loadFromStorage(STORAGE_KEY_ROSTER, INITIAL_ROSTER);
+      let currentUser = loadFromStorage(STORAGE_KEY_AUTH, null);
+      if (currentUser && currentUser.role !== 'EMPLOYEE' && currentUser.role !== 'MANAGER') {
+        currentUser = null;
+      }
       let activeTab = 'open-shifts';
 
       // -----------------------------------------------------------------------
@@ -2159,6 +2850,135 @@
       }
 
       // -----------------------------------------------------------------------
+      // User Auth & Session Management (Gated Access)
+      // -----------------------------------------------------------------------
+      function updateAuthScreenVisibility() {
+        const authScreen = document.getElementById('authGatewayScreen');
+        const appDashboard = document.getElementById('appDashboardScreen');
+        if (!authScreen || !appDashboard) return;
+
+        const isAuthenticated = currentUser && (currentUser.role === 'EMPLOYEE' || currentUser.role === 'MANAGER');
+
+        if (isAuthenticated) {
+          authScreen.style.display = 'none';
+          appDashboard.style.display = 'block';
+          render();
+        } else {
+          authScreen.style.display = 'flex';
+          appDashboard.style.display = 'none';
+        }
+      }
+
+      function loginUser(userObj) {
+        currentUser = userObj;
+        saveToStorage(STORAGE_KEY_AUTH, currentUser);
+        const roleLabel = currentUser.role === 'MANAGER' ? 'Store Manager' : 'Employee (Barista)';
+        showToast(`Signed in as ${currentUser.name} (${roleLabel})!`, 'success');
+
+        // Pre-fill form inputs with current user
+        const reqInput = document.getElementById('requesterName');
+        if (reqInput && currentUser.name) {
+          reqInput.value = currentUser.name;
+        }
+
+        const staffNameInput = document.getElementById('staffMemberName');
+        if (staffNameInput && currentUser.name) {
+          staffNameInput.value = currentUser.name;
+        }
+
+        updateAuthScreenVisibility();
+        switchTab('open-shifts');
+      }
+
+      function logoutUser() {
+        currentUser = null;
+        try {
+          localStorage.removeItem(STORAGE_KEY_AUTH);
+        } catch (e) {}
+        showToast('You have signed out. Please sign in to access ShiftCover.', 'info');
+        updateAuthScreenVisibility();
+      }
+
+      function switchRole(targetRole) {
+        if (targetRole === 'MANAGER') {
+          loginUser(DEMO_USERS.manager);
+        } else {
+          loginUser(DEMO_USERS.employee);
+        }
+      }
+
+      function renderAuthHeader() {
+        const authContainer = document.getElementById('headerAuthPill');
+        const roleBanner = document.getElementById('roleAlertBanner');
+
+        if (!authContainer || !currentUser) return;
+
+        if (currentUser.role === 'MANAGER') {
+          authContainer.innerHTML = `
+            <div class="user-avatar-pill manager" title="Store Manager">${escapeHTML(currentUser.avatarInitials || 'SS')}</div>
+            <div class="user-identity-text">
+              <span class="user-identity-name">${escapeHTML(currentUser.name)}</span>
+              <span class="role-badge manager">🔑 Store Manager</span>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm-auth" onclick="window.shiftCoverApp.switchRole('EMPLOYEE')" title="Switch to Employee (Barista) mode">
+              Switch to Barista ☕
+            </button>
+            <button type="button" class="btn-text" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
+              Sign Out
+            </button>
+          `;
+
+          const pendingCount = shifts.filter(s => s.status === 'CLAIMED' && !s.approved).length;
+          if (roleBanner) {
+            roleBanner.className = 'role-alert-banner manager';
+            roleBanner.style.display = 'flex';
+            roleBanner.innerHTML = `
+              <div class="role-banner-content">
+                <span>🔑 <strong>Store Manager Mode Active</strong>: Logged in as <strong>${escapeHTML(currentUser.name)}</strong>. Supervisor authorization to approve claims, remove shifts, and manage team roster.</span>
+              </div>
+              <div class="role-banner-actions">
+                ${pendingCount > 0 ? `
+                  <button type="button" class="btn btn-sm-auth" style="background:#5b21b6; color:#ffffff;" onclick="window.shiftCoverApp.goToCoveredHistory()">
+                    ${pendingCount} Pending Approval${pendingCount > 1 ? 's' : ''} &rarr;
+                  </button>
+                ` : ''}
+              </div>
+            `;
+          }
+        } else {
+          // Employee
+          authContainer.innerHTML = `
+            <div class="user-avatar-pill" title="Employee">${escapeHTML(currentUser.avatarInitials || 'AR')}</div>
+            <div class="user-identity-text">
+              <span class="user-identity-name">${escapeHTML(currentUser.name)}</span>
+              <span class="role-badge employee">☕ Barista</span>
+            </div>
+            <button type="button" class="btn btn-outline btn-sm-auth" onclick="window.shiftCoverApp.switchRole('MANAGER')" title="Switch to Manager mode">
+              Switch to Manager 🔑
+            </button>
+            <button type="button" class="btn-text" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
+              Sign Out
+            </button>
+          `;
+
+          if (roleBanner) {
+            roleBanner.className = 'role-alert-banner employee';
+            roleBanner.style.display = 'flex';
+            roleBanner.innerHTML = `
+              <div class="role-banner-content">
+                <span>☕ <strong>Employee Portal Active</strong>: Logged in as <strong>${escapeHTML(currentUser.name)}</strong>. Ready to pick up open shifts or request coverage with teammates.</span>
+              </div>
+              <div class="role-banner-actions">
+                <button type="button" class="btn btn-sm-auth btn-outline" onclick="window.shiftCoverApp.goToPostShift()">
+                  + Post Request
+                </button>
+              </div>
+            `;
+          }
+        }
+      }
+
+      // -----------------------------------------------------------------------
       // Navigation / Tab Switching
       // -----------------------------------------------------------------------
       function switchTab(targetTabId) {
@@ -2181,6 +3001,22 @@
         const activeSection = document.getElementById(`view-${targetTabId}`);
         if (activeSection) {
           activeSection.classList.add('active');
+        }
+
+        // If switching to post-shift, pre-fill requester name from current user
+        if (targetTabId === 'post-shift' && currentUser && currentUser.name) {
+          const reqInput = document.getElementById('requesterName');
+          if (reqInput && !reqInput.value) {
+            reqInput.value = currentUser.name;
+          }
+        }
+
+        // If switching to staff-roster, pre-fill staff name from current user
+        if (targetTabId === 'staff-roster' && currentUser && currentUser.name) {
+          const staffName = document.getElementById('staffMemberName');
+          if (staffName && !staffName.value) {
+            staffName.value = currentUser.name;
+          }
         }
 
         // Scroll to top of section smoothly on mobile
@@ -2259,13 +3095,14 @@
           return;
         }
 
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+
         container.innerHTML = openShifts.map(shift => {
           // ShiftCover High-Contrast Status Indicators:
           // Red: Urgent / Uncovered (< 12 hours)
           // Yellow: Open / Pending Coverage
           const isUrgentRed = shift.urgency === 'CRITICAL';
           const urgencyBadgeClass = isUrgentRed ? 'badge-critical' : 'badge-open';
-
           const cardBorderClass = isUrgentRed ? 'critical-shift' : 'urgent-shift';
 
           const urgencyLabel = isUrgentRed
@@ -2278,6 +3115,8 @@
           const standardizedReason = shift.reason || 'Schedule Conflict';
           const alertPreviewText = buildShiftAlertText(shift);
           const smsLinkHref = buildSmsHref(shift);
+
+          const isMyPost = currentUser && currentUser.name && shift.requester && currentUser.name.toLowerCase() === shift.requester.toLowerCase();
 
           // Find matching peers on standby
           const matchingPeers = getMatchingAvailableStaff(shift);
@@ -2292,6 +3131,36 @@
             `;
           }
 
+          // Header action
+          let headerActionBtn = '';
+          if (isMyPost) {
+            headerActionBtn = `<span class="shift-tag-badge shift-tag-my-post">📌 Your Request</span>`;
+          } else {
+            headerActionBtn = `
+              <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Claim This Shift
+              </button>
+            `;
+          }
+
+          // Footer actions: Manager or Owner can delete; others can claim
+          let footerActionBtns = '';
+          if (isManager || isMyPost) {
+            footerActionBtns += `
+              <button type="button" class="btn btn-danger-outline" onclick="window.shiftCoverApp.deleteShift('${shift.id}')" title="Delete coverage request">
+                Delete
+              </button>
+            `;
+          }
+          if (!isMyPost) {
+            footerActionBtns += `
+              <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
+                Claim Shift &rarr;
+              </button>
+            `;
+          }
+
           return `
             <div class="shift-card ${cardBorderClass}" id="card-${shift.id}">
               <div class="shift-card-header">
@@ -2299,15 +3168,13 @@
                   <div class="shift-meta-badges">
                     <span class="badge ${urgencyBadgeClass}">${urgencyLabel}</span>
                     <span class="badge badge-open">Reason: ${escapeHTML(standardizedReason)}</span>
+                    ${isMyPost ? '<span class="shift-tag-badge shift-tag-my-post">Posted by You</span>' : ''}
                   </div>
                   <h3 class="shift-role-title">
                     <span>${escapeHTML(shift.role)}</span>
                   </h3>
                 </div>
-                <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
-                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  Claim This Shift
-                </button>
+                ${headerActionBtn}
               </div>
 
               <div class="shift-details-grid">
@@ -2325,7 +3192,7 @@
                 </div>
                 <div class="detail-item">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                  <span><strong>Employee:</strong> ${escapeHTML(shift.requester)}</span>
+                  <span><strong>Employee:</strong> ${escapeHTML(shift.requester)} ${isMyPost ? '(You)' : ''}</span>
                 </div>
               </div>
 
@@ -2355,12 +3222,7 @@
                 </div>
 
                 <div class="claim-action-group">
-                  <button type="button" class="btn btn-danger-outline" onclick="window.shiftCoverApp.deleteShift('${shift.id}')">
-                    Delete
-                  </button>
-                  <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
-                    Claim Shift &rarr;
-                  </button>
+                  ${footerActionBtns}
                 </div>
               </div>
             </div>
@@ -2388,9 +3250,55 @@
           return;
         }
 
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+
         container.innerHTML = covered.map(shift => {
           const durationHours = calculateDurationHours(shift.startTime, shift.endTime);
           const isApproved = Boolean(shift.approved);
+          const isMySwap = currentUser && currentUser.name && (
+            (shift.claimedBy && shift.claimedBy.toLowerCase() === currentUser.name.toLowerCase()) ||
+            (shift.requester && shift.requester.toLowerCase() === currentUser.name.toLowerCase())
+          );
+
+          let actionButtons = '';
+          if (isManager) {
+            if (!isApproved) {
+              actionButtons += `
+                <button type="button" class="btn btn-success" onclick="window.shiftCoverApp.approveShift('${shift.id}')">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Approve Coverage
+                </button>
+              `;
+            }
+            actionButtons += `
+              <button type="button" class="btn btn-outline" onclick="window.shiftCoverApp.reopenShift('${shift.id}')">
+                Re-open Shift
+              </button>
+            `;
+          } else {
+            // Employee role view
+            if (!isApproved) {
+              actionButtons += `
+                <span class="badge badge-urgent" style="font-size: 0.78rem;">
+                  ⏳ Pending Supervisor Approval
+                </span>
+              `;
+            } else {
+              actionButtons += `
+                <span class="badge badge-claimed" style="font-size: 0.78rem;">
+                  ✓ Approved by Manager
+                </span>
+              `;
+            }
+            if (isMySwap && !isApproved) {
+              actionButtons += `
+                <button type="button" class="btn btn-outline" onclick="window.shiftCoverApp.reopenShift('${shift.id}')" style="font-size:0.8rem; padding: 6px 10px;">
+                  Cancel Claim
+                </button>
+              `;
+            }
+          }
+
           return `
             <div class="shift-card claimed-card">
               <div class="shift-card-header">
@@ -2398,24 +3306,17 @@
                   <div class="shift-meta-badges">
                     <span class="badge badge-claimed">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      GREEN: Covered / ${isApproved ? 'Approved' : `Claimed by ${escapeHTML(shift.claimedBy || 'Peer')}`}
+                      GREEN: Covered / ${isApproved ? 'Approved by Supervisor' : `Claimed by ${escapeHTML(shift.claimedBy || 'Peer')}`}
                     </span>
                     ${shift.reason ? `<span class="badge badge-open">Reason: ${escapeHTML(shift.reason)}</span>` : ''}
+                    ${isMySwap ? '<span class="shift-tag-badge shift-tag-my-claim">Your Swap</span>' : ''}
                   </div>
                   <h3 class="shift-role-title">
                     <span>${escapeHTML(shift.role)}</span>
                   </h3>
                 </div>
                 <div class="claim-action-group">
-                  ${!isApproved ? `
-                    <button type="button" class="btn btn-success" onclick="window.shiftCoverApp.approveShift('${shift.id}')">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Approve Coverage
-                    </button>
-                  ` : ''}
-                  <button type="button" class="btn btn-outline" onclick="window.shiftCoverApp.reopenShift('${shift.id}')">
-                    Re-open Shift
-                  </button>
+                  ${actionButtons}
                 </div>
               </div>
 
@@ -2441,10 +3342,13 @@
               <div class="shift-card-footer">
                 <span style="font-size: 0.8rem; color: var(--text-muted);">
                   Original staff: <strong>${escapeHTML(shift.requester)}</strong> &bull; Claimed ${timeAgo(shift.claimedAt)}
+                  ${shift.approved && shift.approvedBy ? ` &bull; Signed off by <strong>${escapeHTML(shift.approvedBy)}</strong>` : ''}
                 </span>
-                <button type="button" class="btn btn-danger-outline" onclick="window.shiftCoverApp.deleteShift('${shift.id}')">
-                  Remove Record
-                </button>
+                ${isManager ? `
+                  <button type="button" class="btn btn-danger-outline" onclick="window.shiftCoverApp.deleteShift('${shift.id}')">
+                    Remove Record
+                  </button>
+                ` : ''}
               </div>
             </div>
           `;
@@ -2469,6 +3373,8 @@
           return;
         }
 
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+
         // Sort: AVAILABLE first, then STANDBY, then UNAVAILABLE
         const sortedRoster = [...roster].sort((a, b) => {
           const rank = { AVAILABLE: 1, STANDBY: 2, UNAVAILABLE: 3 };
@@ -2490,13 +3396,18 @@
             : '<span class="staff-status-pill status-unavailable">⚪ Off-Duty</span>';
 
           const rolesString = Array.isArray(member.roles) ? member.roles.join(', ') : member.roles;
+          const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
+          const isSupervisor = member.roles && (member.roles.includes('Store Manager') || member.roles.includes('Shift Supervisor'));
 
           return `
-            <div class="staff-card">
+            <div class="staff-card ${isMe ? 'my-roster-card' : ''}">
               <div class="staff-card-top">
-                <div class="staff-avatar">${initials}</div>
+                <div class="staff-avatar ${isSupervisor ? 'manager' : ''}">${initials}</div>
                 <div class="staff-info">
-                  <div class="staff-name">${escapeHTML(member.name)}</div>
+                  <div class="staff-name">
+                    ${escapeHTML(member.name)}
+                    ${isMe ? '<span class="shift-tag-badge shift-tag-my-post" style="margin-left: 6px;">You</span>' : ''}
+                  </div>
                   <div class="staff-roles">${escapeHTML(rolesString)}</div>
                   ${statusBadge}
                 </div>
@@ -2505,12 +3416,18 @@
               ${member.notes ? `<div class="staff-notes-box">${escapeHTML(member.notes)}</div>` : ''}
 
               <div class="staff-footer">
-                <button type="button" class="btn-text" style="color: var(--primary); font-weight: 600;" onclick="window.shiftCoverApp.toggleRosterStatus('${member.id}')">
-                  Toggle Status
-                </button>
-                <button type="button" class="btn-text" style="color: #dc2626;" onclick="window.shiftCoverApp.removeRosterMember('${member.id}')">
-                  Remove
-                </button>
+                ${(isManager || isMe) ? `
+                  <button type="button" class="btn-text" style="color: var(--primary); font-weight: 600;" onclick="window.shiftCoverApp.toggleRosterStatus('${member.id}')">
+                    ${isMe ? 'Toggle My Status' : 'Toggle Status'}
+                  </button>
+                ` : `
+                  <span style="font-size: 0.74rem; color: var(--text-muted);">&bull; Standby Peer</span>
+                `}
+                ${isManager ? `
+                  <button type="button" class="btn-text" style="color: #dc2626;" onclick="window.shiftCoverApp.removeRosterMember('${member.id}')">
+                    Remove
+                  </button>
+                ` : ''}
               </div>
             </div>
           `;
@@ -2525,11 +3442,24 @@
         const urgentCount = openList.filter(s => s.urgency === 'CRITICAL' || s.urgency === 'URGENT').length;
         const availableCount = roster.filter(r => r.status === 'AVAILABLE').length;
         const coveredCount = shifts.filter(s => s.status === 'CLAIMED').length;
+        const pendingCount = shifts.filter(s => s.status === 'CLAIMED' && !s.approved).length;
 
         // Header statistics
         document.getElementById('statOpenCount').textContent = openList.length;
         document.getElementById('statUrgentCount').textContent = urgentCount;
         document.getElementById('statStaffAvailable').textContent = availableCount;
+
+        // Manager pending approvals card
+        const pendingCard = document.getElementById('statPendingCard');
+        const pendingStat = document.getElementById('statPendingCount');
+        if (pendingCard && pendingStat) {
+          if (currentUser && currentUser.role === 'MANAGER') {
+            pendingCard.style.display = 'flex';
+            pendingStat.textContent = pendingCount;
+          } else {
+            pendingCard.style.display = 'none';
+          }
+        }
 
         // Badges in tabs
         document.getElementById('tabOpenBadge').textContent = openList.length;
@@ -2538,16 +3468,19 @@
 
         // Mobile badges
         const mobBadge = document.getElementById('mobileOpenBadge');
-        if (openList.length > 0) {
-          mobBadge.textContent = openList.length;
-          mobBadge.style.display = 'block';
-        } else {
-          mobBadge.style.display = 'none';
+        if (mobBadge) {
+          if (openList.length > 0) {
+            mobBadge.textContent = openList.length;
+            mobBadge.style.display = 'block';
+          } else {
+            mobBadge.style.display = 'none';
+          }
         }
       }
 
       // Master render function
       function render() {
+        renderAuthHeader();
         renderOpenShifts();
         renderCoveredShifts();
         renderRoster();
@@ -2621,6 +3554,12 @@
       shiftForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
+        if (!currentUser || currentUser.role === 'GUEST') {
+          showToast('Please sign in to post shift coverage requests.', 'info');
+          switchTab('login');
+          return;
+        }
+
         if (!validateShiftForm()) {
           showToast('Please select a shift time and fill required fields before posting.', 'error');
           return;
@@ -2633,7 +3572,7 @@
 
         const newShift = {
           id: 'shift_' + Date.now(),
-          requester: document.getElementById('requesterName').value.trim(),
+          requester: document.getElementById('requesterName').value.trim() || currentUser.name,
           role: document.getElementById('shiftRole').value,
           location: document.getElementById('shiftLocation').value,
           date: document.getElementById('shiftDate').value,
@@ -2660,6 +3599,9 @@
         document.getElementById('shiftDate').value = getRelativeDate(0);
         document.getElementById('shiftStartTime').value = '06:00';
         document.getElementById('shiftEndTime').value = '12:30';
+        if (currentUser && currentUser.name) {
+          document.getElementById('requesterName').value = currentUser.name;
+        }
 
         // Switch to open shifts tab to view newly posted card
         switchTab('open-shifts');
@@ -2668,6 +3610,9 @@
       document.getElementById('btnResetForm').addEventListener('click', () => {
         shiftForm.reset();
         document.getElementById('shiftDate').value = getRelativeDate(0);
+        if (currentUser && currentUser.name) {
+          document.getElementById('requesterName').value = currentUser.name;
+        }
         document.querySelectorAll('.error-hint').forEach(el => el.classList.remove('visible'));
         document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
       });
@@ -2727,6 +3672,12 @@
       const claimForm = document.getElementById('claimShiftForm');
 
       function openClaimModal(shiftId) {
+        if (!currentUser || currentUser.role === 'GUEST') {
+          showToast('Please sign in as an Employee or Manager to claim shifts.', 'info');
+          switchTab('login');
+          return;
+        }
+
         const shift = shifts.find(s => s.id === shiftId);
         if (!shift) return;
 
@@ -2740,22 +3691,26 @@
             <span>📅 <strong>Date:</strong> ${formatReadableDate(shift.date)}</span>
             <span>⏰ <strong>Hours:</strong> ${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)} (${calculateDurationHours(shift.startTime, shift.endTime)} hrs)</span>
             <span>📍 <strong>Location:</strong> ${escapeHTML(shift.location)}</span>
-            <span>👤 <strong>Employee:</strong> ${escapeHTML(shift.requester)} (${escapeHTML(shift.reason || 'Schedule Conflict')})</span>
+            <span>👤 <strong>Requester:</strong> ${escapeHTML(shift.requester)} (${escapeHTML(shift.reason || 'Schedule Conflict')})</span>
             ${shift.notes ? `<span style="margin-top: 4px; font-style: italic;">&ldquo;${escapeHTML(shift.notes)}&rdquo;</span>` : ''}
           </div>
         `;
 
-        // Pre-fill from current active staff input if available
-        const staffNameInput = document.getElementById('staffMemberName').value.trim();
-        if (staffNameInput) {
-          document.getElementById('claimerName').value = staffNameInput;
+        // Pre-fill from current active user
+        const nameInput = document.getElementById('claimerName');
+        const contactInput = document.getElementById('claimerContact');
+        if (currentUser && currentUser.name) {
+          nameInput.value = currentUser.name;
+        }
+        if (currentUser && currentUser.phone) {
+          contactInput.value = currentUser.phone;
         }
 
         // Reset errors
         document.getElementById('err-claimerName').classList.remove('visible');
         document.getElementById('err-claimerContact').classList.remove('visible');
-        document.getElementById('claimerName').classList.remove('error');
-        document.getElementById('claimerContact').classList.remove('error');
+        nameInput.classList.remove('error');
+        contactInput.classList.remove('error');
 
         claimModal.classList.add('active');
       }
@@ -2826,7 +3781,18 @@
       // Shift & Roster Actions (Delete, Re-open, Approve, Toggle Availability)
       // -----------------------------------------------------------------------
       function deleteShift(id) {
-        if (!confirm('Are you sure you want to remove this shift request?')) return;
+        const shift = shifts.find(s => s.id === id);
+        if (!shift) return;
+
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isOwner = currentUser && currentUser.name && shift.requester && currentUser.name.toLowerCase() === shift.requester.toLowerCase();
+
+        if (!isManager && !isOwner) {
+          showToast('Only managers or the employee who posted this shift can remove it.', 'error');
+          return;
+        }
+
+        if (!confirm(`Are you sure you want to remove coverage request for ${shift.role}?`)) return;
         shifts = shifts.filter(s => s.id !== id);
         saveToStorage(STORAGE_KEY_SHIFTS, shifts);
         showToast('Shift removed.', 'info');
@@ -2835,22 +3801,44 @@
 
       function reopenShift(id) {
         const shift = shifts.find(s => s.id === id);
-        if (shift) {
-          shift.status = 'OPEN';
-          shift.claimedBy = null;
-          shift.claimedAt = null;
-          shift.approved = false;
-          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
-          showToast(`Re-opened coverage request for ${shift.role}.`, 'info');
-          render();
+        if (!shift) return;
+
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isOwner = currentUser && currentUser.name && (
+          (shift.requester && shift.requester.toLowerCase() === currentUser.name.toLowerCase()) ||
+          (shift.claimedBy && shift.claimedBy.toLowerCase() === currentUser.name.toLowerCase())
+        );
+
+        if (!isManager && !isOwner) {
+          showToast('Manager or shift owner authorization required to re-open shift.', 'error');
+          return;
         }
+
+        shift.status = 'OPEN';
+        shift.claimedBy = null;
+        shift.claimedAt = null;
+        shift.approved = false;
+        shift.approvedAt = null;
+        shift.approvedBy = null;
+        saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+        showToast(`Re-opened coverage request for ${shift.role}.`, 'info');
+        render();
       }
 
       function approveShift(id) {
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        if (!isManager) {
+          showToast('Store Manager authorization required to officially approve coverage.', 'error');
+          return;
+        }
+
         const shift = shifts.find(s => s.id === id);
         if (shift) {
           shift.approved = true;
+          shift.approvedAt = new Date().toISOString();
+          shift.approvedBy = currentUser.name;
           saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          playClaimSuccessSound();
           showToast(`Approved coverage for ${shift.role} (Covered by ${shift.claimedBy}).`, 'success');
           render();
         }
@@ -2859,6 +3847,15 @@
       function toggleRosterStatus(id) {
         const member = roster.find(m => m.id === id);
         if (!member) return;
+
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
+
+        if (!isManager && !isMe) {
+          showToast('You can only update your own standby status, or ask a manager.', 'info');
+          return;
+        }
+
         const cycle = { AVAILABLE: 'STANDBY', STANDBY: 'UNAVAILABLE', UNAVAILABLE: 'AVAILABLE' };
         member.status = cycle[member.status] || 'AVAILABLE';
         saveToStorage(STORAGE_KEY_ROSTER, roster);
@@ -2867,6 +3864,12 @@
       }
 
       function removeRosterMember(id) {
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        if (!isManager) {
+          showToast('Store Manager authorization required to remove roster members.', 'error');
+          return;
+        }
+
         if (!confirm('Remove this peer from the standby roster?')) return;
         roster = roster.filter(m => m.id !== id);
         saveToStorage(STORAGE_KEY_ROSTER, roster);
@@ -2906,6 +3909,117 @@
       document.getElementById('locationFilter').addEventListener('change', renderOpenShifts);
 
       // -----------------------------------------------------------------------
+      // Portal Login View Event Listeners
+      // -----------------------------------------------------------------------
+      const tabPortalEmp = document.getElementById('tabPortalEmployee');
+      const tabPortalMgr = document.getElementById('tabPortalManager');
+      const panelPortalEmp = document.getElementById('portalPanelEmployee');
+      const panelPortalMgr = document.getElementById('portalPanelManager');
+
+      if (tabPortalEmp && tabPortalMgr) {
+        tabPortalEmp.addEventListener('click', () => {
+          tabPortalEmp.classList.add('active');
+          tabPortalEmp.setAttribute('aria-selected', 'true');
+          tabPortalMgr.classList.remove('active');
+          tabPortalMgr.setAttribute('aria-selected', 'false');
+          panelPortalEmp.classList.add('active');
+          panelPortalMgr.classList.remove('active');
+        });
+
+        tabPortalMgr.addEventListener('click', () => {
+          tabPortalMgr.classList.add('active');
+          tabPortalMgr.setAttribute('aria-selected', 'true');
+          tabPortalEmp.classList.remove('active');
+          tabPortalEmp.setAttribute('aria-selected', 'false');
+          panelPortalMgr.classList.add('active');
+          panelPortalEmp.classList.remove('active');
+        });
+      }
+
+      // Employee Login Form Submission
+      const empLoginForm = document.getElementById('employeeLoginForm');
+      if (empLoginForm) {
+        empLoginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const u = document.getElementById('empUsername').value.trim();
+          const p = document.getElementById('empPassword').value.trim();
+
+          if (!u) {
+            document.getElementById('err-empUsername').classList.add('visible');
+            return;
+          } else {
+            document.getElementById('err-empUsername').classList.remove('visible');
+          }
+
+          if (!p) {
+            document.getElementById('err-empPassword').classList.add('visible');
+            return;
+          } else {
+            document.getElementById('err-empPassword').classList.remove('visible');
+          }
+
+          const validUsernames = ['employee', 'alex', 'alex.barista@shiftcover.com', 'barista'];
+          const isValidUser = validUsernames.includes(u.toLowerCase());
+          const isValidPass = (p === 'employee123' || p === 'password123' || p === 'alex123' || p === '1234');
+
+          if (isValidUser && isValidPass) {
+            loginUser(DEMO_USERS.employee);
+          } else {
+            showToast('Invalid employee credentials. Use demo: employee / employee123', 'error');
+          }
+        });
+      }
+
+      // Manager Login Form Submission
+      const mgrLoginForm = document.getElementById('managerLoginForm');
+      if (mgrLoginForm) {
+        mgrLoginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const u = document.getElementById('mgrUsername').value.trim();
+          const p = document.getElementById('mgrPassword').value.trim();
+
+          if (!u) {
+            document.getElementById('err-mgrUsername').classList.add('visible');
+            return;
+          } else {
+            document.getElementById('err-mgrUsername').classList.remove('visible');
+          }
+
+          if (!p) {
+            document.getElementById('err-mgrPassword').classList.add('visible');
+            return;
+          } else {
+            document.getElementById('err-mgrPassword').classList.remove('visible');
+          }
+
+          const validUsernames = ['manager', 'sarah', 'sarah.manager@shiftcover.com', 'admin', 'supervisor'];
+          const isValidUser = validUsernames.includes(u.toLowerCase());
+          const isValidPass = (p === 'manager123' || p === 'admin123' || p === 'sarah123' || p === '1234');
+
+          if (isValidUser && isValidPass) {
+            loginUser(DEMO_USERS.manager);
+          } else {
+            showToast('Invalid manager credentials. Use demo: manager / manager123', 'error');
+          }
+        });
+      }
+
+      // 1-Click Fast Demo Buttons
+      const btnFastDemoEmp = document.getElementById('btnFastDemoEmp');
+      if (btnFastDemoEmp) {
+        btnFastDemoEmp.addEventListener('click', () => {
+          loginUser(DEMO_USERS.employee);
+        });
+      }
+
+      const btnFastDemoMgr = document.getElementById('btnFastDemoMgr');
+      if (btnFastDemoMgr) {
+        btnFastDemoMgr.addEventListener('click', () => {
+          loginUser(DEMO_USERS.manager);
+        });
+      }
+
+      // -----------------------------------------------------------------------
       // Public App API for Inline HTML Handlers
       // -----------------------------------------------------------------------
       window.shiftCoverApp = {
@@ -2916,7 +4030,12 @@
         approveShift,
         toggleRosterStatus,
         removeRosterMember,
-        goToPostShift: () => switchTab('post-shift')
+        goToPostShift: () => switchTab('post-shift'),
+        goToCoveredHistory: () => switchTab('covered-history'),
+        goToLogin: () => logoutUser(),
+        loginUser,
+        logoutUser,
+        switchRole
       };
 
       // -----------------------------------------------------------------------
@@ -2927,16 +4046,30 @@
         const dateInput = document.getElementById('shiftDate');
         if (dateInput) {
           dateInput.value = getRelativeDate(0);
-          dateInput.min = getRelativeDate(0); // Cannot pick dates in past
+          dateInput.min = getRelativeDate(0);
         }
 
-        render();
+        // If user is logged in, pre-fill forms with their identity
+        if (currentUser && currentUser.name) {
+          const reqInput = document.getElementById('requesterName');
+          if (reqInput) reqInput.value = currentUser.name;
+
+          const staffNameInput = document.getElementById('staffMemberName');
+          if (staffNameInput) staffNameInput.value = currentUser.name;
+        }
+
+        // Enforce login gating: show auth screen if not logged in, dashboard if logged in
+        updateAuthScreenVisibility();
+
+        if (currentUser && (currentUser.role === 'EMPLOYEE' || currentUser.role === 'MANAGER')) {
+          switchTab('open-shifts');
+        }
 
         // Support deep-link URL hash from shared alert links (#shift=shift_1)
         if (window.location.hash && window.location.hash.startsWith('#shift=')) {
           const targetId = decodeURIComponent(window.location.hash.replace('#shift=', ''));
           const targetShift = shifts.find(s => s.id === targetId && s.status === 'OPEN');
-          if (targetShift) {
+          if (targetShift && currentUser) {
             openClaimModal(targetId);
           }
         }
