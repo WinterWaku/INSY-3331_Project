@@ -33,26 +33,28 @@
       --text-muted: #78716c;
       --text-light: #a8a29e;
 
-      /* Urgency & Status Badges */
+      /* Urgency & Status Badges (ShiftCover High-Contrast Standards) */
       --urgent-critical-bg: #fee2e2;
       --urgent-critical-text: #b91c1c;
       --urgent-critical-border: #fca5a5;
 
-      --urgent-soon-bg: #ffedd5;
-      --urgent-soon-text: #c2410c;
-      --urgent-soon-border: #fdba74;
+      --urgent-soon-bg: #fef9c3;
+      --urgent-soon-text: #a16207;
+      --urgent-soon-border: #fde047;
 
-      --urgent-normal-bg: #e0f2fe;
-      --urgent-normal-text: #0369a1;
-      --urgent-normal-border: #bae6fd;
+      --urgent-normal-bg: #fef9c3;
+      --urgent-normal-text: #854d0e;
+      --urgent-normal-border: #fde047;
 
-      --status-open-bg: #ecfdf5;
-      --status-open-text: #047857;
-      --status-open-border: #a7f3d0;
+      /* Yellow: Open / Pending Coverage */
+      --status-open-bg: #fef9c3;
+      --status-open-text: #854d0e;
+      --status-open-border: #fde047;
 
-      --status-claimed-bg: #f3e8ff;
-      --status-claimed-text: #6b21a8;
-      --status-claimed-border: #d8b4fe;
+      /* Green: Covered / Approved */
+      --status-claimed-bg: #dcfce7;
+      --status-claimed-text: #15803d;
+      --status-claimed-border: #86efac;
 
       /* Elevation & Radii */
       --radius-sm: 6px;
@@ -655,12 +657,13 @@
       gap: 7px;
       font-weight: 600;
       border-radius: var(--radius-md);
-      padding: 9px 18px;
+      padding: 10px 18px;
       border: 1px solid transparent;
       cursor: pointer;
       transition: all var(--transition-fast);
       font-size: 0.9rem;
-      min-height: 42px; /* Touch target minimum */
+      min-height: 48px; /* 48px minimum touch target per ShiftCover standards */
+      text-decoration: none;
     }
 
     .btn-primary {
@@ -671,19 +674,21 @@
 
     .btn-primary:hover {
       background: var(--primary-hover);
+      color: #ffffff;
     }
 
     .btn-success {
-      background: #059669;
+      background: #15803d;
       color: #ffffff;
     }
 
     .btn-success:hover {
-      background: #047857;
+      background: #166534;
+      color: #ffffff;
     }
 
     .btn-outline {
-      background: transparent;
+      background: #ffffff;
       border-color: var(--border-color);
       color: var(--text-main);
     }
@@ -693,13 +698,80 @@
       border-color: var(--text-muted);
     }
 
+    .btn-copy-alert {
+      background: #fffbeb;
+      border: 1px solid #f59e0b;
+      color: #92400e;
+      font-size: 0.86rem;
+      padding: 8px 14px;
+      min-height: 48px;
+    }
+
+    .btn-copy-alert:hover {
+      background: #fef3c7;
+      border-color: #d97706;
+    }
+
+    .btn-copy-alert.copied {
+      background: #dcfce7;
+      border-color: #16a34a;
+      color: #15803d;
+    }
+
+    .btn-share-sms {
+      background: #eff6ff;
+      border: 1px solid #60a5fa;
+      color: #1d4ed8;
+      font-size: 0.86rem;
+      padding: 8px 14px;
+      min-height: 48px;
+    }
+
+    .btn-share-sms:hover {
+      background: #dbeafe;
+      border-color: #3b82f6;
+      color: #1e40af;
+    }
+
+    .comm-share-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: var(--cream);
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+    }
+
+    .comm-alert-preview {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.79rem;
+      color: var(--espresso);
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      flex: 1;
+      min-width: 220px;
+      word-break: break-word;
+    }
+
+    .comm-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .btn-danger-outline {
       background: transparent;
       border-color: #fecaca;
       color: #dc2626;
       font-size: 0.82rem;
-      padding: 6px 12px;
-      min-height: 34px;
+      padding: 8px 12px;
+      min-height: 48px;
     }
 
     .btn-danger-outline:hover {
@@ -707,16 +779,18 @@
     }
 
     .btn-claim {
-      background: linear-gradient(135deg, #059669, #047857);
+      background: linear-gradient(135deg, #16a34a, #15803d);
       color: #ffffff;
       font-weight: 700;
       padding: 10px 20px;
-      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+      min-height: 48px;
+      box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
     }
 
     .btn-claim:hover {
-      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.4);
+      box-shadow: 0 4px 10px rgba(22, 163, 74, 0.4);
       transform: translateY(-1px);
+      color: #ffffff;
     }
 
     /* Empty state */
@@ -1444,7 +1518,7 @@
               <input type="time" id="shiftStartTime" class="form-control" value="06:00" required>
               <div id="err-shiftStartTime" class="error-hint">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                Start time is required.
+                Please select a shift time before posting.
               </div>
             </div>
 
@@ -1456,47 +1530,63 @@
               <input type="time" id="shiftEndTime" class="form-control" value="12:30" required>
               <div id="err-shiftEndTime" class="error-hint">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                End time must be after start time.
+                Please select a valid end time after start time.
               </div>
+            </div>
+
+            <!-- Standardized Coverage Reason (Privacy-Safe Dropdown) -->
+            <div class="form-group full-width">
+              <label for="shiftReason" class="form-label">
+                Standardized Coverage Reason <span class="required">*</span>
+              </label>
+              <select id="shiftReason" class="form-control" required>
+                <option value="Personal Emergency" selected>Personal Emergency</option>
+                <option value="Schedule Conflict">Schedule Conflict</option>
+                <option value="Unwell">Unwell</option>
+                <option value="Family Commitment">Family Commitment</option>
+                <option value="Transit / Weather Delay">Transit / Weather Delay</option>
+                <option value="Shift Swap Request">Shift Swap Request</option>
+              </select>
+              <span class="helper-text">🔒 Privacy-first: Standardized reason only — never enter personal medical or confidential health details.</span>
             </div>
 
             <!-- Urgency Level Selection -->
             <div class="form-group full-width">
               <label class="form-label">
-                Urgency Level <span class="required">*</span>
+                Urgency Status <span class="required">*</span>
               </label>
               <div class="urgency-selector">
                 <label class="urgency-option">
-                  <input type="radio" name="urgency" value="CRITICAL">
+                  <input type="radio" name="urgency" value="CRITICAL" checked>
                   <div class="urgency-box opt-critical">
-                    <span class="title">🚨 Critical</span>
-                    <span class="sub">Starts &lt; 6 hrs / Today</span>
+                    <span class="title">🔴 Urgent (&lt; 12 hrs)</span>
+                    <span class="sub">Uncovered / Today</span>
                   </div>
                 </label>
                 <label class="urgency-option">
-                  <input type="radio" name="urgency" value="URGENT" checked>
+                  <input type="radio" name="urgency" value="URGENT">
                   <div class="urgency-box opt-urgent">
-                    <span class="title">⚡ Urgent</span>
+                    <span class="title">🟡 Open / Pending</span>
                     <span class="sub">Tomorrow / &lt; 24 hrs</span>
                   </div>
                 </label>
                 <label class="urgency-option">
                   <input type="radio" name="urgency" value="STANDARD">
                   <div class="urgency-box opt-standard">
-                    <span class="title">📅 Standard</span>
+                    <span class="title">🟡 Open (Planned)</span>
                     <span class="sub">2+ Days Ahead</span>
                   </div>
                 </label>
               </div>
             </div>
 
-            <!-- Notes / Reason -->
+            <!-- Role / Operational Hand-off Note (No Medical Info) -->
             <div class="form-group full-width">
               <label for="shiftNotes" class="form-label">
-                Notes / Hand-off Instructions (Optional)
+                Operational Hand-off Note (Optional — Non-Medical Only)
               </label>
-              <textarea id="shiftNotes" class="form-control" placeholder="e.g. Needs keyholder for register opening, sudden fever, or swap for Sunday shift."></textarea>
-              <span class="helper-text">Add any specifics like store opening duties, espresso calibration, or contact preference.</span>
+              <input type="text" id="shiftNotes" class="form-control" placeholder="e.g. Keyholder needed for safe & espresso dial-in, or willing to swap Sunday.">
+              <span class="helper-text">Include store duties or swap preferences only. Do not include health or medical information.</span>
             </div>
 
           </div>
@@ -1592,7 +1682,7 @@
         <span><strong>ShiftCover</strong> &bull; Pre-Shift Peer Coverage Log for Retail & Coffee Shops</span>
       </div>
       <div class="footer-actions">
-        <button type="button" class="btn-text" id="btnResetDemoData">Reset Demo Shifts</button>
+        <button type="button" class="btn-text" id="btnResetDemoData">Reset Demo Data</button>
         <span>&bull;</span>
         <button type="button" class="btn-text" id="btnClearAllData">Clear All</button>
       </div>
@@ -1699,7 +1789,7 @@
       const STORAGE_KEY_SHIFTS = 'shiftcover_shifts_data';
       const STORAGE_KEY_ROSTER = 'shiftcover_roster_data';
 
-      // Realistic initial demo seed data (Coffee Shop Context)
+      // Realistic initial demo seed data (Coffee Shop Context - Privacy-Safe Reasons)
       const INITIAL_SHIFTS = [
         {
           id: 'shift_1',
@@ -1707,15 +1797,17 @@
           role: 'Opening Barista',
           location: 'Downtown Roastery',
           date: getRelativeDate(0), // Today
-          startTime: '05:30',
-          endTime: '11:30',
+          startTime: '07:00',
+          endTime: '13:00',
           urgency: 'CRITICAL',
-          notes: 'Sudden cold & lost voice overnight! Dial-in & batch brew setup keys needed.',
+          reason: 'Unwell',
+          notes: 'Dial-in & batch brew setup keys needed at 6:50 AM.',
           status: 'OPEN',
           createdAt: new Date(Date.now() - 42 * 60 * 1000).toISOString(),
           claimedBy: null,
           claimedAt: null,
-          claimerContact: null
+          claimerContact: null,
+          approved: false
         },
         {
           id: 'shift_2',
@@ -1726,12 +1818,14 @@
           startTime: '06:00',
           endTime: '14:30',
           urgency: 'URGENT',
-          notes: 'Emergency dentist appointment early morning. Safe combination holder certified required.',
+          reason: 'Personal Emergency',
+          notes: 'Safe combination & opening register keyholder certification required.',
           status: 'OPEN',
           createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
           claimedBy: null,
           claimedAt: null,
-          claimerContact: null
+          claimerContact: null,
+          approved: false
         },
         {
           id: 'shift_3',
@@ -1742,12 +1836,14 @@
           startTime: '12:00',
           endTime: '18:00',
           urgency: 'STANDARD',
-          notes: 'College midterm prep conflict. Willing to take someone’s Sunday closing shift in return!',
+          reason: 'Schedule Conflict',
+          notes: 'Willing to swap and take a Sunday closing shift in return!',
           status: 'OPEN',
           createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
           claimedBy: null,
           claimedAt: null,
-          claimerContact: null
+          claimerContact: null,
+          approved: false
         },
         {
           id: 'shift_4',
@@ -1758,12 +1854,14 @@
           startTime: '08:00',
           endTime: '14:00',
           urgency: 'URGENT',
-          notes: 'Family event out of town.',
+          reason: 'Family Commitment',
+          notes: 'Standard espresso bar & cold brew restock.',
           status: 'CLAIMED',
           createdAt: new Date(Date.now() - 26 * 60 * 60 * 1000).toISOString(),
           claimedBy: 'Sasha Vane',
           claimedAt: new Date(Date.now() - 22 * 60 * 60 * 1000).toISOString(),
-          claimerContact: '(555) 782-9901'
+          claimerContact: '(555) 782-9901',
+          approved: true
         }
       ];
 
@@ -1801,7 +1899,7 @@
           name: 'Jordan Miller',
           status: 'UNAVAILABLE',
           roles: ['Opening Barista'],
-          notes: 'Out of town until Monday'
+          notes: 'Off-duty until Monday'
         }
       ];
 
@@ -1811,7 +1909,7 @@
       let activeTab = 'open-shifts';
 
       // -----------------------------------------------------------------------
-      // Date Helpers
+      // Date & Formatting Helpers
       // -----------------------------------------------------------------------
       function getRelativeDate(daysOffset) {
         const d = new Date();
@@ -1834,6 +1932,13 @@
         return prefix + dateObj.toLocaleDateString(undefined, options);
       }
 
+      function getShortWeekday(dateStr) {
+        if (!dateStr) return 'Today';
+        const [year, month, day] = dateStr.split('-');
+        const dateObj = new Date(year, parseInt(month) - 1, day);
+        return dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+      }
+
       function formatTime12h(time24) {
         if (!time24) return '';
         const [h, m] = time24.split(':');
@@ -1842,6 +1947,84 @@
         hours = hours % 12;
         hours = hours ? hours : 12;
         return `${hours}:${m} ${ampm}`;
+      }
+
+      function formatCompactTime(time24) {
+        if (!time24) return '';
+        const [h, m] = time24.split(':');
+        let hours = parseInt(h, 10);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        return m === '00' ? `${hours} ${ampm}` : `${hours}:${m} ${ampm}`;
+      }
+
+      // -----------------------------------------------------------------------
+      // Iteration A Communication Helpers (One-Tap Alert + SMS Group Launcher)
+      // -----------------------------------------------------------------------
+      function getShareClaimUrl(shiftId) {
+        const base = window.location.href.split('#')[0];
+        return `${base}#shift=${encodeURIComponent(shiftId)}`;
+      }
+
+      function buildShiftAlertText(shift) {
+        const dayShort = getShortWeekday(shift.date);
+        const startCompact = formatCompactTime(shift.startTime);
+        const endCompact = formatCompactTime(shift.endTime);
+        const claimUrl = getShareClaimUrl(shift.id);
+        return `🚨 OPEN SHIFT: ${shift.role} | ${dayShort} ${startCompact} - ${endCompact}. Claim here: ${claimUrl}`;
+      }
+
+      function buildSmsHref(shift) {
+        const alertBody = buildShiftAlertText(shift);
+        return `sms:?body=${encodeURIComponent(alertBody)}`;
+      }
+
+      function copyShiftAlert(shiftId, btnEl) {
+        const shift = shifts.find(s => s.id === shiftId);
+        if (!shift) return;
+
+        const alertText = buildShiftAlertText(shift);
+
+        const onCopySuccess = () => {
+          showToast('Alert copied to clipboard! Ready to paste in team chat.', 'success');
+          if (btnEl) {
+            const origHtml = btnEl.innerHTML;
+            btnEl.classList.add('copied');
+            btnEl.innerHTML = `
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <span>Copied Alert!</span>
+            `;
+            setTimeout(() => {
+              btnEl.classList.remove('copied');
+              btnEl.innerHTML = origHtml;
+            }, 2200);
+          }
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(alertText).then(onCopySuccess).catch(() => {
+            fallbackCopyText(alertText, onCopySuccess);
+          });
+        } else {
+          fallbackCopyText(alertText, onCopySuccess);
+        }
+      }
+
+      function fallbackCopyText(text, callback) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          if (callback) callback();
+        } catch (err) {
+          showToast('Could not copy automatically. Please copy from the preview box.', 'error');
+        }
+        document.body.removeChild(ta);
       }
 
       function calculateDurationHours(start, end) {
@@ -2042,7 +2225,7 @@
           if (locationFilter !== 'ALL' && !shift.location.includes(locationFilter)) return false;
 
           if (searchTerm) {
-            const haystack = `${shift.role} ${shift.requester} ${shift.location} ${shift.notes || ''}`.toLowerCase();
+            const haystack = `${shift.role} ${shift.requester} ${shift.location} ${shift.reason || ''} ${shift.notes || ''}`.toLowerCase();
             if (!haystack.includes(searchTerm)) return false;
           }
           return true;
@@ -2077,27 +2260,24 @@
         }
 
         container.innerHTML = openShifts.map(shift => {
-          const urgencyBadgeClass = shift.urgency === 'CRITICAL'
-            ? 'badge-critical'
-            : shift.urgency === 'URGENT'
-            ? 'badge-urgent'
-            : 'badge-standard';
+          // ShiftCover High-Contrast Status Indicators:
+          // Red: Urgent / Uncovered (< 12 hours)
+          // Yellow: Open / Pending Coverage
+          const isUrgentRed = shift.urgency === 'CRITICAL';
+          const urgencyBadgeClass = isUrgentRed ? 'badge-critical' : 'badge-open';
 
-          const cardBorderClass = shift.urgency === 'CRITICAL'
-            ? 'critical-shift'
-            : shift.urgency === 'URGENT'
-            ? 'urgent-shift'
-            : 'standard-shift';
+          const cardBorderClass = isUrgentRed ? 'critical-shift' : 'urgent-shift';
 
-          const urgencyLabel = shift.urgency === 'CRITICAL'
-            ? '<span class="pulse-dot"></span> ASAP / CRITICAL'
-            : shift.urgency === 'URGENT'
-            ? '⚡ URGENT'
-            : '📅 UPCOMING';
+          const urgencyLabel = isUrgentRed
+            ? '<span class="pulse-dot"></span> RED: Urgent / Uncovered (&lt; 12 hrs)'
+            : '🟡 YELLOW: Open / Pending Coverage';
 
           const durationHours = calculateDurationHours(shift.startTime, shift.endTime);
           const readableDate = formatReadableDate(shift.date);
           const timeWindow = `${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)}`;
+          const standardizedReason = shift.reason || 'Schedule Conflict';
+          const alertPreviewText = buildShiftAlertText(shift);
+          const smsLinkHref = buildSmsHref(shift);
 
           // Find matching peers on standby
           const matchingPeers = getMatchingAvailableStaff(shift);
@@ -2118,7 +2298,7 @@
                 <div>
                   <div class="shift-meta-badges">
                     <span class="badge ${urgencyBadgeClass}">${urgencyLabel}</span>
-                    <span class="badge badge-open">Seeking Coverage</span>
+                    <span class="badge badge-open">Reason: ${escapeHTML(standardizedReason)}</span>
                   </div>
                   <h3 class="shift-role-title">
                     <span>${escapeHTML(shift.role)}</span>
@@ -2145,13 +2325,28 @@
                 </div>
                 <div class="detail-item">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                  <span><strong>Original Staff:</strong> ${escapeHTML(shift.requester)}</span>
+                  <span><strong>Employee:</strong> ${escapeHTML(shift.requester)}</span>
                 </div>
               </div>
 
               ${shift.notes ? `<div class="shift-notes">&ldquo;${escapeHTML(shift.notes)}&rdquo;</div>` : ''}
 
               ${peerMatchHtml}
+
+              <!-- Iteration A: One-Tap Share Link/Summary & Direct SMS Group Launcher -->
+              <div class="comm-share-bar" aria-label="Shift Alert Sharing Tools">
+                <div class="comm-alert-preview" title="Pre-formatted plain-text shift alert">${escapeHTML(alertPreviewText)}</div>
+                <div class="comm-btn-group">
+                  <button type="button" class="btn btn-copy-alert" onclick="window.shiftCoverApp.copyShiftAlert('${shift.id}', this)">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>Copy Alert</span>
+                  </button>
+                  <a href="${smsLinkHref}" class="btn btn-share-sms" aria-label="Share open shift to group via SMS">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Share to Group</span>
+                  </a>
+                </div>
+              </div>
 
               <div class="shift-card-footer">
                 <div class="shift-poster-info">
@@ -2195,6 +2390,7 @@
 
         container.innerHTML = covered.map(shift => {
           const durationHours = calculateDurationHours(shift.startTime, shift.endTime);
+          const isApproved = Boolean(shift.approved);
           return `
             <div class="shift-card claimed-card">
               <div class="shift-card-header">
@@ -2202,16 +2398,22 @@
                   <div class="shift-meta-badges">
                     <span class="badge badge-claimed">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                      Covered by ${escapeHTML(shift.claimedBy || 'Peer')}
+                      GREEN: Covered / ${isApproved ? 'Approved' : `Claimed by ${escapeHTML(shift.claimedBy || 'Peer')}`}
                     </span>
-                    <span class="badge badge-open">Resolved</span>
+                    ${shift.reason ? `<span class="badge badge-open">Reason: ${escapeHTML(shift.reason)}</span>` : ''}
                   </div>
                   <h3 class="shift-role-title">
                     <span>${escapeHTML(shift.role)}</span>
                   </h3>
                 </div>
-                <div>
-                  <button type="button" class="btn btn-outline" style="font-size: 0.8rem; padding: 5px 10px; min-height: 32px;" onclick="window.shiftCoverApp.reopenShift('${shift.id}')">
+                <div class="claim-action-group">
+                  ${!isApproved ? `
+                    <button type="button" class="btn btn-success" onclick="window.shiftCoverApp.approveShift('${shift.id}')">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Approve Coverage
+                    </button>
+                  ` : ''}
+                  <button type="button" class="btn btn-outline" onclick="window.shiftCoverApp.reopenShift('${shift.id}')">
                     Re-open Shift
                   </button>
                 </div>
@@ -2232,7 +2434,7 @@
                 </div>
                 <div class="detail-item">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                  <span><strong>Covered Peer Contact:</strong> ${escapeHTML(shift.claimerContact || 'On file')}</span>
+                  <span><strong>Covered By:</strong> ${escapeHTML(shift.claimedBy || 'Peer')} (${escapeHTML(shift.claimerContact || 'On file')})</span>
                 </div>
               </div>
 
@@ -2303,7 +2505,9 @@
               ${member.notes ? `<div class="staff-notes-box">${escapeHTML(member.notes)}</div>` : ''}
 
               <div class="staff-footer">
-                <span>Verified Peer</span>
+                <button type="button" class="btn-text" style="color: var(--primary); font-weight: 600;" onclick="window.shiftCoverApp.toggleRosterStatus('${member.id}')">
+                  Toggle Status
+                </button>
                 <button type="button" class="btn-text" style="color: #dc2626;" onclick="window.shiftCoverApp.removeRosterMember('${member.id}')">
                   Remove
                 </button>
@@ -2404,7 +2608,7 @@
           // If start == end, invalid
           if (startTime.value === endTime.value) {
             const errEl = document.getElementById('err-shiftEndTime');
-            errEl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> End time cannot equal start time.`;
+            errEl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Please select a valid shift end time after the start time.`;
             errEl.classList.add('visible');
             endTime.classList.add('error');
             isValid = false;
@@ -2418,12 +2622,14 @@
         e.preventDefault();
 
         if (!validateShiftForm()) {
-          showToast('Please fix the highlighted fields before posting.', 'error');
+          showToast('Please select a shift time and fill required fields before posting.', 'error');
           return;
         }
 
         const urgencyRadio = document.querySelector('input[name="urgency"]:checked');
-        const urgencyVal = urgencyRadio ? urgencyRadio.value : 'URGENT';
+        const urgencyVal = urgencyRadio ? urgencyRadio.value : 'CRITICAL';
+        const reasonSelect = document.getElementById('shiftReason');
+        const reasonVal = reasonSelect ? reasonSelect.value : 'Personal Emergency';
 
         const newShift = {
           id: 'shift_' + Date.now(),
@@ -2434,12 +2640,14 @@
           startTime: document.getElementById('shiftStartTime').value,
           endTime: document.getElementById('shiftEndTime').value,
           urgency: urgencyVal,
+          reason: reasonVal,
           notes: document.getElementById('shiftNotes').value.trim(),
           status: 'OPEN',
           createdAt: new Date().toISOString(),
           claimedBy: null,
           claimedAt: null,
-          claimerContact: null
+          claimerContact: null,
+          approved: false
         };
 
         shifts.unshift(newShift);
@@ -2448,8 +2656,8 @@
         showToast(`Coverage requested for ${newShift.role}! Published to live log.`, 'success');
         shiftForm.reset();
 
-        // Reset default date to tomorrow
-        document.getElementById('shiftDate').value = getRelativeDate(1);
+        // Reset default date to today's date per ShiftCover standards
+        document.getElementById('shiftDate').value = getRelativeDate(0);
         document.getElementById('shiftStartTime').value = '06:00';
         document.getElementById('shiftEndTime').value = '12:30';
 
@@ -2459,7 +2667,7 @@
 
       document.getElementById('btnResetForm').addEventListener('click', () => {
         shiftForm.reset();
-        document.getElementById('shiftDate').value = getRelativeDate(1);
+        document.getElementById('shiftDate').value = getRelativeDate(0);
         document.querySelectorAll('.error-hint').forEach(el => el.classList.remove('visible'));
         document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
       });
@@ -2532,7 +2740,7 @@
             <span>📅 <strong>Date:</strong> ${formatReadableDate(shift.date)}</span>
             <span>⏰ <strong>Hours:</strong> ${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)} (${calculateDurationHours(shift.startTime, shift.endTime)} hrs)</span>
             <span>📍 <strong>Location:</strong> ${escapeHTML(shift.location)}</span>
-            <span>👤 <strong>Requester:</strong> ${escapeHTML(shift.requester)}</span>
+            <span>👤 <strong>Employee:</strong> ${escapeHTML(shift.requester)} (${escapeHTML(shift.reason || 'Schedule Conflict')})</span>
             ${shift.notes ? `<span style="margin-top: 4px; font-style: italic;">&ldquo;${escapeHTML(shift.notes)}&rdquo;</span>` : ''}
           </div>
         `;
@@ -2601,6 +2809,7 @@
           shift.claimedBy = nameInput.value.trim();
           shift.claimedAt = new Date().toISOString();
           shift.claimerContact = contactInput.value.trim();
+          shift.approved = false;
           if (noteInput.value.trim()) {
             shift.notes = (shift.notes ? shift.notes + ' | Note: ' : '') + noteInput.value.trim();
           }
@@ -2614,7 +2823,7 @@
       });
 
       // -----------------------------------------------------------------------
-      // Shift Actions (Delete, Re-open)
+      // Shift & Roster Actions (Delete, Re-open, Approve, Toggle Availability)
       // -----------------------------------------------------------------------
       function deleteShift(id) {
         if (!confirm('Are you sure you want to remove this shift request?')) return;
@@ -2630,10 +2839,31 @@
           shift.status = 'OPEN';
           shift.claimedBy = null;
           shift.claimedAt = null;
+          shift.approved = false;
           saveToStorage(STORAGE_KEY_SHIFTS, shifts);
           showToast(`Re-opened coverage request for ${shift.role}.`, 'info');
           render();
         }
+      }
+
+      function approveShift(id) {
+        const shift = shifts.find(s => s.id === id);
+        if (shift) {
+          shift.approved = true;
+          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          showToast(`Approved coverage for ${shift.role} (Covered by ${shift.claimedBy}).`, 'success');
+          render();
+        }
+      }
+
+      function toggleRosterStatus(id) {
+        const member = roster.find(m => m.id === id);
+        if (!member) return;
+        const cycle = { AVAILABLE: 'STANDBY', STANDBY: 'UNAVAILABLE', UNAVAILABLE: 'AVAILABLE' };
+        member.status = cycle[member.status] || 'AVAILABLE';
+        saveToStorage(STORAGE_KEY_ROSTER, roster);
+        showToast(`${member.name} status updated to ${member.status}.`, 'success');
+        render();
       }
 
       function removeRosterMember(id) {
@@ -2680,8 +2910,11 @@
       // -----------------------------------------------------------------------
       window.shiftCoverApp = {
         openClaimModal,
+        copyShiftAlert,
         deleteShift,
         reopenShift,
+        approveShift,
+        toggleRosterStatus,
         removeRosterMember,
         goToPostShift: () => switchTab('post-shift')
       };
@@ -2690,14 +2923,23 @@
       // Initialization
       // -----------------------------------------------------------------------
       function init() {
-        // Set default date input to tomorrow
+        // Set default date input to today's date per ShiftCover standards
         const dateInput = document.getElementById('shiftDate');
         if (dateInput) {
-          dateInput.value = getRelativeDate(1);
+          dateInput.value = getRelativeDate(0);
           dateInput.min = getRelativeDate(0); // Cannot pick dates in past
         }
 
         render();
+
+        // Support deep-link URL hash from shared alert links (#shift=shift_1)
+        if (window.location.hash && window.location.hash.startsWith('#shift=')) {
+          const targetId = decodeURIComponent(window.location.hash.replace('#shift=', ''));
+          const targetShift = shifts.find(s => s.id === targetId && s.status === 'OPEN');
+          if (targetShift) {
+            openClaimModal(targetId);
+          }
+        }
       }
 
       init();
