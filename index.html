@@ -635,19 +635,302 @@
       font-style: italic;
     }
 
-    /* Peer Matching Indicator */
-    .matching-peers-alert {
+    /* ==========================================================================
+       Iteration B: Match & Recommend Feature (Supervisor Shift Matching)
+       ========================================================================== */
+    .match-recommend-container {
+      background: #fffdf9;
+      border: 1.5px solid #fed7aa;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin: 12px 0 6px 0;
+      box-shadow: 0 1px 3px rgba(217, 119, 6, 0.08);
+    }
+
+    .match-recommend-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .match-header-left {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1e40af;
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 0.82rem;
-      font-weight: 550;
+      flex-wrap: wrap;
     }
+
+    .match-badge-tag {
+      background: linear-gradient(135deg, #d97706, #92400e);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      box-shadow: 0 1px 2px rgba(146, 64, 14, 0.2);
+    }
+
+    .match-title {
+      font-size: 0.94rem;
+      font-weight: 750;
+      color: var(--espresso);
+    }
+
+    .match-count-pill {
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: #ffedd5;
+      color: #9a3412;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      border: 1px solid #fed7aa;
+    }
+
+    .match-recommend-intro {
+      font-size: 0.79rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .match-peer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .match-peer-item {
+      background: #ffffff;
+      border: 1px solid #fcd34d;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      transition: all var(--transition-fast);
+    }
+
+    .match-peer-item:hover {
+      border-color: #f59e0b;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .match-peer-item.contacted {
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+
+    .match-peer-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .match-peer-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #b45309, #78350f);
+      color: #ffffff;
+      font-weight: 750;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .match-peer-avatar.supervisor {
+      background: linear-gradient(135deg, #5b21b6, #7c3aed);
+    }
+
+    .match-peer-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .match-peer-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .match-peer-name {
+      font-size: 0.9rem;
+      font-weight: 750;
+      color: var(--espresso);
+    }
+
+    .match-rank-badge {
+      font-size: 0.68rem;
+      font-weight: 750;
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.01em;
+    }
+
+    .match-rank-top {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    .match-rank-anytime {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .match-rank-oncall {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+
+    .match-peer-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .match-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-match-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 650;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      border: 1px solid transparent;
+      cursor: pointer;
+      min-height: 48px; /* 48px minimum touch target per ShiftCover standards */
+      transition: all var(--transition-fast);
+    }
+
+    .btn-match-sms {
+      background: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 1px 2px rgba(2, 132, 199, 0.2);
+    }
+
+    .btn-match-sms:hover {
+      background: #0369a1;
+      color: #ffffff;
+    }
+
+    .btn-match-call {
+      background: #ffffff;
+      border-color: #cbd5e1;
+      color: var(--text-main);
+    }
+
+    .btn-match-call:hover {
+      background: #f1f5f9;
+      color: var(--text-main);
+    }
+
+    .btn-match-contacted {
+      background: #f3f4f6;
+      border-color: #e5e7eb;
+      color: #4b5563;
+    }
+
+    .btn-match-contacted:hover {
+      background: #e5e7eb;
+    }
+
+    .btn-match-contacted.is-contacted {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #15803d;
+      font-weight: 700;
+    }
+
+    .match-empty-box {
+      background: #fef9c3;
+      border: 1px dashed #facc15;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: #854d0e;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    /* Live Match Preview in Post Shift Form */
+    .live-match-box {
+      background: #fdfaf6;
+      border: 1.5px solid var(--primary-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin: 10px 0 16px 0;
+    }
+
+    .live-match-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--espresso);
+      margin-bottom: 8px;
+    }
+
+    .live-match-peers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .live-match-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 650;
+      color: var(--espresso);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+
+    .live-match-pill .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .live-match-pill .pill-dot.morning { background: #059669; }
+    .live-match-pill .pill-dot.oncall { background: #d97706; }
+    .live-match-pill .pill-dot.all { background: #16a34a; }
+    .live-match-pill .pill-dot.mid { background: #0284c7; }
+    .live-match-pill .pill-dot.close { background: #7c3aed; }
 
     .shift-card-footer {
       display: flex;
@@ -1028,8 +1311,251 @@
     }
 
     /* ==========================================================================
-       Staff Roster Cards & Grid
+       Staff Roster Cards, Availability Toggles & Filters (Iteration B)
        ========================================================================== */
+    .peer-toggle-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--primary-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 22px;
+    }
+
+    .peer-toggle-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .peer-toggle-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .peer-toggle-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: #fef3c7;
+      color: #92400e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+
+    .peer-toggle-title-wrap h2 {
+      font-size: 1.22rem;
+      font-weight: 750;
+      color: var(--espresso);
+      line-height: 1.2;
+    }
+
+    .peer-toggle-title-wrap p {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .user-status-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .user-status-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-strip-name {
+      font-weight: 700;
+      color: var(--espresso);
+      font-size: 0.95rem;
+    }
+
+    .user-strip-current {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      flex-wrap: wrap;
+    }
+
+    .timeframe-switch {
+      display: inline-flex;
+      background: #e5dfd7;
+      padding: 4px;
+      border-radius: var(--radius-full);
+      gap: 4px;
+    }
+
+    .timeframe-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-weight: 650;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      min-height: 48px; /* 48px touch target */
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .timeframe-btn.active {
+      background: #ffffff;
+      color: var(--espresso);
+      box-shadow: var(--shadow-sm);
+      font-weight: 750;
+    }
+
+    .avail-toggle-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 600px) {
+      .avail-toggle-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 900px) {
+      .avail-toggle-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .avail-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: left;
+      transition: all var(--transition-fast);
+      min-height: 56px; /* >48px standard for mobile */
+      position: relative;
+      user-select: none;
+    }
+
+    .avail-toggle-btn:hover {
+      border-color: #cbd5e1;
+      background: #fafaf9;
+      transform: translateY(-1px);
+    }
+
+    .avail-toggle-btn.active {
+      border-width: 2px;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+    }
+
+    .avail-toggle-btn.opt-morning.active {
+      border-color: #059669;
+      background: #ecfdf5;
+    }
+
+    .avail-toggle-btn.opt-mid.active {
+      border-color: #0284c7;
+      background: #f0f9ff;
+    }
+
+    .avail-toggle-btn.opt-close.active {
+      border-color: #7c3aed;
+      background: #f5f3ff;
+    }
+
+    .avail-toggle-btn.opt-all.active {
+      border-color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .avail-toggle-btn.opt-oncall.active {
+      border-color: #d97706;
+      background: #fffbeb;
+    }
+
+    .avail-toggle-btn.opt-unavail.active {
+      border-color: #64748b;
+      background: #f8fafc;
+    }
+
+    .avail-btn-icon {
+      font-size: 1.45rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .avail-btn-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .avail-btn-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--espresso);
+    }
+
+    .avail-btn-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .avail-btn-check {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: transparent;
+      transition: all var(--transition-fast);
+    }
+
+    .avail-toggle-btn.active .avail-btn-check {
+      color: var(--espresso);
+    }
+
+    .avail-toggle-btn.opt-morning.active .avail-btn-check { color: #059669; }
+    .avail-toggle-btn.opt-mid.active .avail-btn-check { color: #0284c7; }
+    .avail-toggle-btn.opt-close.active .avail-btn-check { color: #7c3aed; }
+    .avail-toggle-btn.opt-all.active .avail-btn-check { color: #16a34a; }
+    .avail-toggle-btn.opt-oncall.active .avail-btn-check { color: #d97706; }
+    .avail-toggle-btn.opt-unavail.active .avail-btn-check { color: #64748b; }
+
+    /* Roster Filters Toolbar */
+    .roster-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
     .roster-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -1059,6 +1585,16 @@
       justify-content: space-between;
       gap: 12px;
       position: relative;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .staff-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .staff-card.my-roster-card {
+      border: 2px solid var(--primary-border);
+      background: #fffdf9;
     }
 
     .staff-card-top {
@@ -1089,6 +1625,10 @@
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--espresso);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .staff-roles {
@@ -1097,30 +1637,72 @@
       margin-top: 2px;
     }
 
+    .staff-status-badges-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
     .staff-status-pill {
       display: inline-flex;
       align-items: center;
       gap: 5px;
       font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 8px;
+      font-weight: 750;
+      padding: 4px 9px;
       border-radius: var(--radius-full);
-      margin-top: 6px;
+      letter-spacing: 0.01em;
+    }
+
+    .status-morning {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .status-mid {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .status-close {
+      background: #ede9fe;
+      color: #5b21b6;
+      border: 1px solid #ddd6fe;
     }
 
     .status-available {
       background: #dcfce7;
       color: #15803d;
+      border: 1px solid #86efac;
     }
 
-    .status-standby {
-      background: #fef9c3;
-      color: #854d0e;
+    .status-oncall, .status-standby {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
     }
 
     .status-unavailable {
       background: #f3f4f6;
-      color: #6b7280;
+      color: #4b5563;
+      border: 1px solid #e5e7eb;
+    }
+
+    .timeframe-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      font-weight: 650;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      background: #f1ede8;
+      color: #57534e;
+      border: 1px solid #e2dcd5;
     }
 
     .staff-notes-box {
@@ -1129,6 +1711,55 @@
       padding: 8px 10px;
       border-radius: var(--radius-sm);
       color: var(--text-main);
+      line-height: 1.35;
+    }
+
+    .staff-contact-btns {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .btn-staff-sms {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.74rem;
+      font-weight: 650;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+      text-decoration: none;
+      min-height: 38px;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-staff-sms:hover {
+      background: #bae6fd;
+      color: #0284c7;
+    }
+
+    .btn-staff-call {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.74rem;
+      font-weight: 650;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+      text-decoration: none;
+      min-height: 38px;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-staff-call:hover {
+      background: #e2e8f0;
     }
 
     .staff-footer {
@@ -1138,7 +1769,9 @@
       font-size: 0.78rem;
       color: var(--text-muted);
       border-top: 1px dashed var(--border-color);
-      padding-top: 8px;
+      padding-top: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     /* ==========================================================================
@@ -1232,6 +1865,450 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
+    }
+
+    /* ==========================================================================
+       Iteration C: Trade Proposal Mode, Dual Claiming & Trade Balance Visualizer
+       ========================================================================== */
+    .request-type-selector {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    @media (min-width: 600px) {
+      .request-type-selector {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .request-type-option {
+      cursor: pointer;
+      position: relative;
+    }
+
+    .request-type-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .request-type-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: #ffffff;
+      transition: all var(--transition-fast);
+      min-height: 80px;
+    }
+
+    .request-type-box:hover {
+      border-color: #cbd5e1;
+      background: #fafaf9;
+    }
+
+    .request-type-option input:checked + .request-type-box.opt-drop {
+      border-color: var(--primary);
+      background: #fffbeb;
+      box-shadow: 0 0 0 1px var(--primary);
+    }
+
+    .request-type-option input:checked + .request-type-box.opt-trade {
+      border-color: #7c3aed;
+      background: #f5f3ff;
+      box-shadow: 0 0 0 1px #7c3aed;
+    }
+
+    .type-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .type-title {
+      font-weight: 750;
+      font-size: 0.95rem;
+      color: var(--espresso);
+    }
+
+    .type-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+
+    /* Shift Being Offered Container (Trade Mode) */
+    .trade-offer-box {
+      background: #fbf9ff;
+      border: 2px dashed #c4b5fd;
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin: 14px 0;
+    }
+
+    .trade-offer-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: #5b21b6;
+    }
+
+    .trade-offer-header h3 {
+      font-size: 1.05rem;
+      font-weight: 750;
+    }
+
+    /* Trade Visual Exchange Preview */
+    .trade-visual-preview {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #ffffff;
+      border: 1px solid #ddd6fe;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .trade-preview-side {
+      flex: 1;
+      min-width: 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .trade-preview-side.take strong {
+      color: #b91c1c;
+      font-size: 0.9rem;
+    }
+
+    .trade-preview-side.give strong {
+      color: #6d28d9;
+      font-size: 0.9rem;
+    }
+
+    .trade-preview-badge {
+      font-size: 0.7rem;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .trade-preview-side.take .trade-preview-badge {
+      color: #991b1b;
+    }
+
+    .trade-preview-side.give .trade-preview-badge {
+      color: #6d28d9;
+    }
+
+    .trade-preview-arrow {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #7c3aed;
+      padding: 4px 10px;
+      background: #ede9fe;
+      border-radius: var(--radius-full);
+      line-height: 1;
+    }
+
+    /* Trade Card in Shifts Grid */
+    .shift-card.trade-card {
+      border-left: 6px solid #7c3aed;
+      background: #fdfcff;
+    }
+
+    .badge-trade {
+      background: #ede9fe;
+      color: #6d28d9;
+      border: 1px solid #c4b5fd;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+
+    .trade-dual-split {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+      background: #faf8fc;
+      border: 1px solid #e9d5ff;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin: 10px 0 12px 0;
+      flex-wrap: wrap;
+    }
+
+    .trade-split-box {
+      flex: 1;
+      min-width: 200px;
+      background: #ffffff;
+      border: 1px solid #f3e8ff;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .trade-split-box.need {
+      border-left: 3px solid #dc2626;
+    }
+
+    .trade-split-box.offer {
+      border-left: 3px solid #7c3aed;
+    }
+
+    .split-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .trade-split-box.need .split-label {
+      color: #dc2626;
+    }
+
+    .trade-split-box.offer .split-label {
+      color: #7c3aed;
+    }
+
+    .split-role {
+      font-size: 0.95rem;
+      font-weight: 750;
+      color: var(--espresso);
+    }
+
+    .split-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .trade-split-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 6px;
+      flex-shrink: 0;
+    }
+
+    .arrow-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #ede9fe;
+      color: #6d28d9;
+      font-size: 1.1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .arrow-text {
+      font-size: 0.65rem;
+      font-weight: 800;
+      color: #7c3aed;
+      margin-top: 3px;
+      letter-spacing: 0.04em;
+    }
+
+    .btn-trade-claim {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: #ffffff;
+      border: none;
+      box-shadow: 0 2px 4px rgba(109, 40, 217, 0.25);
+    }
+
+    .btn-trade-claim:hover {
+      background: linear-gradient(135deg, #6d28d9, #5b21b6);
+      color: #ffffff;
+    }
+
+    /* Modal Dual Preview */
+    .trade-modal-dual-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .trade-modal-shift-card {
+      background: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+
+    .trade-modal-shift-card.take {
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+
+    .trade-modal-shift-card.give {
+      border-color: #ddd6fe;
+      background: #f5f3ff;
+    }
+
+    .trade-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.84rem;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    /* Trade Balance Visualizer */
+    .trade-balance-card {
+      background: #fbf9f6;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      margin-top: 8px;
+    }
+
+    .trade-balance-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .balance-title {
+      font-size: 0.76rem;
+      font-weight: 750;
+      color: var(--espresso);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .balance-badge {
+      font-size: 0.68rem;
+      font-weight: 750;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.01em;
+    }
+
+    .tag-super {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .tag-positive {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    .tag-balanced {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde047;
+    }
+
+    .tag-needs-pickup {
+      background: #f3f4f6;
+      color: #4b5563;
+      border: 1px solid #e5e7eb;
+    }
+
+    .trade-balance-counts {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .trade-count-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .trade-count-pill.up {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    .trade-count-pill.down {
+      background: #fef9c3;
+      color: #854d0e;
+      border: 1px solid #fde047;
+    }
+
+    .trade-count-arrow {
+      font-size: 0.72rem;
+      line-height: 1;
+    }
+
+    .trade-count-num {
+      font-size: 0.84rem;
+      font-weight: 800;
+    }
+
+    .trade-count-text {
+      font-size: 0.7rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .trade-vs {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .trade-ratio-bar {
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      display: flex;
+    }
+
+    .trade-ratio-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981, #059669);
+      border-radius: var(--radius-full);
+      transition: width 0.3s ease;
+    }
+
+    .match-balance-pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: #f3f4f6;
+      color: #374151;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      border: 1px solid #e5e7eb;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* ==========================================================================
@@ -2032,6 +3109,35 @@
         <form id="shiftRequestForm" novalidate>
           <div class="form-grid two-cols">
 
+            <!-- Iteration C: Request Type Selector (Drop Shift vs 1-to-1 Trade) -->
+            <div class="form-group full-width" style="margin-bottom: 4px;">
+              <label class="form-label">
+                Coverage Request Mode <span class="required">*</span>
+              </label>
+              <div class="request-type-selector" role="radiogroup" aria-label="Coverage Request Mode">
+                <label class="request-type-option">
+                  <input type="radio" name="requestType" value="DROP" checked onchange="window.shiftCoverApp.toggleTradeMode(false)">
+                  <div class="request-type-box opt-drop">
+                    <div class="type-icon">☕</div>
+                    <div>
+                      <div class="type-title">Drop Shift (Standard)</div>
+                      <div class="type-desc">Give away your shift to any available teammate without requiring a shift in return.</div>
+                    </div>
+                  </div>
+                </label>
+                <label class="request-type-option">
+                  <input type="radio" name="requestType" value="TRADE" id="radioRequestTrade" onchange="window.shiftCoverApp.toggleTradeMode(true)">
+                  <div class="request-type-box opt-trade">
+                    <div class="type-icon">🔄</div>
+                    <div>
+                      <div class="type-title">Trade Shift (1-to-1 Swap)</div>
+                      <div class="type-desc">Offer one of your upcoming scheduled shifts in return for a balanced peer exchange.</div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
             <!-- Requester Name -->
             <div class="form-group">
               <label for="requesterName" class="form-label">
@@ -2168,6 +3274,98 @@
               <span class="helper-text">Include store duties or swap preferences only. Do not include health or medical information.</span>
             </div>
 
+            <!-- Iteration C: Trade Proposal Mode - Offered Shift Details -->
+            <div id="tradeOfferSection" class="form-group full-width trade-offer-box" style="display: none;">
+              <div class="trade-offer-header">
+                <span style="font-size: 1.4rem;">🔄</span>
+                <div>
+                  <h3 style="margin: 0; color: #5b21b6;">Upcoming Shift You Offer in Exchange</h3>
+                  <p style="margin: 2px 0 0 0; font-size: 0.8rem; color: #6d28d9;">Select an upcoming shift you will work in return for the teammate who covers you.</p>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-bottom: 12px;">
+                <label for="tradePresetSelect" class="form-label" style="font-size: 0.84rem; color: #5b21b6;">
+                  Quick Pick from Your Upcoming Shifts <span class="required">*</span>
+                </label>
+                <select id="tradePresetSelect" class="form-control" onchange="window.shiftCoverApp.applyTradePreset(this.value)">
+                  <option value="CUSTOM">-- Select Upcoming Shift to Exchange --</option>
+                  <option value="PRESET_SUN_CLOSE">☕ Sunday Evening Close (4:00 PM – 9:30 PM) • Downtown Roastery</option>
+                  <option value="PRESET_MON_MID">☕ Monday Mid Shift (11:00 AM – 4:00 PM) • Main St. Flagship</option>
+                  <option value="PRESET_SAT_OPEN">☕ Saturday Opening Rush (6:00 AM – 12:30 PM) • Downtown Roastery</option>
+                  <option value="PRESET_WED_BAKER">🥐 Wednesday Kitchen / Baker (5:30 AM – 11:30 AM) • Uptown Express</option>
+                  <option value="CUSTOM">✏️ Custom Shift Details...</option>
+                </select>
+              </div>
+
+              <div class="form-grid two-cols" style="gap: 12px;">
+                <div class="form-group">
+                  <label for="tradeOfferedRole" class="form-label">Offered Role <span class="required">*</span></label>
+                  <select id="tradeOfferedRole" class="form-control" onchange="window.shiftCoverApp.updateTradeVisualPreview()">
+                    <option value="Opening Barista">☕ Opening Barista</option>
+                    <option value="Mid Barista">☕ Mid Barista</option>
+                    <option value="Closing Barista" selected>☕ Closing Barista</option>
+                    <option value="Shift Supervisor">🔑 Shift Supervisor</option>
+                    <option value="Cashier / Register">💵 Cashier / Register</option>
+                    <option value="Baker / Kitchen Prep">🥐 Baker / Kitchen Prep</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="tradeOfferedLocation" class="form-label">Offered Store Location <span class="required">*</span></label>
+                  <select id="tradeOfferedLocation" class="form-control" onchange="window.shiftCoverApp.updateTradeVisualPreview()">
+                    <option value="Downtown Roastery" selected>Downtown Roastery & Cafe #04</option>
+                    <option value="Main St. Flagship">Main St. Flagship #01</option>
+                    <option value="Uptown Express">Uptown Express #07</option>
+                    <option value="Campus Kiosk">Campus Kiosk #12</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="tradeOfferedDate" class="form-label">Offered Date <span class="required">*</span></label>
+                  <input type="date" id="tradeOfferedDate" class="form-control" onchange="window.shiftCoverApp.updateTradeVisualPreview()">
+                  <div id="err-tradeOfferedDate" class="error-hint">Please choose date of offered shift.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Offered Hours (Start &amp; End) <span class="required">*</span></label>
+                  <div style="display: flex; gap: 8px;">
+                    <input type="time" id="tradeOfferedStartTime" class="form-control" value="16:00" onchange="window.shiftCoverApp.updateTradeVisualPreview()">
+                    <input type="time" id="tradeOfferedEndTime" class="form-control" value="21:30" onchange="window.shiftCoverApp.updateTradeVisualPreview()">
+                  </div>
+                  <div id="err-tradeOfferedTime" class="error-hint">Please enter valid shift hours.</div>
+                </div>
+              </div>
+
+              <!-- Visual exchange preview -->
+              <div class="trade-visual-preview" id="tradeVisualPreview">
+                <div class="trade-preview-side take">
+                  <span class="trade-preview-badge">🔴 Teammate Takes:</span>
+                  <strong id="previewNeedRole">Opening Barista</strong>
+                  <span id="previewNeedMeta" style="font-size: 0.75rem; color: var(--text-muted);">Today • 6:00 AM – 12:30 PM</span>
+                </div>
+                <div class="trade-preview-arrow">⇄</div>
+                <div class="trade-preview-side give">
+                  <span class="trade-preview-badge">🟣 You Work in Exchange:</span>
+                  <strong id="previewOfferRole">Closing Barista</strong>
+                  <span id="previewOfferMeta" style="font-size: 0.75rem; color: var(--text-muted);">Sunday • 4:00 PM – 9:30 PM</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Iteration B: Live Dynamic Match & Recommend Preview -->
+            <div class="form-group full-width">
+              <div id="postShiftMatchPreview" class="live-match-box">
+                <div class="live-match-header">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                  <span>🎯 <strong>Match &amp; Recommend Preview:</strong> Select a role above to preview available staff</span>
+                </div>
+                <div id="postShiftMatchPeers" class="live-match-peers">
+                  <!-- Injected via JavaScript -->
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <div class="form-actions">
@@ -2182,58 +3380,207 @@
     </section>
 
     <!-- ======================================================================
-         VIEW 3: Peer Availability Roster (Who is available to cover)
+         VIEW 3: Staff Availability Roster (Iteration B)
+         Peer Availability Toggles: Set general status for today or the week
          ====================================================================== -->
     <section id="view-staff-roster" class="view-section">
 
-      <!-- Fast Update Your Own Status Card -->
-      <div class="form-card" style="margin-bottom: 20px;">
+      <!-- Iteration B: 1-Tap Peer Availability Toggles Card -->
+      <div class="peer-toggle-card">
+        <div class="peer-toggle-header">
+          <div class="peer-toggle-title-wrap">
+            <div class="peer-toggle-icon">⚡</div>
+            <div>
+              <h2>Peer Availability Toggles</h2>
+              <p>Set your standby coverage status for today or this week so supervisors know exactly who to contact first.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Current User Identity & Active Status Strip -->
+        <div class="user-status-strip">
+          <div class="user-status-left">
+            <div class="staff-avatar" id="currentMemberAvatar">AR</div>
+            <div>
+              <div class="user-strip-name" id="currentMemberName">Alex Rivera (You)</div>
+              <div class="user-strip-current">
+                <span>Current Status:</span>
+                <span id="currentMemberStatusBadge" class="staff-status-pill status-morning">☀️ Available for Morning Rush</span>
+                <span id="currentMemberScopeBadge" class="timeframe-pill">📅 Today</span>
+              </div>
+              <!-- Iteration C: Active User Trade Balance Counter Strip -->
+              <div id="currentUserTradeStrip" style="margin-top: 5px; font-size: 0.78rem; color: #4b5563; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <!-- Injected via JavaScript: e.g. ⚖️ Trade Balance: 4 Picked Up • 2 Covered (+2 Net) -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeframe Switcher: Today vs This Week -->
+          <div class="timeframe-switch" role="group" aria-label="Set Availability for Today or This Week">
+            <button type="button" class="timeframe-btn active" id="btnScopeToday" onclick="window.shiftCoverApp.setTimeframeScope('TODAY')">
+              📅 Today
+            </button>
+            <button type="button" class="timeframe-btn" id="btnScopeWeek" onclick="window.shiftCoverApp.setTimeframeScope('WEEK')">
+              🗓️ This Week
+            </button>
+          </div>
+        </div>
+
+        <!-- 1-Tap Status Toggle Buttons (Min 48px touch targets) -->
+        <div class="avail-toggle-grid" role="group" aria-label="Peer Availability Status Toggles">
+          <button type="button" class="avail-toggle-btn opt-morning" id="toggleBtn-AVAILABLE_MORNING" onclick="window.shiftCoverApp.setMyAvailability('AVAILABLE_MORNING')">
+            <span class="avail-btn-icon">☀️</span>
+            <div class="avail-btn-text">
+              <span class="avail-btn-title">Available for Morning Rush</span>
+              <span class="avail-btn-time">6:00 AM – 11:30 AM (Peak Open)</span>
+            </div>
+            <span class="avail-btn-check" aria-hidden="true">✓</span>
+          </button>
+
+          <button type="button" class="avail-toggle-btn opt-mid" id="toggleBtn-AVAILABLE_MID" onclick="window.shiftCoverApp.setMyAvailability('AVAILABLE_MID')">
+            <span class="avail-btn-icon">☕</span>
+            <div class="avail-btn-text">
+              <span class="avail-btn-title">Available for Mid Shift</span>
+              <span class="avail-btn-time">11:00 AM – 4:00 PM (Lunch Rush)</span>
+            </div>
+            <span class="avail-btn-check" aria-hidden="true">✓</span>
+          </button>
+
+          <button type="button" class="avail-toggle-btn opt-close" id="toggleBtn-AVAILABLE_CLOSE" onclick="window.shiftCoverApp.setMyAvailability('AVAILABLE_CLOSE')">
+            <span class="avail-btn-icon">🌙</span>
+            <div class="avail-btn-text">
+              <span class="avail-btn-title">Available for Evening Close</span>
+              <span class="avail-btn-time">4:00 PM – 9:30 PM (Bar Breakdown)</span>
+            </div>
+            <span class="avail-btn-check" aria-hidden="true">✓</span>
+          </button>
+
+          <button type="button" class="avail-toggle-btn opt-all" id="toggleBtn-AVAILABLE_ALL" onclick="window.shiftCoverApp.setMyAvailability('AVAILABLE_ALL')">
+            <span class="avail-btn-icon">🟢</span>
+            <div class="avail-btn-text">
+              <span class="avail-btn-title">Available Anytime / All Day</span>
+              <span class="avail-btn-time">Full Day Flexibility</span>
+            </div>
+            <span class="avail-btn-check" aria-hidden="true">✓</span>
+          </button>
+
+          <button type="button" class="avail-toggle-btn opt-oncall" id="toggleBtn-ON_CALL" onclick="window.shiftCoverApp.setMyAvailability('ON_CALL')">
+            <span class="avail-btn-icon">⚡</span>
+            <div class="avail-btn-text">
+              <span class="avail-btn-title">On Call / Standby</span>
+              <span class="avail-btn-time">Available with 1-Hour Notice</span>
+            </div>
+            <span class="avail-btn-check" aria-hidden="true">✓</span>
+          </button>
+
+          <button type="button" class="avail-toggle-btn opt-unavail" id="toggleBtn-UNAVAILABLE" onclick="window.shiftCoverApp.setMyAvailability('UNAVAILABLE')">
+            <span class="avail-btn-icon">🚫</span>
+            <div class="avail-btn-text">
+              <span class="avail-btn-title">Unavailable</span>
+              <span class="avail-btn-time">Off-Duty / Rest Day</span>
+            </div>
+            <span class="avail-btn-check" aria-hidden="true">✓</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Roster Filter & Search Toolbar -->
+      <div class="roster-filter-bar">
+        <div class="search-input-wrapper" style="flex: 1; min-width: 200px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="rosterSearchInput" class="search-input" placeholder="Search roster by name, role, or contact...">
+        </div>
+
+        <select id="rosterStatusFilter" class="filter-select" aria-label="Filter by Status">
+          <option value="ALL">All Statuses</option>
+          <option value="AVAILABLE_MORNING">☀️ Morning Rush Only</option>
+          <option value="AVAILABLE_MID">☕ Mid Shift Only</option>
+          <option value="AVAILABLE_CLOSE">🌙 Evening Close Only</option>
+          <option value="AVAILABLE_ALL">🟢 Available Anytime</option>
+          <option value="ON_CALL">⚡ On Call / Standby</option>
+          <option value="UNAVAILABLE">🚫 Unavailable</option>
+        </select>
+
+        <select id="rosterTimeframeFilter" class="filter-select" aria-label="Filter by Timeframe">
+          <option value="ALL">All Timeframes</option>
+          <option value="TODAY">📅 Today Only</option>
+          <option value="WEEK">🗓️ This Week Only</option>
+        </select>
+      </div>
+
+      <!-- Staff Roster Cards Header -->
+      <div class="brand-row" style="margin-bottom: 12px;">
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--espresso);">
+          Staff Standby Roster (<span id="rosterCount">0</span> peers)
+        </h3>
+        <button type="button" class="btn-text" id="btnToggleAddMemberForm" style="color: var(--primary); font-weight: 650; font-size: 0.88rem;" onclick="window.shiftCoverApp.toggleAddMemberForm()">
+          + Add / Edit Teammate Full Details
+        </button>
+      </div>
+
+      <!-- Collapsible Add/Update Teammate Details Form -->
+      <div id="addMemberFormCard" class="form-card" style="margin-bottom: 20px; display: none;">
         <div class="form-header">
-          <h2>Update Your Standby Availability</h2>
-          <p>Let teammates know if you're open to picking up shifts without group-text blast spam.</p>
+          <h3>Add or Update Teammate Record</h3>
+          <p>Customize qualified roles, standby windows, and direct phone contact info.</p>
         </div>
 
         <form id="rosterStatusForm">
           <div class="form-grid two-cols">
             <div class="form-group">
-              <label for="staffMemberName" class="form-label">Your Name <span class="required">*</span></label>
+              <label for="staffMemberName" class="form-label">Team Member Name <span class="required">*</span></label>
               <input type="text" id="staffMemberName" class="form-control" placeholder="e.g. Taylor Quinn" required>
-              <div id="err-staffMemberName" class="error-hint">Please enter your name.</div>
+              <div id="err-staffMemberName" class="error-hint">Please enter teammate name.</div>
             </div>
 
             <div class="form-group">
               <label for="staffStatusSelect" class="form-label">Availability Status <span class="required">*</span></label>
               <select id="staffStatusSelect" class="form-control" required>
-                <option value="AVAILABLE" selected>🟢 Available & Ready to Cover Today</option>
-                <option value="STANDBY">🟡 Standby / Available with Notice</option>
+                <option value="AVAILABLE_MORNING">☀️ Available for Morning Rush (6am – 11:30am)</option>
+                <option value="AVAILABLE_MID">☕ Available for Mid Shift (11am – 4pm)</option>
+                <option value="AVAILABLE_CLOSE">🌙 Available for Evening Close (4pm – 9:30pm)</option>
+                <option value="AVAILABLE_ALL" selected>🟢 Available Anytime / All Day</option>
+                <option value="ON_CALL">⚡ On Call / Standby (1-Hour Notice)</option>
                 <option value="UNAVAILABLE">⚪ Off-Duty / Unavailable</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="staffRolesQualified" class="form-label">Qualified Roles <span class="required">*</span></label>
-              <input type="text" id="staffRolesQualified" class="form-control" placeholder="e.g. Barista, Supervisor, Cashier" value="Opening Barista, Mid Barista" required>
-              <span class="helper-text">Comma-separated list of roles you are certified/trained to cover.</span>
+              <label for="staffTimeframeSelect" class="form-label">Timeframe Scope <span class="required">*</span></label>
+              <select id="staffTimeframeSelect" class="form-control" required>
+                <option value="TODAY" selected>📅 Today</option>
+                <option value="WEEK">🗓️ This Week</option>
+              </select>
             </div>
 
             <div class="form-group">
-              <label for="staffAvailabilityNotes" class="form-label">Availability Window / Contact Info</label>
-              <input type="text" id="staffAvailabilityNotes" class="form-control" placeholder="e.g. Free after 11am • (555) 234-5678">
+              <label for="staffPhone" class="form-label">Contact Phone (For Direct SMS/Call) <span class="required">*</span></label>
+              <input type="tel" id="staffPhone" class="form-control" placeholder="e.g. (555) 234-5678" value="(555) 345-6789">
+            </div>
+
+            <div class="form-group full-width">
+              <label for="staffRolesQualified" class="form-label">Qualified Roles <span class="required">*</span></label>
+              <input type="text" id="staffRolesQualified" class="form-control" placeholder="e.g. Opening Barista, Mid Barista, Shift Supervisor" value="Opening Barista, Mid Barista" required>
+              <span class="helper-text">Comma-separated list of roles this peer is certified to cover.</span>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="staffAvailabilityNotes" class="form-label">Availability Window / Standby Notes</label>
+              <input type="text" id="staffAvailabilityNotes" class="form-control" placeholder="e.g. Free after 11am or willing to swap weekend shifts">
             </div>
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Save My Status</button>
+            <button type="button" class="btn btn-outline" onclick="window.shiftCoverApp.toggleAddMemberForm()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Teammate Status</button>
           </div>
         </form>
       </div>
 
       <!-- Live Roster Cards -->
-      <div class="brand-row" style="margin-bottom: 12px;">
-        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--espresso);">
-          Staff Standby Roster (<span id="rosterCount">0</span> peers)
-        </h3>
-      </div>
       <div id="rosterContainer" class="roster-grid">
         <!-- Injected via JavaScript -->
       </div>
@@ -2312,6 +3659,77 @@
             <button type="button" class="btn btn-outline" id="btnCancelClaim">Cancel</button>
             <button type="submit" class="btn btn-claim" id="btnConfirmClaim">
               Confirm & Claim Shift
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Iteration C: 1-to-1 Trade Claiming Modal Dialog (Dual Claiming)
+       ========================================================================== -->
+  <div id="tradeModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTradeTitle">
+    <div class="modal-container" style="max-width: 540px;">
+      <div class="modal-header" style="border-bottom: 2px solid #ddd6fe; background: #faf8ff;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span style="font-size: 1.4rem;">🔄</span>
+          <h3 id="modalTradeTitle" style="color: #5b21b6;">Confirm 1-to-1 Shift Swap</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnCloseTradeModal" aria-label="Close trade dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 12px;">
+          Review both shifts below. Accepting this trade confirms you will work Shift A, and the requester will take Shift B in return.
+        </p>
+
+        <!-- Dual Preview Cards -->
+        <div class="trade-modal-dual-cards" id="modalTradeDualPreview">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- Form -->
+        <form id="tradeShiftForm" novalidate>
+          <input type="hidden" id="tradeShiftId">
+
+          <!-- Dual Acceptance Checkboxes -->
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 8px;">
+            <label class="trade-checkbox-label">
+              <input type="checkbox" id="chkConfirmTake" required checked>
+              <span id="chkConfirmTakeText">I agree to cover &amp; work the requested shift</span>
+            </label>
+            <label class="trade-checkbox-label">
+              <input type="checkbox" id="chkConfirmGive" required checked>
+              <span id="chkConfirmGiveText">I confirm the requester will take &amp; work the offered exchange shift</span>
+            </label>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="tradeClaimerName" class="form-label">
+              Your Name <span class="required">*</span>
+            </label>
+            <input type="text" id="tradeClaimerName" class="form-control" placeholder="e.g. Alex Rivera" required>
+            <div id="err-tradeClaimerName" class="error-hint">Please enter your name to confirm the trade.</div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="tradeClaimerContact" class="form-label">
+              Your Phone Number / Contact <span class="required">*</span>
+            </label>
+            <input type="tel" id="tradeClaimerContact" class="form-control" placeholder="e.g. (555) 019-2834" required>
+            <div id="err-tradeClaimerContact" class="error-hint">Please provide contact info for shift hand-off.</div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label for="tradeClaimNote" class="form-label">Exchange Hand-off Note (Optional)</label>
+            <input type="text" id="tradeClaimNote" class="form-control" placeholder="e.g. Confirmed swap! I'll take Sunday and see you Monday.">
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button type="button" class="btn btn-outline" id="btnCancelTrade">Cancel</button>
+            <button type="submit" class="btn btn-trade-claim" id="btnConfirmTradeSwap">
+              🔄 Confirm &amp; Complete Swap
             </button>
           </div>
         </form>
@@ -2459,14 +3877,23 @@
           startTime: '12:00',
           endTime: '18:00',
           urgency: 'STANDARD',
-          reason: 'Schedule Conflict',
+          reason: 'Shift Swap Request',
           notes: 'Willing to swap and take a Sunday closing shift in return!',
           status: 'OPEN',
           createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
           claimedBy: null,
           claimedAt: null,
           claimerContact: null,
-          approved: false
+          approved: false,
+          requestType: 'TRADE',
+          offeredShift: {
+            role: 'Closing Barista',
+            location: 'Downtown Roastery',
+            date: getRelativeDate(3),
+            startTime: '16:00',
+            endTime: '21:30',
+            notes: 'Sunday night close restock & register reconciliation'
+          }
         },
         {
           id: 'shift_4',
@@ -2486,7 +3913,8 @@
           claimerContact: '(555) 782-9901',
           approved: true,
           approvedAt: new Date(Date.now() - 20 * 60 * 60 * 1000).toISOString(),
-          approvedBy: 'Sarah Sterling'
+          approvedBy: 'Sarah Sterling',
+          requestType: 'DROP'
         },
         {
           id: 'shift_5',
@@ -2504,58 +3932,155 @@
           claimedBy: 'Alex Rivera',
           claimedAt: new Date(Date.now() - 20 * 60 * 1000).toISOString(),
           claimerContact: '(555) 019-2834',
-          approved: false // Pending Manager Approval!
+          approved: false, // Pending Manager Approval!
+          requestType: 'DROP'
         }
       ];
 
+      // -----------------------------------------------------------------------
+      // Availability Configuration & Standby Statuses (Iteration B)
+      // -----------------------------------------------------------------------
+      const AVAILABILITY_CONFIG = {
+        AVAILABLE_MORNING: {
+          key: 'AVAILABLE_MORNING',
+          label: 'Available for Morning Rush',
+          shortLabel: 'Morning Rush',
+          icon: '☀️',
+          window: '6:00 AM – 11:30 AM',
+          cssClass: 'status-morning',
+          btnClass: 'opt-morning'
+        },
+        AVAILABLE_MID: {
+          key: 'AVAILABLE_MID',
+          label: 'Available for Mid Shift',
+          shortLabel: 'Mid Shift',
+          icon: '☕',
+          window: '11:00 AM – 4:00 PM',
+          cssClass: 'status-mid',
+          btnClass: 'opt-mid'
+        },
+        AVAILABLE_CLOSE: {
+          key: 'AVAILABLE_CLOSE',
+          label: 'Available for Evening Close',
+          shortLabel: 'Evening Close',
+          icon: '🌙',
+          window: '4:00 PM – 9:30 PM',
+          cssClass: 'status-close',
+          btnClass: 'opt-close'
+        },
+        AVAILABLE_ALL: {
+          key: 'AVAILABLE_ALL',
+          label: 'Available Anytime / All Day',
+          shortLabel: 'Anytime',
+          icon: '🟢',
+          window: 'Full Day Flexibility',
+          cssClass: 'status-available',
+          btnClass: 'opt-all'
+        },
+        ON_CALL: {
+          key: 'ON_CALL',
+          label: 'On Call / Standby',
+          shortLabel: 'On Call',
+          icon: '⚡',
+          window: '1-Hour Notice',
+          cssClass: 'status-oncall',
+          btnClass: 'opt-oncall'
+        },
+        UNAVAILABLE: {
+          key: 'UNAVAILABLE',
+          label: 'Unavailable',
+          shortLabel: 'Unavailable',
+          icon: '🚫',
+          window: 'Off-Duty',
+          cssClass: 'status-unavailable',
+          btnClass: 'opt-unavail'
+        }
+      };
+
+      function getAvailabilityInfo(statusKey) {
+        if (!statusKey) return AVAILABILITY_CONFIG.AVAILABLE_ALL;
+        if (statusKey === 'AVAILABLE') return AVAILABILITY_CONFIG.AVAILABLE_ALL;
+        if (statusKey === 'STANDBY') return AVAILABILITY_CONFIG.ON_CALL;
+        return AVAILABILITY_CONFIG[statusKey] || AVAILABILITY_CONFIG.AVAILABLE_ALL;
+      }
+
+      // Realistic initial demo seed data (Coffee Shop Context - Iterations B & C)
       const INITIAL_ROSTER = [
         {
           id: 'staff_alex',
           name: 'Alex Rivera',
-          status: 'AVAILABLE',
+          status: 'AVAILABLE_MORNING',
+          timeframe: 'TODAY',
           roles: ['Opening Barista', 'Mid Barista', 'Cashier / Register'],
-          notes: 'Available for mornings & weekend coverage • (555) 019-2834'
+          phone: '(555) 019-2834',
+          basePickedUp: 4,
+          baseCovered: 2,
+          notes: 'Available for morning rush & weekend opening coverage • (555) 019-2834'
         },
         {
           id: 'staff_sarah',
           name: 'Sarah Sterling',
-          status: 'AVAILABLE',
-          roles: ['Shift Supervisor', 'Store Manager'],
-          notes: 'Store Manager • Downtown Roastery • (555) 882-1049'
+          status: 'AVAILABLE_ALL',
+          timeframe: 'WEEK',
+          roles: ['Shift Supervisor', 'Store Manager', 'Opening Barista', 'Mid Barista', 'Closing Barista'],
+          phone: '(555) 882-1049',
+          basePickedUp: 8,
+          baseCovered: 0,
+          notes: 'Store Manager • Keyholder certified • Available on notice • (555) 882-1049'
         },
         {
           id: 'staff_1',
           name: 'Sasha Vane',
-          status: 'AVAILABLE',
+          status: 'AVAILABLE_MORNING',
+          timeframe: 'TODAY',
           roles: ['Opening Barista', 'Mid Barista', 'Closing Barista'],
-          notes: 'Free all morning today & tomorrow • (555) 782-9901'
+          phone: '(555) 782-9901',
+          basePickedUp: 6,
+          baseCovered: 1,
+          notes: 'Free all morning today & tomorrow • High-volume espresso speed • (555) 782-9901'
         },
         {
           id: 'staff_2',
           name: 'Tyler Jackson',
-          status: 'AVAILABLE',
+          status: 'ON_CALL',
+          timeframe: 'WEEK',
           roles: ['Shift Supervisor', 'Opening Barista'],
-          notes: 'Keyholder certified • Available on 2-hour notice • (555) 431-8822'
+          phone: '(555) 431-8822',
+          basePickedUp: 5,
+          baseCovered: 2,
+          notes: 'Keyholder certified • Available on 1-hour notice • (555) 431-8822'
         },
         {
           id: 'staff_3',
           name: 'Maya Lin',
-          status: 'STANDBY',
+          status: 'AVAILABLE_MID',
+          timeframe: 'TODAY',
           roles: ['Mid Barista', 'Cashier / Register'],
-          notes: 'Available after 1:00 PM on weekdays • (555) 901-3344'
+          phone: '(555) 901-3344',
+          basePickedUp: 3,
+          baseCovered: 2,
+          notes: 'Available after 11:00 AM on weekdays • Register certified • (555) 901-3344'
         },
         {
           id: 'staff_4',
           name: 'Carlos Ruiz',
-          status: 'STANDBY',
-          roles: ['Baker / Kitchen Prep', 'Cashier / Register'],
-          notes: 'Morning shifts preferred • (555) 123-7766'
+          status: 'AVAILABLE_CLOSE',
+          timeframe: 'WEEK',
+          roles: ['Closing Barista', 'Baker / Kitchen Prep', 'Cashier / Register'],
+          phone: '(555) 123-7766',
+          basePickedUp: 2,
+          baseCovered: 3,
+          notes: 'Evening close & espresso breakdown specialist • (555) 123-7766'
         },
         {
           id: 'staff_5',
           name: 'Jordan Miller',
           status: 'UNAVAILABLE',
+          timeframe: 'TODAY',
           roles: ['Opening Barista'],
+          phone: '(555) 678-2211',
+          basePickedUp: 1,
+          baseCovered: 4,
           notes: 'Off-duty until Monday'
         }
       ];
@@ -2563,11 +4088,98 @@
       // App state
       let shifts = loadFromStorage(STORAGE_KEY_SHIFTS, INITIAL_SHIFTS);
       let roster = loadFromStorage(STORAGE_KEY_ROSTER, INITIAL_ROSTER);
+
+      // Normalize roster entries for backwards-compatibility
+      if (Array.isArray(roster)) {
+        roster = roster.map(m => {
+          if (m.status === 'AVAILABLE') m.status = 'AVAILABLE_ALL';
+          else if (m.status === 'STANDBY') m.status = 'ON_CALL';
+          if (!m.timeframe) m.timeframe = 'TODAY';
+          if (typeof m.basePickedUp !== 'number') m.basePickedUp = 3;
+          if (typeof m.baseCovered !== 'number') m.baseCovered = 2;
+          if (!m.phone) {
+            const phoneMatch = (m.notes || '').match(/\(\d{3}\)\s*\d{3}-\d{4}/);
+            m.phone = phoneMatch ? phoneMatch[0] : '(555) 345-6789';
+          }
+          return m;
+        });
+      }
+
+      // -----------------------------------------------------------------------
+      // Iteration C: Trade Balance Visualizer Engine
+      // Counts "Shifts Picked Up" vs. "Shifts Covered" to promote fair teamwork
+      // -----------------------------------------------------------------------
+      function getMemberTradeBalance(memberName) {
+        if (!memberName) {
+          return {
+            pickedUp: 0,
+            covered: 0,
+            net: 0,
+            ratioPercent: 50,
+            badgeText: 'Even (0 Net)',
+            badgeClass: 'tag-balanced'
+          };
+        }
+
+        const nameClean = memberName.toLowerCase().trim();
+        const member = roster.find(m => m.name.toLowerCase().trim() === nameClean);
+
+        let pickedUp = member && typeof member.basePickedUp === 'number' ? member.basePickedUp : 3;
+        let covered = member && typeof member.baseCovered === 'number' ? member.baseCovered : 2;
+
+        shifts.forEach(s => {
+          if (s.status === 'CLAIMED') {
+            const claimedByMatch = s.claimedBy && s.claimedBy.toLowerCase().trim() === nameClean;
+            const requesterMatch = s.requester && s.requester.toLowerCase().trim() === nameClean;
+
+            if (s.requestType === 'TRADE' && s.tradeAccepted) {
+              // 1-to-1 trade: both participants pick up 1 and have 1 covered
+              if (claimedByMatch || requesterMatch) {
+                pickedUp += 1;
+                covered += 1;
+              }
+            } else {
+              // Standard drop shift
+              if (claimedByMatch) pickedUp += 1;
+              if (requesterMatch) covered += 1;
+            }
+          }
+        });
+
+        const net = pickedUp - covered;
+        const total = pickedUp + covered;
+        const ratioPercent = total > 0 ? Math.round((pickedUp / total) * 100) : 50;
+
+        let badgeText = 'Even (0 Net)';
+        let badgeClass = 'tag-balanced';
+
+        if (net >= 5) {
+          badgeText = `⭐ +${net} High Contributor`;
+          badgeClass = 'tag-super';
+        } else if (net > 0) {
+          badgeText = `↑ +${net} Net Pickups`;
+          badgeClass = 'tag-positive';
+        } else if (net < 0) {
+          badgeText = `↓ ${net} Needs Pickup`;
+          badgeClass = 'tag-needs-pickup';
+        }
+
+        return {
+          pickedUp,
+          covered,
+          net,
+          ratioPercent,
+          badgeText,
+          badgeClass
+        };
+      }
+
       let currentUser = loadFromStorage(STORAGE_KEY_AUTH, null);
       if (currentUser && currentUser.role !== 'EMPLOYEE' && currentUser.role !== 'MANAGER') {
         currentUser = null;
       }
       let activeTab = 'open-shifts';
+      let currentRosterScope = 'TODAY'; // 'TODAY' or 'WEEK'
 
       // -----------------------------------------------------------------------
       // Date & Formatting Helpers
@@ -2998,14 +4610,245 @@
       });
 
       // -----------------------------------------------------------------------
-      // Peer Matching Helper: Find active staff who can cover a shift
+      // Iteration B: Shift Period & Match Recommendation Engine
       // -----------------------------------------------------------------------
-      function getMatchingAvailableStaff(shift) {
-        return roster.filter(member => {
-          if (member.status === 'UNAVAILABLE') return false;
-          // Check role qualification
-          return member.roles.some(r => r.toLowerCase().trim() === shift.role.toLowerCase().trim());
+      function getShiftPeriod(startTime24) {
+        if (!startTime24) return 'MORNING';
+        const hour = parseInt(startTime24.split(':')[0], 10);
+        if (hour < 11) return 'MORNING'; // Morning Rush: before 11:00 AM
+        if (hour < 16) return 'MID';     // Mid Shift: 11:00 AM - 4:00 PM
+        return 'CLOSE';                  // Evening Close: 4:00 PM onwards
+      }
+
+      function getShiftPeriodLabel(period) {
+        if (period === 'MORNING') return 'Morning Rush (6:00 AM – 11:30 AM)';
+        if (period === 'MID') return 'Mid Shift (11:00 AM – 4:00 PM)';
+        return 'Evening Close (4:00 PM – 9:30 PM)';
+      }
+
+      function getRecommendedPeersForShift(shift) {
+        const period = getShiftPeriod(shift.startTime);
+        const shiftRole = (shift.role || '').toLowerCase().trim();
+        const requester = (shift.requester || '').toLowerCase().trim();
+
+        const results = [];
+
+        roster.forEach(member => {
+          // 1. Exclude the person requesting coverage
+          if (member.name && member.name.toLowerCase().trim() === requester) return;
+
+          // 2. Exclude Unavailable
+          const statusKey = member.status === 'AVAILABLE' ? 'AVAILABLE_ALL' : (member.status === 'STANDBY' ? 'ON_CALL' : member.status);
+          if (statusKey === 'UNAVAILABLE') return;
+
+          // 3. Check role qualification
+          const roles = Array.isArray(member.roles) ? member.roles : [member.roles];
+          const isSupervisor = roles.some(r => r.toLowerCase().includes('manager') || r.toLowerCase().includes('supervisor'));
+          const isQualified = roles.some(r => r.toLowerCase().trim() === shiftRole);
+
+          if (!isQualified && !isSupervisor) return;
+
+          // 4. Calculate recommendation score and priority badge
+          let score = 0;
+          let rankBadgeClass = 'match-rank-top';
+          let rankLabel = '#1 Recommended';
+          let reason = '';
+
+          if (period === 'MORNING' && statusKey === 'AVAILABLE_MORNING') {
+            score = 100;
+            rankLabel = '⭐ Top Match (Available for Morning Rush)';
+            reason = 'Available for morning rush & certified in role';
+          } else if (period === 'MID' && statusKey === 'AVAILABLE_MID') {
+            score = 100;
+            rankLabel = '⭐ Top Match (Available for Mid Shift)';
+            reason = 'Available for mid-day rush & certified in role';
+          } else if (period === 'CLOSE' && statusKey === 'AVAILABLE_CLOSE') {
+            score = 100;
+            rankLabel = '⭐ Top Match (Available for Evening Close)';
+            reason = 'Available for evening close & certified in role';
+          } else if (statusKey === 'AVAILABLE_ALL') {
+            score = 80;
+            rankBadgeClass = 'match-rank-anytime';
+            rankLabel = '🟢 Available Anytime';
+            reason = 'Flexible all-day availability & certified in role';
+          } else if (statusKey === 'ON_CALL') {
+            score = 65;
+            rankBadgeClass = 'match-rank-oncall';
+            rankLabel = '⚡ On Call (Quick Notice)';
+            reason = 'On standby / ready to report on short notice';
+          } else {
+            score = 45;
+            rankBadgeClass = 'match-rank-oncall';
+            rankLabel = '🔄 Qualified Alternate Window';
+            reason = 'Certified in role; alternate window standby';
+          }
+
+          if (isSupervisor && !isQualified) {
+            reason += ' • Supervisor Keyholder Backup';
+          }
+
+          results.push({
+            member,
+            statusKey,
+            score,
+            rankLabel,
+            rankBadgeClass,
+            reason,
+            phone: member.phone || '(555) 000-0000'
+          });
         });
+
+        results.sort((a, b) => b.score - a.score);
+        return results;
+      }
+
+      function getMatchingAvailableStaff(shift) {
+        return getRecommendedPeersForShift(shift).map(r => r.member);
+      }
+
+      function buildPeerDirectSmsHref(member, shift) {
+        const phone = (member.phone || '').replace(/[^0-9]/g, '');
+        const dayShort = getShortWeekday(shift.date);
+        const timeStr = `${formatCompactTime(shift.startTime)} - ${formatCompactTime(shift.endTime)}`;
+        const claimUrl = getShareClaimUrl(shift.id);
+        const firstName = member.name.split(' ')[0];
+        const bodyText = `Hey ${firstName}! Can you cover ${shift.role} on ${dayShort} (${timeStr}) at ${shift.location}? Direct claim link: ${claimUrl}`;
+        return phone ? `sms:${phone}?body=${encodeURIComponent(bodyText)}` : `sms:?body=${encodeURIComponent(bodyText)}`;
+      }
+
+      function buildPeerCallHref(member) {
+        const phone = (member.phone || '').replace(/[^0-9+]/g, '');
+        return phone ? `tel:${phone}` : 'javascript:void(0)';
+      }
+
+      function togglePeerContacted(shiftId, memberId) {
+        const shift = shifts.find(s => s.id === shiftId);
+        if (!shift) return;
+        shift.contactedPeers = shift.contactedPeers || [];
+        const idx = shift.contactedPeers.indexOf(memberId);
+        if (idx === -1) {
+          shift.contactedPeers.push(memberId);
+          showToast('Marked peer as contacted.', 'success');
+        } else {
+          shift.contactedPeers.splice(idx, 1);
+          showToast('Removed contacted mark.', 'info');
+        }
+        saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+        renderOpenShifts();
+      }
+
+      function buildMatchRecommendSection(shift) {
+        const matches = getRecommendedPeersForShift(shift);
+        const period = getShiftPeriod(shift.startTime);
+        const periodLabel = getShiftPeriodLabel(period);
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const contactedList = shift.contactedPeers || [];
+
+        if (matches.length === 0) {
+          return `
+            <div class="match-recommend-container" aria-label="Supervisor Match & Recommend">
+              <div class="match-recommend-header">
+                <div class="match-header-left">
+                  <span class="match-badge-tag">🎯 MATCH &amp; RECOMMEND</span>
+                  <strong class="match-title">Available Peers to Contact First</strong>
+                </div>
+                <span class="match-count-pill">0 Matches</span>
+              </div>
+              <div class="match-empty-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <span>No peers currently marked available for <strong>${periodLabel}</strong>. Use <em>Share to Group</em> or <em>Copy Alert</em> below to broadcast to all staff.</span>
+              </div>
+            </div>
+          `;
+        }
+
+        const itemsHtml = matches.map((matchItem, index) => {
+          const member = matchItem.member;
+          const info = getAvailabilityInfo(matchItem.statusKey);
+          const smsHref = buildPeerDirectSmsHref(member, shift);
+          const callHref = buildPeerCallHref(member);
+          const isContacted = contactedList.includes(member.id);
+          const firstName = member.name.split(' ')[0];
+          const isSupervisor = member.roles && (member.roles.includes('Store Manager') || member.roles.includes('Shift Supervisor'));
+
+          const initials = member.name
+            .split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2) || 'ST';
+
+          const rankNum = index + 1;
+          let rankBadgeText = `#${rankNum} Contact`;
+          if (index === 0 && matchItem.score >= 100) rankBadgeText = '⭐ #1 Top Match';
+          else if (matchItem.statusKey === 'ON_CALL') rankBadgeText = '⚡ On-Call Standby';
+
+          return `
+            <div class="match-peer-item ${isContacted ? 'contacted' : ''}">
+              <div class="match-peer-left">
+                <div class="match-peer-avatar ${isSupervisor ? 'supervisor' : ''}">${initials}</div>
+                <div class="match-peer-details">
+                  <div class="match-peer-name-row">
+                    <span class="match-peer-name">${escapeHTML(member.name)}</span>
+                    <span class="match-rank-badge ${matchItem.rankBadgeClass}">${rankBadgeText}</span>
+                    <span class="staff-status-pill ${info.cssClass}">${info.icon} ${info.shortLabel}</span>
+                    <span class="timeframe-pill">${member.timeframe === 'WEEK' ? '🗓️ Week' : '📅 Today'}</span>
+                  </div>
+                  <div class="match-peer-meta">
+                    <span><strong>Phone:</strong> ${escapeHTML(member.phone || 'On file')}</span>
+                    <span>&bull;</span>
+                    <span>${escapeHTML(matchItem.reason)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="match-actions-group">
+                <a href="${smsHref}" class="btn-match-action btn-match-sms" title="Send direct SMS to ${escapeHTML(member.name)}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  <span>Text ${escapeHTML(firstName)}</span>
+                </a>
+
+                ${member.phone ? `
+                  <a href="${callHref}" class="btn-match-action btn-match-call" title="Call ${escapeHTML(member.name)}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <span>Call</span>
+                  </a>
+                ` : ''}
+
+                <button type="button" class="btn-match-action btn-match-contacted ${isContacted ? 'is-contacted' : ''}" onclick="window.shiftCoverApp.togglePeerContacted('${shift.id}', '${member.id}')" title="Log that supervisor reached out to this peer">
+                  ${isContacted ? `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Contacted ✓</span>
+                  ` : `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                    <span>Log Contact</span>
+                  `}
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="match-recommend-container" aria-label="Supervisor Match & Recommend">
+            <div class="match-recommend-header">
+              <div class="match-header-left">
+                <span class="match-badge-tag">🎯 MATCH &amp; RECOMMEND</span>
+                <strong class="match-title">Available Peers to Contact First</strong>
+              </div>
+              <span class="match-count-pill">${matches.length} Available Peer${matches.length === 1 ? '' : 's'}</span>
+            </div>
+
+            <p class="match-recommend-intro">
+              ${isManager ? '🔑 <strong>Supervisor Guidance:</strong>' : 'Teammate Recommendation:'}
+              Priority order based on certified roles &amp; active availability for <strong>${periodLabel}</strong>:
+            </p>
+
+            <div class="match-peer-list">
+              ${itemsHtml}
+            </div>
+          </div>
+        `;
       }
 
       // -----------------------------------------------------------------------
@@ -3082,18 +4925,8 @@
 
           const isMyPost = currentUser && currentUser.name && shift.requester && currentUser.name.toLowerCase() === shift.requester.toLowerCase();
 
-          // Find matching peers on standby
-          const matchingPeers = getMatchingAvailableStaff(shift);
-          let peerMatchHtml = '';
-          if (matchingPeers.length > 0) {
-            const peerNames = matchingPeers.map(p => escapeHTML(p.name)).join(', ');
-            peerMatchHtml = `
-              <div class="matching-peers-alert">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
-                <span><strong>${matchingPeers.length} peer${matchingPeers.length > 1 ? 's' : ''} on standby</strong> for this role: ${peerNames}</span>
-              </div>
-            `;
-          }
+          // Iteration B: Dynamic Match & Recommend Section underneath the request
+          const matchRecommendHtml = buildMatchRecommendSection(shift);
 
           // Header action
           let headerActionBtn = '';
@@ -3148,7 +4981,8 @@
 
               ${shift.notes ? `<div class="shift-notes">&ldquo;${escapeHTML(shift.notes)}&rdquo;</div>` : ''}
 
-              ${peerMatchHtml}
+              <!-- Iteration B: Dynamic Match & Recommend Section underneath the request -->
+              ${matchRecommendHtml}
 
               <!-- Iteration A: One-Tap Share Link/Summary & Direct SMS Group Launcher -->
               <div class="comm-share-bar" aria-label="Shift Alert Sharing Tools">
@@ -3306,18 +5140,101 @@
       }
 
       // -----------------------------------------------------------------------
-      // Render Logic: Staff Standby Roster
+      // Render Logic: Staff Standby Roster & Peer Availability Toggles (Iteration B)
       // -----------------------------------------------------------------------
       function renderRoster() {
+        // 1. Update personal availability status widget at top of roster view
+        const userAvatarEl = document.getElementById('currentMemberAvatar');
+        const userNameEl = document.getElementById('currentMemberName');
+        const userBadgeEl = document.getElementById('currentMemberStatusBadge');
+        const userScopeEl = document.getElementById('currentMemberScopeBadge');
+        const btnScopeToday = document.getElementById('btnScopeToday');
+        const btnScopeWeek = document.getElementById('btnScopeWeek');
+
+        if (btnScopeToday && btnScopeWeek) {
+          btnScopeToday.classList.toggle('active', currentRosterScope === 'TODAY');
+          btnScopeWeek.classList.toggle('active', currentRosterScope === 'WEEK');
+        }
+
+        let myStatusKey = 'AVAILABLE_MORNING';
+        let myName = currentUser ? currentUser.name : 'Alex Rivera';
+
+        if (currentUser && currentUser.name) {
+          const myEntry = roster.find(m => m.name.toLowerCase() === currentUser.name.toLowerCase());
+          if (myEntry) {
+            myStatusKey = myEntry.status;
+            myName = myEntry.name;
+          }
+        }
+
+        if (userNameEl) {
+          userNameEl.textContent = `${myName} (You)`;
+        }
+
+        if (userAvatarEl) {
+          const initials = myName
+            .split(' ')
+            .map(n => n[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2) || 'ME';
+          userAvatarEl.textContent = initials;
+          if (currentUser && currentUser.role === 'MANAGER') {
+            userAvatarEl.classList.add('manager');
+          } else {
+            userAvatarEl.classList.remove('manager');
+          }
+        }
+
+        const myInfo = getAvailabilityInfo(myStatusKey);
+        if (userBadgeEl) {
+          userBadgeEl.className = `staff-status-pill ${myInfo.cssClass}`;
+          userBadgeEl.innerHTML = `${myInfo.icon} ${myInfo.label}`;
+        }
+        if (userScopeEl) {
+          userScopeEl.textContent = currentRosterScope === 'WEEK' ? '🗓️ This Week' : '📅 Today';
+        }
+
+        // Highlight active toggle button
+        document.querySelectorAll('.avail-toggle-btn').forEach(btn => {
+          const btnStatus = btn.id.replace('toggleBtn-', '');
+          btn.classList.toggle('active', btnStatus === myStatusKey);
+        });
+
+        // 2. Filter & Render Roster Cards
         const container = document.getElementById('rosterContainer');
         const countSpan = document.getElementById('rosterCount');
-        countSpan.textContent = roster.length;
+        const searchInput = document.getElementById('rosterSearchInput');
+        const statusFilter = document.getElementById('rosterStatusFilter');
+        const timeframeFilter = document.getElementById('rosterTimeframeFilter');
 
-        if (roster.length === 0) {
+        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const filterStatus = statusFilter ? statusFilter.value : 'ALL';
+        const filterTimeframe = timeframeFilter ? timeframeFilter.value : 'ALL';
+
+        const filtered = roster.filter(member => {
+          const sKey = member.status === 'AVAILABLE' ? 'AVAILABLE_ALL' : (member.status === 'STANDBY' ? 'ON_CALL' : member.status);
+
+          if (filterStatus !== 'ALL' && sKey !== filterStatus) return false;
+          if (filterTimeframe !== 'ALL' && (member.timeframe || 'TODAY') !== filterTimeframe) return false;
+
+          if (searchTerm) {
+            const rolesStr = Array.isArray(member.roles) ? member.roles.join(' ') : (member.roles || '');
+            const haystack = `${member.name} ${rolesStr} ${member.notes || ''} ${member.phone || ''}`.toLowerCase();
+            if (!haystack.includes(searchTerm)) return false;
+          }
+          return true;
+        });
+
+        if (countSpan) {
+          countSpan.textContent = filtered.length;
+        }
+
+        if (filtered.length === 0) {
           container.innerHTML = `
             <div class="empty-state" style="grid-column: 1 / -1;">
-              <h3 class="empty-title">No Staff Currently on Roster</h3>
-              <p class="empty-text">Add your name and availability status above to help teammates spot available peers quickly.</p>
+              <h3 class="empty-title">No Staff Found Matching Filters</h3>
+              <p class="empty-text">Try adjusting your status or timeframe filter above to view all teammates on standby.</p>
             </div>
           `;
           return;
@@ -3325,10 +5242,19 @@
 
         const isManager = currentUser && currentUser.role === 'MANAGER';
 
-        // Sort: AVAILABLE first, then STANDBY, then UNAVAILABLE
-        const sortedRoster = [...roster].sort((a, b) => {
-          const rank = { AVAILABLE: 1, STANDBY: 2, UNAVAILABLE: 3 };
-          return (rank[a.status] || 9) - (rank[b.status] || 9);
+        // Sort: Morning Rush, Mid, Close, All Day first, then On Call, then Unavailable
+        const sortedRoster = [...filtered].sort((a, b) => {
+          const rank = {
+            AVAILABLE_MORNING: 1,
+            AVAILABLE_MID: 2,
+            AVAILABLE_CLOSE: 3,
+            AVAILABLE_ALL: 4,
+            ON_CALL: 5,
+            UNAVAILABLE: 6
+          };
+          const aKey = a.status === 'AVAILABLE' ? 'AVAILABLE_ALL' : (a.status === 'STANDBY' ? 'ON_CALL' : a.status);
+          const bKey = b.status === 'AVAILABLE' ? 'AVAILABLE_ALL' : (b.status === 'STANDBY' ? 'ON_CALL' : b.status);
+          return (rank[aKey] || 9) - (rank[bKey] || 9);
         });
 
         container.innerHTML = sortedRoster.map(member => {
@@ -3339,15 +5265,19 @@
             .toUpperCase()
             .substring(0, 2) || 'ST';
 
-          const statusBadge = member.status === 'AVAILABLE'
-            ? '<span class="staff-status-pill status-available">🟢 Available Today</span>'
-            : member.status === 'STANDBY'
-            ? '<span class="staff-status-pill status-standby">🟡 Standby / Notice</span>'
-            : '<span class="staff-status-pill status-unavailable">⚪ Off-Duty</span>';
+          const sKey = member.status === 'AVAILABLE' ? 'AVAILABLE_ALL' : (member.status === 'STANDBY' ? 'ON_CALL' : member.status);
+          const info = getAvailabilityInfo(sKey);
+          const timeframeBadge = (member.timeframe === 'WEEK')
+            ? '<span class="timeframe-pill">🗓️ This Week</span>'
+            : '<span class="timeframe-pill">📅 Today</span>';
 
           const rolesString = Array.isArray(member.roles) ? member.roles.join(', ') : member.roles;
           const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
           const isSupervisor = member.roles && (member.roles.includes('Store Manager') || member.roles.includes('Shift Supervisor'));
+
+          const phoneDigits = (member.phone || '').replace(/[^0-9]/g, '');
+          const smsHref = phoneDigits ? `sms:${phoneDigits}?body=${encodeURIComponent(`Hey ${member.name.split(' ')[0]}, local shift coverage check-in from ShiftCover.`)}` : 'sms:';
+          const callHref = phoneDigits ? `tel:${phoneDigits}` : 'javascript:void(0)';
 
           return `
             <div class="staff-card ${isMe ? 'my-roster-card' : ''}">
@@ -3356,25 +5286,52 @@
                 <div class="staff-info">
                   <div class="staff-name">
                     ${escapeHTML(member.name)}
-                    ${isMe ? '<span class="shift-tag-badge shift-tag-my-post" style="margin-left: 6px;">You</span>' : ''}
+                    ${isMe ? '<span class="shift-tag-badge shift-tag-my-post">You</span>' : ''}
                   </div>
                   <div class="staff-roles">${escapeHTML(rolesString)}</div>
-                  ${statusBadge}
+                  <div class="staff-status-badges-row">
+                    <span class="staff-status-pill ${info.cssClass}">${info.icon} ${info.label}</span>
+                    ${timeframeBadge}
+                  </div>
                 </div>
               </div>
 
               ${member.notes ? `<div class="staff-notes-box">${escapeHTML(member.notes)}</div>` : ''}
 
+              <!-- Direct Contact Tools on Roster Card -->
+              <div class="staff-contact-btns">
+                <a href="${smsHref}" class="btn-staff-sms" title="Send direct SMS to ${escapeHTML(member.name)}">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  <span>Text</span>
+                </a>
+                ${member.phone ? `
+                  <a href="${callHref}" class="btn-staff-call" title="Call ${escapeHTML(member.name)}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                    <span>${escapeHTML(member.phone)}</span>
+                  </a>
+                ` : ''}
+              </div>
+
               <div class="staff-footer">
                 ${(isManager || isMe) ? `
-                  <button type="button" class="btn-text" style="color: var(--primary); font-weight: 600;" onclick="window.shiftCoverApp.toggleRosterStatus('${member.id}')">
-                    ${isMe ? 'Toggle My Status' : 'Toggle Status'}
-                  </button>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <button type="button" class="btn-text" style="color: var(--primary); font-weight: 650; font-size: 0.82rem;" onclick="window.shiftCoverApp.cycleMemberStatus('${member.id}')" title="Cycle through availability statuses">
+                      🔄 ${isMe ? 'Cycle My Status' : 'Cycle Status'}
+                    </button>
+                    <select class="filter-select" style="font-size: 0.74rem; padding: 4px 8px; border-radius: var(--radius-sm);" onchange="window.shiftCoverApp.setMemberStatusDirect('${member.id}', this.value)" aria-label="Change Status">
+                      <option value="AVAILABLE_MORNING" ${sKey === 'AVAILABLE_MORNING' ? 'selected' : ''}>☀️ Morning Rush</option>
+                      <option value="AVAILABLE_MID" ${sKey === 'AVAILABLE_MID' ? 'selected' : ''}>☕ Mid Shift</option>
+                      <option value="AVAILABLE_CLOSE" ${sKey === 'AVAILABLE_CLOSE' ? 'selected' : ''}>🌙 Evening Close</option>
+                      <option value="AVAILABLE_ALL" ${sKey === 'AVAILABLE_ALL' ? 'selected' : ''}>🟢 All Day</option>
+                      <option value="ON_CALL" ${sKey === 'ON_CALL' ? 'selected' : ''}>⚡ On Call</option>
+                      <option value="UNAVAILABLE" ${sKey === 'UNAVAILABLE' ? 'selected' : ''}>⚪ Unavailable</option>
+                    </select>
+                  </div>
                 ` : `
                   <span style="font-size: 0.74rem; color: var(--text-muted);">&bull; Standby Peer</span>
                 `}
                 ${isManager ? `
-                  <button type="button" class="btn-text" style="color: #dc2626;" onclick="window.shiftCoverApp.removeRosterMember('${member.id}')">
+                  <button type="button" class="btn-text" style="color: #dc2626; font-size: 0.82rem;" onclick="window.shiftCoverApp.removeRosterMember('${member.id}')">
                     Remove
                   </button>
                 ` : ''}
@@ -3390,7 +5347,7 @@
       function updateStats() {
         const openList = shifts.filter(s => s.status === 'OPEN');
         const urgentCount = openList.filter(s => s.urgency === 'CRITICAL' || s.urgency === 'URGENT').length;
-        const availableCount = roster.filter(r => r.status === 'AVAILABLE').length;
+        const availableCount = roster.filter(r => r.status !== 'UNAVAILABLE').length;
         const coveredCount = shifts.filter(s => s.status === 'CLAIMED').length;
         const pendingCount = shifts.filter(s => s.status === 'CLAIMED' && !s.approved).length;
 
@@ -3425,6 +5382,170 @@
           } else {
             mobBadge.style.display = 'none';
           }
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // Live Match & Recommend Preview in Post Shift Form (Iteration B)
+      // -----------------------------------------------------------------------
+      function updateLiveMatchPreview() {
+        const peersContainer = document.getElementById('postShiftMatchPeers');
+        const roleSelect = document.getElementById('shiftRole');
+        const startTimeInput = document.getElementById('shiftStartTime');
+        const dateInput = document.getElementById('shiftDate');
+
+        if (!peersContainer || !roleSelect) return;
+
+        const role = roleSelect.value;
+        const startTime = startTimeInput ? startTimeInput.value : '06:00';
+        const date = dateInput ? dateInput.value : getRelativeDate(0);
+
+        if (!role) {
+          peersContainer.innerHTML = `
+            <span style="font-size: 0.8rem; color: var(--text-muted); font-style: italic;">
+              Select a required role above to preview available staff for that shift.
+            </span>
+          `;
+          return;
+        }
+
+        const pseudoShift = {
+          role,
+          startTime,
+          date,
+          requester: currentUser ? currentUser.name : ''
+        };
+
+        const matches = getRecommendedPeersForShift(pseudoShift);
+        const period = getShiftPeriod(startTime);
+        const periodLabel = getShiftPeriodLabel(period);
+
+        if (matches.length === 0) {
+          peersContainer.innerHTML = `
+            <div class="match-empty-box" style="width: 100%;">
+              ⚠️ No teammates currently marked available for <strong>${escapeHTML(role)}</strong> (${periodLabel}). You can still publish and send group SMS broadcasts.
+            </div>
+          `;
+        } else {
+          peersContainer.innerHTML = matches.map(m => {
+            const info = getAvailabilityInfo(m.statusKey);
+            let dotClass = 'all';
+            if (m.statusKey === 'AVAILABLE_MORNING') dotClass = 'morning';
+            else if (m.statusKey === 'AVAILABLE_MID') dotClass = 'mid';
+            else if (m.statusKey === 'AVAILABLE_CLOSE') dotClass = 'close';
+            else if (m.statusKey === 'ON_CALL') dotClass = 'oncall';
+
+            return `
+              <div class="live-match-pill" title="${escapeHTML(m.reason)}">
+                <span class="pill-dot ${dotClass}"></span>
+                <span><strong>${escapeHTML(m.member.name)}</strong> (${info.shortLabel})</span>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // Peer Availability Status Toggles Methods (Iteration B)
+      // -----------------------------------------------------------------------
+      function setMyAvailability(statusKey) {
+        if (!currentUser || currentUser.role === 'GUEST') {
+          showToast('Please sign in to update your standby availability.', 'info');
+          switchTab('login');
+          return;
+        }
+
+        const myName = currentUser.name;
+        let member = roster.find(m => m.name.toLowerCase() === myName.toLowerCase());
+
+        if (member) {
+          member.status = statusKey;
+          member.timeframe = currentRosterScope;
+        } else {
+          member = {
+            id: 'staff_' + Date.now(),
+            name: myName,
+            status: statusKey,
+            timeframe: currentRosterScope,
+            roles: currentUser.qualifiedRoles || ['Opening Barista', 'Mid Barista'],
+            phone: currentUser.phone || '(555) 019-2834',
+            notes: `${currentRosterScope === 'WEEK' ? 'Weekly' : 'Today'} status updated by ${myName}`
+          };
+          roster.unshift(member);
+        }
+
+        saveToStorage(STORAGE_KEY_ROSTER, roster);
+        const info = getAvailabilityInfo(statusKey);
+        const scopeLabel = currentRosterScope === 'WEEK' ? 'This Week' : 'Today';
+        showToast(`Status updated: ${info.label} (${scopeLabel})!`, 'success');
+        render();
+        updateLiveMatchPreview();
+      }
+
+      function setTimeframeScope(scope) {
+        currentRosterScope = scope;
+        const myName = currentUser ? currentUser.name : '';
+        if (myName) {
+          const member = roster.find(m => m.name.toLowerCase() === myName.toLowerCase());
+          if (member) {
+            member.timeframe = scope;
+            saveToStorage(STORAGE_KEY_ROSTER, roster);
+          }
+        }
+        renderRoster();
+        showToast(`Showing availability for: ${scope === 'WEEK' ? 'This Week' : 'Today'}`, 'info');
+      }
+
+      function cycleMemberStatus(memberId) {
+        const member = roster.find(m => m.id === memberId);
+        if (!member) return;
+
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
+
+        if (!isManager && !isMe) {
+          showToast('Only managers or the staff member can change their status.', 'error');
+          return;
+        }
+
+        const cycleOrder = ['AVAILABLE_MORNING', 'AVAILABLE_MID', 'AVAILABLE_CLOSE', 'AVAILABLE_ALL', 'ON_CALL', 'UNAVAILABLE'];
+        const curIdx = cycleOrder.indexOf(member.status);
+        const nextStatus = cycleOrder[(curIdx + 1) % cycleOrder.length];
+        member.status = nextStatus;
+        saveToStorage(STORAGE_KEY_ROSTER, roster);
+        const info = getAvailabilityInfo(nextStatus);
+        showToast(`Updated ${member.name} to: ${info.label}`, 'success');
+        render();
+        updateLiveMatchPreview();
+      }
+
+      function setMemberStatusDirect(memberId, newStatus) {
+        const member = roster.find(m => m.id === memberId);
+        if (!member) return;
+
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
+
+        if (!isManager && !isMe) {
+          showToast('Only managers or the staff member can change their status.', 'error');
+          return;
+        }
+
+        member.status = newStatus;
+        saveToStorage(STORAGE_KEY_ROSTER, roster);
+        const info = getAvailabilityInfo(newStatus);
+        showToast(`Updated ${member.name} to: ${info.label}`, 'success');
+        render();
+        updateLiveMatchPreview();
+      }
+
+      function toggleAddMemberForm() {
+        const formCard = document.getElementById('addMemberFormCard');
+        if (!formCard) return;
+        const isHidden = formCard.style.display === 'none' || !formCard.style.display;
+        formCard.style.display = isHidden ? 'block' : 'none';
+        if (isHidden) {
+          formCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
       }
 
@@ -3536,13 +5657,16 @@
           claimedBy: null,
           claimedAt: null,
           claimerContact: null,
-          approved: false
+          approved: false,
+          contactedPeers: []
         };
 
         shifts.unshift(newShift);
         saveToStorage(STORAGE_KEY_SHIFTS, shifts);
 
-        showToast(`Coverage requested for ${newShift.role}! Published to live log.`, 'success');
+        const matchedPeers = getRecommendedPeersForShift(newShift);
+        const matchNotice = matchedPeers.length > 0 ? ` Matched ${matchedPeers.length} available peer${matchedPeers.length > 1 ? 's' : ''} to contact first!` : '';
+        showToast(`Coverage requested for ${newShift.role}!${matchNotice}`, 'success');
         shiftForm.reset();
 
         // Reset default date to today's date per ShiftCover standards
@@ -3553,7 +5677,9 @@
           document.getElementById('requesterName').value = currentUser.name;
         }
 
-        // Switch to open shifts tab to view newly posted card
+        updateLiveMatchPreview();
+
+        // Switch to open shifts tab to view newly posted card with recommendations
         switchTab('open-shifts');
       });
 
@@ -3565,6 +5691,7 @@
         }
         document.querySelectorAll('.error-hint').forEach(el => el.classList.remove('visible'));
         document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+        updateLiveMatchPreview();
       });
 
       // -----------------------------------------------------------------------
@@ -3593,10 +5720,15 @@
           .map(r => r.trim())
           .filter(Boolean);
 
+        const timeframeVal = document.getElementById('staffTimeframeSelect') ? document.getElementById('staffTimeframeSelect').value : 'TODAY';
+        const phoneVal = document.getElementById('staffPhone') ? document.getElementById('staffPhone').value.trim() : '(555) 345-6789';
+
         const newMember = {
           id: 'staff_' + Date.now(),
           name: nameInput.value.trim(),
           status: document.getElementById('staffStatusSelect').value,
+          timeframe: timeframeVal,
+          phone: phoneVal,
           roles: rolesArray.length > 0 ? rolesArray : ['Barista'],
           notes: document.getElementById('staffAvailabilityNotes').value.trim()
         };
@@ -3612,7 +5744,9 @@
         }
 
         saveToStorage(STORAGE_KEY_ROSTER, roster);
+        toggleAddMemberForm();
         render();
+        updateLiveMatchPreview();
       });
 
       // -----------------------------------------------------------------------
@@ -3828,7 +5962,7 @@
       }
 
       // -----------------------------------------------------------------------
-      // Demo Data Reset & Filters
+      // Demo Data Reset & Filters (Iteration B)
       // -----------------------------------------------------------------------
       document.getElementById('btnResetDemoData').addEventListener('click', () => {
         if (confirm('Reset shift log and roster back to coffee shop demo state?')) {
@@ -3838,6 +5972,7 @@
           saveToStorage(STORAGE_KEY_ROSTER, roster);
           showToast('Demo data restored successfully!', 'success');
           render();
+          updateLiveMatchPreview();
         }
       });
 
@@ -3849,14 +5984,31 @@
           saveToStorage(STORAGE_KEY_ROSTER, roster);
           showToast('All logs cleared.', 'info');
           render();
+          updateLiveMatchPreview();
         }
       });
 
-      // Filter input event listeners
+      // Filter input event listeners (Open Shifts)
       document.getElementById('searchInput').addEventListener('input', renderOpenShifts);
       document.getElementById('roleFilter').addEventListener('change', renderOpenShifts);
       document.getElementById('urgencyFilter').addEventListener('change', renderOpenShifts);
       document.getElementById('locationFilter').addEventListener('change', renderOpenShifts);
+
+      // Filter & Search input event listeners (Roster - Iteration B)
+      const rosterSearchEl = document.getElementById('rosterSearchInput');
+      const rosterStatusEl = document.getElementById('rosterStatusFilter');
+      const rosterTimeframeEl = document.getElementById('rosterTimeframeFilter');
+      if (rosterSearchEl) rosterSearchEl.addEventListener('input', renderRoster);
+      if (rosterStatusEl) rosterStatusEl.addEventListener('change', renderRoster);
+      if (rosterTimeframeEl) rosterTimeframeEl.addEventListener('change', renderRoster);
+
+      // Real-time Match & Recommend event listeners (Post Shift Form - Iteration B)
+      const shiftRoleEl = document.getElementById('shiftRole');
+      const shiftStartTimeEl = document.getElementById('shiftStartTime');
+      const shiftDateEl = document.getElementById('shiftDate');
+      if (shiftRoleEl) shiftRoleEl.addEventListener('change', updateLiveMatchPreview);
+      if (shiftStartTimeEl) shiftStartTimeEl.addEventListener('input', updateLiveMatchPreview);
+      if (shiftDateEl) shiftDateEl.addEventListener('change', updateLiveMatchPreview);
 
       // -----------------------------------------------------------------------
       // Portal Login View Event Listeners
@@ -3963,8 +6115,15 @@
         deleteShift,
         reopenShift,
         approveShift,
-        toggleRosterStatus,
+        toggleRosterStatus: cycleMemberStatus,
+        cycleMemberStatus,
+        setMemberStatusDirect,
+        setMyAvailability,
+        setTimeframeScope,
+        toggleAddMemberForm,
+        togglePeerContacted,
         removeRosterMember,
+        updateLiveMatchPreview,
         goToPostShift: () => switchTab('post-shift'),
         goToCoveredHistory: () => switchTab('covered-history'),
         goToLogin: () => logoutUser(),
@@ -3992,6 +6151,9 @@
           const staffNameInput = document.getElementById('staffMemberName');
           if (staffNameInput) staffNameInput.value = currentUser.name;
         }
+
+        // Initialize real-time match preview on load
+        updateLiveMatchPreview();
 
         // Enforce login gating: show auth screen if not logged in, dashboard if logged in
         updateAuthScreenVisibility();
