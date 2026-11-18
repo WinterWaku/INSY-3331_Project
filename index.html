@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -2816,10 +2816,496 @@
       background: #fffdf9;
     }
 
-    /* Print / Utility */
+    /* ==========================================================================
+       Iteration D: Manager Mode, Approval Queue, Overlap & Double-Booking Warnings
+       ========================================================================== */
+    .btn-manager-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-muted);
+      transition: all var(--transition-fast);
+      min-height: 44px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-manager-toggle:hover {
+      background: #fdfaf6;
+      border-color: var(--caramel);
+      color: var(--espresso);
+    }
+
+    .btn-manager-toggle.active {
+      background: linear-gradient(135deg, #4c1d95, #6d28d9);
+      color: #ffffff;
+      border-color: #5b21b6;
+      box-shadow: 0 3px 8px rgba(91, 33, 182, 0.35);
+    }
+
+    .btn-manager-toggle.active .toggle-icon {
+      animation: pulseGlow 1.8s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    /* 4-Digit Manager PIN Modal */
+    .pin-input {
+      font-family: monospace, -apple-system, sans-serif;
+      font-size: 2rem;
+      letter-spacing: 14px;
+      text-align: center;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-color);
+      background: #fafaf9;
+      color: #3e2723;
+      width: 100%;
+      max-width: 240px;
+      margin: 0 auto;
+      transition: all var(--transition-fast);
+    }
+
+    .pin-input:focus {
+      outline: none;
+      border-color: #6d28d9;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(109, 40, 217, 0.15);
+    }
+
+    /* Overlap & Double-Booking Warnings */
+    .double-booking-warning {
+      display: flex;
+      gap: 12px;
+      background: #fff1f2;
+      border: 1.5px solid #fecdd3;
+      border-left: 5px solid #e11d48;
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      animation: alertSlideDown 0.25s ease-out;
+    }
+
+    @keyframes alertSlideDown {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .warning-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .warning-body {
+      flex: 1;
+    }
+
+    .warning-title {
+      font-size: 0.92rem;
+      font-weight: 750;
+      color: #9f1239;
+      margin-bottom: 2px;
+    }
+
+    .warning-desc {
+      font-size: 0.84rem;
+      color: #be123c;
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+
+    .warning-hint {
+      display: inline-block;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #881337;
+      background: #ffe4e6;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .badge-conflict-warning {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      font-size: 0.74rem;
+    }
+
+    /* Quick Staff Picker */
+    .quick-staff-select {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .btn-quick-staff {
+      background: #f5f0eb;
+      border: 1px solid #e5dfd7;
+      color: var(--text-main);
+      padding: 4px 9px;
+      border-radius: var(--radius-full);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      min-height: 28px;
+    }
+
+    .btn-quick-staff:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-border);
+      color: var(--primary);
+    }
+
+    /* Manager Approval Queue Section */
+    .approval-queue-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .approval-queue-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .queue-badge-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .queue-badge-title h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #4c1d95;
+      letter-spacing: -0.01em;
+    }
+
+    .queue-icon {
+      font-size: 1.4rem;
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      border-radius: var(--radius-sm);
+      padding: 4px 8px;
+    }
+
+    .queue-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .queue-metrics-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 16px;
+    }
+
+    .queue-metric-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.84rem;
+      color: #475569;
+    }
+
+    .queue-metric-pill .metric-val {
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+    }
+
+    .queue-metric-pill .metric-val.alert {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .queue-metric-pill .metric-val.warning {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .queue-metric-pill .metric-val.success {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .queue-metric-actions {
+      margin-left: auto;
+    }
+
+    .queue-approve-all-btn {
+      color: #15803d;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px 8px;
+    }
+
+    .queue-approve-all-btn:hover {
+      text-decoration: underline;
+    }
+
+    /* Pending Claim Cards in Queue */
+    .pending-claim-card {
+      border: 2px solid #fcd34d;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.08);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+
+    .pending-claim-card.has-conflict {
+      border-color: #f87171;
+      background: #fffbfc;
+    }
+
+    .claim-action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border-color);
+      flex-wrap: wrap;
+    }
+
+    .btn-approve-claim {
+      background: #15803d;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 48px;
+      transition: all var(--transition-fast);
+      box-shadow: 0 2px 4px rgba(21, 128, 61, 0.2);
+    }
+
+    .btn-approve-claim:hover {
+      background: #166534;
+      box-shadow: 0 4px 8px rgba(21, 128, 61, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-reject-claim {
+      background: #ffffff;
+      color: #dc2626;
+      border: 1.5px solid #f87171;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 48px;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-reject-claim:hover {
+      background: #fee2e2;
+      border-color: #dc2626;
+      transform: translateY(-1px);
+    }
+
+    .btn-export, .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.84rem;
+      font-weight: 650;
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    .btn-export:hover {
+      background: #f5f3ff;
+      border-color: #a78bfa;
+      color: #5b21b6;
+    }
+
+    .btn-print:hover {
+      background: #ecfdf5;
+      border-color: #6ee7b7;
+      color: #047857;
+    }
+
+    /* Manager Gate Notice when viewing queue while locked */
+    .manager-gate-notice {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #f5f3ff;
+      border: 1.5px dashed #c4b5fd;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .manager-gate-notice .notice-icon {
+      font-size: 1.5rem;
+    }
+
+    .manager-gate-notice .notice-text {
+      flex: 1;
+    }
+
+    .manager-gate-notice .notice-text strong {
+      color: #4c1d95;
+      font-size: 0.94rem;
+    }
+
+    .manager-gate-notice .notice-text p {
+      font-size: 0.82rem;
+      color: #6d28d9;
+      margin: 2px 0 0 0;
+    }
+
+    /* Printable Summary Styles */
+    .printable-audit-report {
+      padding: 16px;
+      background: #ffffff;
+      color: #1c1917;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    .print-report-header {
+      border-bottom: 2px solid #292524;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .print-store-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #1c1917;
+    }
+
+    .print-report-title {
+      font-size: 0.92rem;
+      color: #57534e;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .print-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin-top: 14px;
+    }
+
+    .print-table th, .print-table td {
+      border: 1px solid #d6d3d1;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .print-table th {
+      background: #f5f5f4;
+      font-weight: 700;
+      color: #1c1917;
+    }
+
+    .print-sign-off {
+      margin-top: 36px;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #a8a29e;
+    }
+
+    .sign-line {
+      flex: 1;
+      border-top: 1px solid #1c1917;
+      padding-top: 4px;
+      font-size: 0.8rem;
+      color: #57534e;
+    }
+
     @media print {
-      .tabs-nav, .mobile-bottom-nav, .filter-bar, .form-actions, .btn {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+      }
+      .app-header, .tabs-nav, .mobile-bottom-nav, .filter-bar, .app-footer, .modal-close-btn, button, .comm-share-bar {
         display: none !important;
+      }
+      .modal-overlay {
+        position: static !important;
+        background: none !important;
+        display: block !important;
+        padding: 0 !important;
+      }
+      .modal-container {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .printable-audit-report {
+        padding: 0 !important;
+      }
+      .print-table th {
+        background: #eeeeee !important;
+        -webkit-print-color-adjust: exact;
       }
     }
   </style>
@@ -2972,6 +3458,11 @@
               <span class="store-dot"></span>
               <span id="headerStoreName">Downtown Roastery & Cafe #04</span>
             </div>
+            <!-- Iteration D: Manager Mode Toggle Button -->
+            <button type="button" id="btnManagerModeToggle" class="btn-manager-toggle" onclick="window.shiftCoverApp.toggleManagerMode()" title="Toggle Store Manager Mode (Secured by PIN 1234)">
+              <span class="toggle-icon">🔒</span>
+              <span class="toggle-label" id="managerToggleLabel">Manager Mode: OFF</span>
+            </button>
             <div id="headerAuthPill" class="header-auth-pill">
               <!-- Populated dynamically by JS -->
             </div>
@@ -3046,6 +3537,16 @@
           </svg>
           <span>Covered Log</span>
           <span id="tabCoveredBadge" class="tab-badge">0</span>
+        </button>
+
+        <!-- Iteration D: Manager Approval Queue Tab -->
+        <button type="button" class="tab-btn" data-tab="approval-queue" id="tabApprovalQueue">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"></path>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+          </svg>
+          <span>Approval Queue</span>
+          <span id="tabPendingBadge" class="tab-badge" style="background:#ef4444; color:#ffffff;">0</span>
         </button>
       </nav>
 
@@ -3591,13 +4092,91 @@
          ====================================================================== -->
     <section id="view-covered-history" class="view-section">
       <div class="form-card">
-        <div class="form-header">
-          <h2>Resolved & Covered Shifts Log</h2>
-          <p>Record of peer coverage hand-offs, claimed shifts, and completed swaps.</p>
+        <div class="form-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2>Resolved & Covered Shifts Log</h2>
+            <p>Record of peer coverage hand-offs, claimed shifts, and completed swaps.</p>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" class="btn btn-outline btn-export" onclick="window.shiftCoverApp.exportAuditTrailCsv()" title="Export weekly resolved coverage log as clean CSV">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Export CSV</span>
+            </button>
+            <button type="button" class="btn btn-outline btn-print" onclick="window.shiftCoverApp.printAuditTrailSummary()" title="Print weekly coverage summary for store records">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              <span>Print Summary</span>
+            </button>
+          </div>
         </div>
 
         <div id="coveredContainer" class="shifts-grid">
           <!-- Injected via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         VIEW 5: Manager Approval Queue & Audit Trail (Iteration D)
+         One-Click Approve/Reject for pending claims + Audit Trail CSV Export
+         ====================================================================== -->
+    <section id="view-approval-queue" class="view-section">
+      <div class="approval-queue-card">
+        <div class="approval-queue-header">
+          <div>
+            <div class="queue-badge-title">
+              <span class="queue-icon">🔑</span>
+              <h2>Manager Approval Queue</h2>
+            </div>
+            <p>Review and authorize pending shift claims with one click, detect schedule conflicts, and export weekly store audit logs.</p>
+          </div>
+          <div class="queue-header-actions">
+            <button type="button" class="btn btn-outline btn-export" onclick="window.shiftCoverApp.exportAuditTrailCsv()" title="Export resolved coverage log as clean CSV">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span>Export CSV</span>
+            </button>
+            <button type="button" class="btn btn-outline btn-print" onclick="window.shiftCoverApp.printAuditTrailSummary()" title="Print weekly coverage summary for store records">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              <span>Print Summary</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Manager Mode Status Notice if off -->
+        <div id="approvalManagerNotice" class="manager-gate-notice" style="display: none;">
+          <div class="notice-icon">🔒</div>
+          <div class="notice-text">
+            <strong>Manager Mode is currently locked</strong>
+            <p>You can view pending requests, but supervisor approval and rejection controls require entering PIN <code>1234</code>.</p>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="window.shiftCoverApp.openPinModal()">
+            Unlock with PIN (1234)
+          </button>
+        </div>
+
+        <!-- Approval Queue Metrics Sub-bar -->
+        <div class="queue-metrics-bar">
+          <div class="queue-metric-pill">
+            <span class="metric-label">Pending Review:</span>
+            <strong id="queuePendingCount" class="metric-val alert">0</strong>
+          </div>
+          <div class="queue-metric-pill">
+            <span class="metric-label">Schedule Overlaps:</span>
+            <strong id="queueConflictCount" class="metric-val warning">0</strong>
+          </div>
+          <div class="queue-metric-pill">
+            <span class="metric-label">Approved This Week:</span>
+            <strong id="queueApprovedCount" class="metric-val success">0</strong>
+          </div>
+          <div class="queue-metric-actions">
+            <button type="button" class="btn-text queue-approve-all-btn" id="btnApproveAllClaims" onclick="window.shiftCoverApp.approveAllPendingClaims()">
+              ✓ Approve All Pending
+            </button>
+          </div>
+        </div>
+
+        <!-- Pending Claims Grid -->
+        <div id="approvalQueueContainer" class="shifts-grid" style="margin-top: 16px;">
+          <!-- Injected via JavaScript -->
         </div>
       </div>
     </section>
@@ -3631,6 +4210,11 @@
           <!-- Populated dynamically -->
         </div>
 
+        <!-- Iteration D: Real-Time Overlap & Double-Booking Warning Banner -->
+        <div id="doubleBookingWarning" class="double-booking-warning" style="display: none;">
+          <!-- Dynamically populated: Conflict details & warning note -->
+        </div>
+
         <form id="claimShiftForm" novalidate>
           <input type="hidden" id="claimShiftId">
 
@@ -3638,8 +4222,11 @@
             <label for="claimerName" class="form-label">
               Your Name <span class="required">*</span>
             </label>
-            <input type="text" id="claimerName" class="form-control" placeholder="e.g. Alex Rivera" required>
+            <input type="text" id="claimerName" class="form-control" placeholder="e.g. Alex Rivera" required oninput="window.shiftCoverApp.updateClaimConflictWarning()">
             <div id="err-claimerName" class="error-hint">Please enter your name to claim this shift.</div>
+            <div class="quick-staff-select" id="quickStaffSelectBar" aria-label="Quick-pick staff member">
+              <!-- Injected via JavaScript -->
+            </div>
           </div>
 
           <div class="form-group" style="margin-bottom: 14px;">
@@ -3737,6 +4324,56 @@
     </div>
   </div>
 
+  <!-- ==========================================================================
+       Iteration D: Manager PIN Verification Modal (PIN: 1234)
+       ========================================================================== -->
+  <div id="managerPinModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalPinTitle">
+    <div class="modal-container" style="max-width: 380px; text-align: center;">
+      <div class="modal-header" style="justify-content: center; position: relative;">
+        <h3 id="modalPinTitle">🔑 Supervisor PIN Required</h3>
+        <button type="button" class="modal-close-btn" id="btnClosePinModal" style="position: absolute; right: 14px;" aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+          Enter your 4-digit store manager PIN to unlock supervisory controls, the approval queue, and audit trail exports.
+        </p>
+        <form id="managerPinForm" novalidate onsubmit="return false;">
+          <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 14px;">
+            <input type="password" id="managerPinInput" maxlength="4" pattern="[0-9]*" inputmode="numeric" class="pin-input" placeholder="••••" autocomplete="off">
+          </div>
+          <div id="err-managerPin" class="error-hint" style="text-align: center; margin-bottom: 12px;">Incorrect PIN. (Hint: Demo PIN is 1234)</div>
+          <div style="display: flex; gap: 10px; justify-content: center; margin-top: 16px;">
+            <button type="button" class="btn btn-outline" id="btnCancelPin" style="flex: 1;">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="btnSubmitPin" style="flex: 1;">Unlock Mode</button>
+          </div>
+        </form>
+        <div style="margin-top: 14px; font-size: 0.78rem; color: #78716c;">
+          🔒 Store Security: Default demo supervisor PIN is <strong>1234</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Iteration D: Printable Audit Trail Summary Modal
+       ========================================================================== -->
+  <div id="printableSummaryModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="printModalTitle">
+    <div class="modal-container print-modal-container" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3 id="printModalTitle">📄 Weekly Coverage Audit Summary</h3>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn btn-primary" onclick="window.print()" style="padding: 6px 14px; font-size: 0.86rem;">
+            🖨️ Print / Save PDF
+          </button>
+          <button type="button" class="modal-close-btn" id="btnClosePrintModal" aria-label="Close dialog">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body" id="printModalBody">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
   <!-- Mobile Floating Bottom Navigation -->
   <div class="mobile-bottom-nav" aria-label="Mobile Navigation">
     <button type="button" class="mobile-nav-item active" data-tab="open-shifts">
@@ -3772,6 +4409,16 @@
       <span>Covered</span>
     </button>
 
+    <!-- Iteration D: Mobile Approval Nav Item -->
+    <button type="button" class="mobile-nav-item" data-tab="approval-queue" id="mobileApprovalNav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 11l3 3L22 4"></path>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+      </svg>
+      <span>Approvals</span>
+      <span id="mobilePendingBadge" class="mobile-badge" style="display:none;">0</span>
+    </button>
+
     <button type="button" class="mobile-nav-item" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -3797,6 +4444,8 @@
       const STORAGE_KEY_SHIFTS = 'shiftcover_shifts_data';
       const STORAGE_KEY_ROSTER = 'shiftcover_roster_data';
       const STORAGE_KEY_AUTH = 'shiftcover_auth_user';
+      const STORAGE_KEY_MANAGER_MODE = 'shiftcover_manager_mode';
+      const MANAGER_PIN = '1234';
 
       // -----------------------------------------------------------------------
       // Demo User Accounts (Employee & Manager Portals)
@@ -3830,6 +4479,148 @@
         }
       };
 
+      // -----------------------------------------------------------------------
+      // Date & Formatting Helpers
+      // -----------------------------------------------------------------------
+      function getRelativeDate(daysOffset) {
+        const d = new Date();
+        d.setDate(d.getDate() + daysOffset);
+        return d.toISOString().split('T')[0];
+      }
+
+      function formatReadableDate(dateStr) {
+        if (!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        const dateObj = new Date(year, parseInt(month, 10) - 1, day);
+        const todayStr = getRelativeDate(0);
+        const tomorrowStr = getRelativeDate(1);
+
+        let prefix = '';
+        if (dateStr === todayStr) prefix = 'Today, ';
+        else if (dateStr === tomorrowStr) prefix = 'Tomorrow, ';
+
+        const options = { weekday: 'short', month: 'short', day: 'numeric' };
+        return prefix + dateObj.toLocaleDateString(undefined, options);
+      }
+
+      function getShortWeekday(dateStr) {
+        if (!dateStr) return 'Today';
+        const [year, month, day] = dateStr.split('-');
+        const dateObj = new Date(year, parseInt(month, 10) - 1, day);
+        return dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+      }
+
+      function formatTime12h(time24) {
+        if (!time24) return '';
+        const [h, m] = time24.split(':');
+        let hours = parseInt(h, 10);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        return `${hours}:${m} ${ampm}`;
+      }
+
+      function formatCompactTime(time24) {
+        if (!time24) return '';
+        const [h, m] = time24.split(':');
+        let hours = parseInt(h, 10);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        return m === '00' ? `${hours} ${ampm}` : `${hours}:${m} ${ampm}`;
+      }
+
+      function calculateDurationHours(start, end) {
+        if (!start || !end) return '0';
+        const [sH, sM] = start.split(':').map(Number);
+        const [eH, eM] = end.split(':').map(Number);
+        let startMinutes = sH * 60 + sM;
+        let endMinutes = eH * 60 + eM;
+        if (endMinutes < startMinutes) {
+          endMinutes += 24 * 60; // cross midnight
+        }
+        return ((endMinutes - startMinutes) / 60).toFixed(1).replace('.0', '');
+      }
+
+      function timeToMinutes(time24) {
+        if (!time24) return 0;
+        const [h, m] = time24.split(':').map(Number);
+        return (h || 0) * 60 + (m || 0);
+      }
+
+      function timeAgo(isoString) {
+        if (!isoString) return '';
+        const seconds = Math.floor((new Date() - new Date(isoString)) / 1000);
+        if (seconds < 60) return 'Just now';
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) return `${minutes}m ago`;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) return `${hours}h ago`;
+        const days = Math.floor(hours / 24);
+        return `${days}d ago`;
+      }
+
+      function escapeHTML(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // -----------------------------------------------------------------------
+      // Baseline Master Schedule (Used for Real-Time Overlap & Double-Booking Warnings)
+      // -----------------------------------------------------------------------
+      const BASELINE_SCHEDULE = [
+        {
+          id: 'sched_alex_today',
+          staffName: 'Alex Rivera',
+          date: getRelativeDate(0), // Today
+          startTime: '08:00',
+          endTime: '13:00',
+          role: 'Opening Barista',
+          location: 'Downtown Roastery'
+        },
+        {
+          id: 'sched_maya_today',
+          staffName: 'Maya Lin',
+          date: getRelativeDate(0), // Today
+          startTime: '11:30',
+          endTime: '17:00',
+          role: 'Mid Barista',
+          location: 'Downtown Roastery'
+        },
+        {
+          id: 'sched_carlos_today',
+          staffName: 'Carlos Ruiz',
+          date: getRelativeDate(0), // Today
+          startTime: '16:00',
+          endTime: '21:30',
+          role: 'Closing Barista',
+          location: 'Downtown Roastery'
+        },
+        {
+          id: 'sched_marcus_tom',
+          staffName: 'Marcus Brody',
+          date: getRelativeDate(1), // Tomorrow
+          startTime: '06:00',
+          endTime: '14:30',
+          role: 'Shift Supervisor',
+          location: 'Downtown Roastery'
+        },
+        {
+          id: 'sched_tyler_tom',
+          staffName: 'Tyler Jackson',
+          date: getRelativeDate(1), // Tomorrow
+          startTime: '07:00',
+          endTime: '13:00',
+          role: 'Opening Barista',
+          location: 'Downtown Roastery'
+        }
+      ];
+
       // Realistic initial demo seed data (Coffee Shop Context - Privacy-Safe Reasons)
       const INITIAL_SHIFTS = [
         {
@@ -3848,7 +4639,8 @@
           claimedBy: null,
           claimedAt: null,
           claimerContact: null,
-          approved: false
+          approved: false,
+          requestType: 'DROP'
         },
         {
           id: 'shift_2',
@@ -3866,7 +4658,8 @@
           claimedBy: null,
           claimedAt: null,
           claimerContact: null,
-          approved: false
+          approved: false,
+          requestType: 'DROP'
         },
         {
           id: 'shift_3',
@@ -3929,17 +4722,17 @@
           notes: 'Bar shutdown & espresso machine backflush duties.',
           status: 'CLAIMED',
           createdAt: new Date(Date.now() - 50 * 60 * 1000).toISOString(),
-          claimedBy: 'Alex Rivera',
+          claimedBy: 'Carlos Ruiz',
           claimedAt: new Date(Date.now() - 20 * 60 * 1000).toISOString(),
-          claimerContact: '(555) 019-2834',
+          claimerContact: '(555) 123-7766',
           approved: false, // Pending Manager Approval!
+          hasConflict: true,
+          conflictDetails: 'Double-Booking Conflict: Carlos Ruiz is already scheduled for Closing Barista Today (16:00 – 21:30).',
           requestType: 'DROP'
         }
       ];
 
-      // -----------------------------------------------------------------------
       // Availability Configuration & Standby Statuses (Iteration B)
-      // -----------------------------------------------------------------------
       const AVAILABILITY_CONFIG = {
         AVAILABLE_MORNING: {
           key: 'AVAILABLE_MORNING',
@@ -4004,7 +4797,7 @@
         return AVAILABILITY_CONFIG[statusKey] || AVAILABILITY_CONFIG.AVAILABLE_ALL;
       }
 
-      // Realistic initial demo seed data (Coffee Shop Context - Iterations B & C)
+      // Initial Demo Standby Roster
       const INITIAL_ROSTER = [
         {
           id: 'staff_alex',
@@ -4085,11 +4878,43 @@
         }
       ];
 
+      // -----------------------------------------------------------------------
+      // Storage Helpers
+      // -----------------------------------------------------------------------
+      function loadFromStorage(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch (err) {
+          console.warn('LocalStorage load error:', err);
+          return fallback;
+        }
+      }
+
+      function saveToStorage(key, data) {
+        try {
+          localStorage.setItem(key, JSON.stringify(data));
+        } catch (err) {
+          console.warn('LocalStorage save error:', err);
+        }
+      }
+
       // App state
       let shifts = loadFromStorage(STORAGE_KEY_SHIFTS, INITIAL_SHIFTS);
       let roster = loadFromStorage(STORAGE_KEY_ROSTER, INITIAL_ROSTER);
+      let currentUser = loadFromStorage(STORAGE_KEY_AUTH, null);
+      if (currentUser && currentUser.role !== 'EMPLOYEE' && currentUser.role !== 'MANAGER') {
+        currentUser = null;
+      }
+      let isManagerMode = loadFromStorage(STORAGE_KEY_MANAGER_MODE, false) === true;
+      if (currentUser && currentUser.role === 'MANAGER') {
+        isManagerMode = true;
+      }
 
-      // Normalize roster entries for backwards-compatibility
+      let activeTab = 'open-shifts';
+      let currentRosterScope = 'TODAY'; // 'TODAY' or 'WEEK'
+
+      // Normalize roster entries
       if (Array.isArray(roster)) {
         roster = roster.map(m => {
           if (m.status === 'AVAILABLE') m.status = 'AVAILABLE_ALL';
@@ -4106,134 +4931,84 @@
       }
 
       // -----------------------------------------------------------------------
-      // Iteration C: Trade Balance Visualizer Engine
-      // Counts "Shifts Picked Up" vs. "Shifts Covered" to promote fair teamwork
+      // Audio Chime (Browser Web Audio API Synthesis)
       // -----------------------------------------------------------------------
-      function getMemberTradeBalance(memberName) {
-        if (!memberName) {
-          return {
-            pickedUp: 0,
-            covered: 0,
-            net: 0,
-            ratioPercent: 50,
-            badgeText: 'Even (0 Net)',
-            badgeClass: 'tag-balanced'
-          };
+      function playClaimSuccessSound() {
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContext) return;
+          const ctx = new AudioContext();
+
+          const now = ctx.currentTime;
+          const osc1 = ctx.createOscillator();
+          const osc2 = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc1.type = 'triangle';
+          osc2.type = 'sine';
+
+          osc1.frequency.setValueAtTime(523.25, now); // C5
+          osc1.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+          osc1.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+
+          osc2.frequency.setValueAtTime(261.63, now); // C4
+          osc2.frequency.setValueAtTime(329.63, now + 0.1);
+
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+          osc1.connect(gain);
+          osc2.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc1.start(now);
+          osc2.start(now);
+          osc1.stop(now + 0.5);
+          osc2.stop(now + 0.5);
+        } catch (e) {
+          // Audio policy or unsupported; fail silently
         }
+      }
 
-        const nameClean = memberName.toLowerCase().trim();
-        const member = roster.find(m => m.name.toLowerCase().trim() === nameClean);
+      // -----------------------------------------------------------------------
+      // Toast System
+      // -----------------------------------------------------------------------
+      function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
 
-        let pickedUp = member && typeof member.basePickedUp === 'number' ? member.basePickedUp : 3;
-        let covered = member && typeof member.baseCovered === 'number' ? member.baseCovered : 2;
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
 
-        shifts.forEach(s => {
-          if (s.status === 'CLAIMED') {
-            const claimedByMatch = s.claimedBy && s.claimedBy.toLowerCase().trim() === nameClean;
-            const requesterMatch = s.requester && s.requester.toLowerCase().trim() === nameClean;
+        const iconSvg = type === 'success'
+          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+          : type === 'error'
+          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
+          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
 
-            if (s.requestType === 'TRADE' && s.tradeAccepted) {
-              // 1-to-1 trade: both participants pick up 1 and have 1 covered
-              if (claimedByMatch || requesterMatch) {
-                pickedUp += 1;
-                covered += 1;
-              }
-            } else {
-              // Standard drop shift
-              if (claimedByMatch) pickedUp += 1;
-              if (requesterMatch) covered += 1;
-            }
+        toast.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            ${iconSvg}
+            <span>${escapeHTML(message)}</span>
+          </div>
+          <button style="background: none; border: none; color: #a8a29e; cursor: pointer; font-size: 1.1rem; line-height: 1;">&times;</button>
+        `;
+
+        const closeBtn = toast.querySelector('button');
+        if (closeBtn) closeBtn.onclick = () => toast.remove();
+
+        container.appendChild(toast);
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.25s ease';
+            setTimeout(() => toast.remove(), 260);
           }
-        });
-
-        const net = pickedUp - covered;
-        const total = pickedUp + covered;
-        const ratioPercent = total > 0 ? Math.round((pickedUp / total) * 100) : 50;
-
-        let badgeText = 'Even (0 Net)';
-        let badgeClass = 'tag-balanced';
-
-        if (net >= 5) {
-          badgeText = `⭐ +${net} High Contributor`;
-          badgeClass = 'tag-super';
-        } else if (net > 0) {
-          badgeText = `↑ +${net} Net Pickups`;
-          badgeClass = 'tag-positive';
-        } else if (net < 0) {
-          badgeText = `↓ ${net} Needs Pickup`;
-          badgeClass = 'tag-needs-pickup';
-        }
-
-        return {
-          pickedUp,
-          covered,
-          net,
-          ratioPercent,
-          badgeText,
-          badgeClass
-        };
-      }
-
-      let currentUser = loadFromStorage(STORAGE_KEY_AUTH, null);
-      if (currentUser && currentUser.role !== 'EMPLOYEE' && currentUser.role !== 'MANAGER') {
-        currentUser = null;
-      }
-      let activeTab = 'open-shifts';
-      let currentRosterScope = 'TODAY'; // 'TODAY' or 'WEEK'
-
-      // -----------------------------------------------------------------------
-      // Date & Formatting Helpers
-      // -----------------------------------------------------------------------
-      function getRelativeDate(daysOffset) {
-        const d = new Date();
-        d.setDate(d.getDate() + daysOffset);
-        return d.toISOString().split('T')[0];
-      }
-
-      function formatReadableDate(dateStr) {
-        if (!dateStr) return '';
-        const [year, month, day] = dateStr.split('-');
-        const dateObj = new Date(year, parseInt(month) - 1, day);
-        const todayStr = getRelativeDate(0);
-        const tomorrowStr = getRelativeDate(1);
-
-        let prefix = '';
-        if (dateStr === todayStr) prefix = 'Today, ';
-        else if (dateStr === tomorrowStr) prefix = 'Tomorrow, ';
-
-        const options = { weekday: 'short', month: 'short', day: 'numeric' };
-        return prefix + dateObj.toLocaleDateString(undefined, options);
-      }
-
-      function getShortWeekday(dateStr) {
-        if (!dateStr) return 'Today';
-        const [year, month, day] = dateStr.split('-');
-        const dateObj = new Date(year, parseInt(month) - 1, day);
-        return dateObj.toLocaleDateString('en-US', { weekday: 'short' });
-      }
-
-      function formatTime12h(time24) {
-        if (!time24) return '';
-        const [h, m] = time24.split(':');
-        let hours = parseInt(h, 10);
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        return `${hours}:${m} ${ampm}`;
-      }
-
-      function formatCompactTime(time24) {
-        if (!time24) return '';
-        const [h, m] = time24.split(':');
-        let hours = parseInt(h, 10);
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        return m === '00' ? `${hours} ${ampm}` : `${hours}:${m} ${ampm}`;
+        }, 4000);
       }
 
       // -----------------------------------------------------------------------
-      // Iteration A Communication Helpers (One-Tap Alert + SMS Group Launcher)
+      // Communication Helpers (Iteration A - Alert Text & SMS Launcher)
       // -----------------------------------------------------------------------
       function getShareClaimUrl(shiftId) {
         const base = window.location.href.split('#')[0];
@@ -4295,329 +5070,817 @@
           document.execCommand('copy');
           if (callback) callback();
         } catch (err) {
-          showToast('Could not copy automatically. Please copy from the preview box.', 'error');
+          showToast('Could not copy automatically. Please copy from preview box.', 'error');
         }
         document.body.removeChild(ta);
       }
 
-      function calculateDurationHours(start, end) {
-        if (!start || !end) return 0;
-        const [sH, sM] = start.split(':').map(Number);
-        const [eH, eM] = end.split(':').map(Number);
-        let startMinutes = sH * 60 + sM;
-        let endMinutes = eH * 60 + eM;
-        if (endMinutes < startMinutes) {
-          // Cross midnight
-          endMinutes += 24 * 60;
+      // -----------------------------------------------------------------------
+      // Iteration D - Requirement 1: Overlap & Double-Booking Detection Engine
+      // Automatically checks if a staff member attempting to claim a shift
+      // is already scheduled for a conflicting time slot.
+      // -----------------------------------------------------------------------
+      function checkScheduleConflict(shiftId, staffName) {
+        if (!staffName || !shiftId) return { hasConflict: false };
+
+        const targetShift = shifts.find(s => s.id === shiftId);
+        if (!targetShift) return { hasConflict: false };
+
+        const cleanName = staffName.trim().toLowerCase();
+        const targetDate = targetShift.date;
+        const targetStart = timeToMinutes(targetShift.startTime);
+        let targetEnd = timeToMinutes(targetShift.endTime);
+        if (targetEnd < targetStart) targetEnd += 24 * 60; // Cross-midnight shift
+
+        // 1. Check against master baseline schedule for this employee on this date
+        const scheduledList = BASELINE_SCHEDULE.filter(s =>
+          s.date === targetDate && s.staffName.toLowerCase() === cleanName
+        );
+
+        // 2. Check against already claimed/confirmed shifts in active shifts log
+        shifts.forEach(s => {
+          if (s.id !== targetShift.id && s.date === targetDate) {
+            const isClaimedByMe = s.status === 'CLAIMED' && s.claimedBy && s.claimedBy.toLowerCase().trim() === cleanName;
+            if (isClaimedByMe) {
+              scheduledList.push({
+                role: s.role,
+                date: s.date,
+                startTime: s.startTime,
+                endTime: s.endTime,
+                location: s.location,
+                source: 'ShiftCover Peer Claim'
+              });
+            }
+          }
+        });
+
+        // 3. Test each scheduled shift for time overlap: max(start1, start2) < min(end1, end2)
+        for (const scheduled of scheduledList) {
+          const sStart = timeToMinutes(scheduled.startTime);
+          let sEnd = timeToMinutes(scheduled.endTime);
+          if (sEnd < sStart) sEnd += 24 * 60;
+
+          const overlapStart = Math.max(targetStart, sStart);
+          const overlapEnd = Math.min(targetEnd, sEnd);
+
+          if (overlapStart < overlapEnd) {
+            const overlapMinutes = overlapEnd - overlapStart;
+            const overlapHours = (overlapMinutes / 60).toFixed(1).replace('.0', '');
+            const conflictTimeDesc = `${formatTime12h(scheduled.startTime)} – ${formatTime12h(scheduled.endTime)}`;
+
+            return {
+              hasConflict: true,
+              conflictingShift: scheduled,
+              targetShift,
+              overlapMinutes,
+              overlapHours,
+              message: `${staffName} is already scheduled for ${scheduled.role} on ${formatReadableDate(targetDate)} from ${conflictTimeDesc} (${overlapMinutes >= 60 ? overlapHours + ' hr' : overlapMinutes + ' min'} conflict).`
+            };
+          }
         }
-        return ((endMinutes - startMinutes) / 60).toFixed(1).replace('.0', '');
+
+        return { hasConflict: false };
       }
 
-      function timeAgo(isoString) {
-        if (!isoString) return '';
-        const seconds = Math.floor((new Date() - new Date(isoString)) / 1000);
-        if (seconds < 60) return 'Just now';
-        const minutes = Math.floor(seconds / 60);
-        if (minutes < 60) return `${minutes}m ago`;
-        const hours = Math.floor(minutes / 60);
-        if (hours < 24) return `${hours}h ago`;
-        const days = Math.floor(hours / 24);
-        return `${days}d ago`;
-      }
+      function updateClaimConflictWarning() {
+        const shiftId = document.getElementById('claimShiftId') ? document.getElementById('claimShiftId').value : null;
+        const claimerInput = document.getElementById('claimerName');
+        const warningBox = document.getElementById('doubleBookingWarning');
+        const confirmBtn = document.getElementById('btnConfirmClaim');
 
-      // -----------------------------------------------------------------------
-      // Audio Chime (Gentle browser web audio synthesis for claiming shift)
-      // -----------------------------------------------------------------------
-      function playClaimSuccessSound() {
-        try {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (!AudioContext) return;
-          const ctx = new AudioContext();
+        if (!warningBox || !claimerInput || !shiftId) return;
 
-          const now = ctx.currentTime;
-          const osc1 = ctx.createOscillator();
-          const osc2 = ctx.createOscillator();
-          const gain = ctx.createGain();
+        const claimerName = claimerInput.value.trim();
+        if (!claimerName) {
+          warningBox.style.display = 'none';
+          if (confirmBtn) {
+            confirmBtn.innerHTML = 'Confirm &amp; Claim Shift';
+          }
+          return;
+        }
 
-          osc1.type = 'triangle';
-          osc2.type = 'sine';
-
-          osc1.frequency.setValueAtTime(523.25, now); // C5
-          osc1.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
-          osc1.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
-
-          osc2.frequency.setValueAtTime(261.63, now); // C4
-          osc2.frequency.setValueAtTime(329.63, now + 0.1);
-
-          gain.gain.setValueAtTime(0.18, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-
-          osc1.connect(gain);
-          osc2.connect(gain);
-          gain.connect(ctx.destination);
-
-          osc1.start(now);
-          osc2.start(now);
-          osc1.stop(now + 0.5);
-          osc2.stop(now + 0.5);
-        } catch (e) {
-          // Audio autoplay policies or unsupported; fail silently
+        const conflict = checkScheduleConflict(shiftId, claimerName);
+        if (conflict.hasConflict) {
+          warningBox.style.display = 'flex';
+          warningBox.innerHTML = `
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-body">
+              <div class="warning-title">Schedule Overlap &amp; Double-Booking Warning!</div>
+              <div class="warning-desc">
+                <strong>${escapeHTML(claimerName)}</strong> is already scheduled for <strong>${escapeHTML(conflict.conflictingShift.role)}</strong> on this date from <strong>${formatTime12h(conflict.conflictingShift.startTime)} – ${formatTime12h(conflict.conflictingShift.endTime)}</strong>.
+              </div>
+              <div class="warning-hint">
+                🚨 Working both shifts creates a <strong>${conflict.overlapMinutes} minute</strong> direct time conflict. Claiming will require Store Supervisor approval.
+              </div>
+            </div>
+          `;
+          if (confirmBtn) {
+            confirmBtn.innerHTML = `⚠️ Confirm &amp; Request Supervisor Review`;
+          }
+        } else {
+          warningBox.style.display = 'none';
+          if (confirmBtn) {
+            confirmBtn.innerHTML = 'Confirm &amp; Claim Shift';
+          }
         }
       }
 
-      // -----------------------------------------------------------------------
-      // Storage Helpers
-      // -----------------------------------------------------------------------
-      function loadFromStorage(key, fallback) {
-        try {
-          const raw = localStorage.getItem(key);
-          return raw ? JSON.parse(raw) : fallback;
-        } catch (err) {
-          console.warn('LocalStorage error:', err);
-          return fallback;
-        }
-      }
+      function populateQuickStaffPicker(targetShiftId) {
+        const pickerBar = document.getElementById('quickStaffSelectBar');
+        if (!pickerBar) return;
 
-      function saveToStorage(key, data) {
-        try {
-          localStorage.setItem(key, JSON.stringify(data));
-        } catch (err) {
-          console.warn('LocalStorage save error:', err);
-        }
-      }
+        const staffOptions = [
+          { name: 'Alex Rivera', phone: '(555) 019-2834' },
+          { name: 'Sasha Vane', phone: '(555) 782-9901' },
+          { name: 'Tyler Jackson', phone: '(555) 431-8822' },
+          { name: 'Maya Lin', phone: '(555) 901-3344' },
+          { name: 'Carlos Ruiz', phone: '(555) 123-7766' }
+        ];
 
-      // -----------------------------------------------------------------------
-      // Toast System
-      // -----------------------------------------------------------------------
-      function showToast(message, type = 'info') {
-        const container = document.getElementById('toastContainer');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-
-        const iconSvg = type === 'success'
-          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>'
-          : type === 'error'
-          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
-          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
-
-        toast.innerHTML = `
-          <div style="display: flex; align-items: center; gap: 8px;">
-            ${iconSvg}
-            <span>${escapeHTML(message)}</span>
-          </div>
-          <button style="background: none; border: none; color: #a8a29e; cursor: pointer; font-size: 1.1rem; line-height: 1;">&times;</button>
+        pickerBar.innerHTML = `
+          <span style="font-size: 0.74rem; color: var(--text-muted); font-weight: 600;">Quick-fill staff:</span>
+          ${staffOptions.map(s => {
+            const conflict = checkScheduleConflict(targetShiftId, s.name);
+            const conflictFlag = conflict.hasConflict ? ' ⚠️' : '';
+            return `
+              <button type="button" class="btn-quick-staff" onclick="window.shiftCoverApp.selectQuickStaff('${escapeHTML(s.name)}', '${escapeHTML(s.phone)}')">
+                ${escapeHTML(s.name)}${conflictFlag}
+              </button>
+            `;
+          }).join('')}
         `;
-
-        const closeBtn = toast.querySelector('button');
-        closeBtn.onclick = () => toast.remove();
-
-        container.appendChild(toast);
-        setTimeout(() => {
-          if (toast.parentNode) {
-            toast.style.opacity = '0';
-            toast.style.transition = 'opacity 0.25s ease';
-            setTimeout(() => toast.remove(), 260);
-          }
-        }, 4000);
       }
 
-      function escapeHTML(str) {
-        if (!str) return '';
-        return String(str)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#39;');
+      function selectQuickStaff(name, phone) {
+        const nameInput = document.getElementById('claimerName');
+        const phoneInput = document.getElementById('claimerContact');
+        if (nameInput) nameInput.value = name;
+        if (phoneInput && phone) phoneInput.value = phone;
+        updateClaimConflictWarning();
       }
 
       // -----------------------------------------------------------------------
-      // User Auth & Session Management (Gated Access)
+      // Iteration D - Requirement 2: Manager Mode Toggle & 4-Digit PIN Security
       // -----------------------------------------------------------------------
-      function updateAuthScreenVisibility() {
-        const authScreen = document.getElementById('authGatewayScreen');
-        const appDashboard = document.getElementById('appDashboardScreen');
-        if (!authScreen || !appDashboard) return;
+      function openPinModal() {
+        const modal = document.getElementById('managerPinModal');
+        const pinInput = document.getElementById('managerPinInput');
+        const errHint = document.getElementById('err-managerPin');
+        if (!modal) return;
 
-        const isAuthenticated = currentUser && (currentUser.role === 'EMPLOYEE' || currentUser.role === 'MANAGER');
+        if (pinInput) {
+          pinInput.value = '';
+          setTimeout(() => pinInput.focus(), 150);
+        }
+        if (errHint) errHint.classList.remove('visible');
 
-        if (isAuthenticated) {
-          authScreen.style.display = 'none';
-          appDashboard.style.display = 'block';
-          render();
+        modal.classList.add('active');
+      }
+
+      function closePinModal() {
+        const modal = document.getElementById('managerPinModal');
+        if (modal) modal.classList.remove('active');
+      }
+
+      function verifyManagerPin() {
+        const pinInput = document.getElementById('managerPinInput');
+        const errHint = document.getElementById('err-managerPin');
+        const pinVal = pinInput ? pinInput.value.trim() : '';
+
+        if (pinVal === MANAGER_PIN || pinVal === 'manager123') {
+          closePinModal();
+          setManagerMode(true);
+          showToast('🔓 Manager Mode unlocked (PIN 1234 verified)! Supervisor controls active.', 'success');
+          switchTab('approval-queue');
         } else {
-          authScreen.style.display = 'flex';
-          appDashboard.style.display = 'none';
+          if (errHint) errHint.classList.add('visible');
+          if (pinInput) {
+            pinInput.value = '';
+            pinInput.focus();
+          }
+          showToast('Incorrect PIN. (Hint: Demo PIN is 1234)', 'error');
         }
       }
 
-      function loginUser(userObj) {
-        currentUser = userObj;
-        saveToStorage(STORAGE_KEY_AUTH, currentUser);
-        const roleLabel = currentUser.role === 'MANAGER' ? 'Store Manager' : 'Employee (Barista)';
-        showToast(`Signed in as ${currentUser.name} (${roleLabel})!`, 'success');
-
-        // Pre-fill form inputs with current user
-        const reqInput = document.getElementById('requesterName');
-        if (reqInput && currentUser.name) {
-          reqInput.value = currentUser.name;
-        }
-
-        const staffNameInput = document.getElementById('staffMemberName');
-        if (staffNameInput && currentUser.name) {
-          staffNameInput.value = currentUser.name;
-        }
-
-        updateAuthScreenVisibility();
-        switchTab('open-shifts');
-      }
-
-      function logoutUser() {
-        currentUser = null;
-        try {
-          localStorage.removeItem(STORAGE_KEY_AUTH);
-        } catch (e) {}
-        showToast('You have signed out. Please sign in to access ShiftCover.', 'info');
-        updateAuthScreenVisibility();
-      }
-
-      function switchRole(targetRole) {
-        if (targetRole === 'MANAGER') {
-          loginUser(DEMO_USERS.manager);
+      function toggleManagerMode() {
+        if (isManagerMode) {
+          setManagerMode(false);
+          showToast('🔒 Manager Mode exited. Switched back to staff view.', 'info');
         } else {
-          loginUser(DEMO_USERS.employee);
+          openPinModal();
         }
       }
 
-      function renderAuthHeader() {
-        const authContainer = document.getElementById('headerAuthPill');
-        const roleBanner = document.getElementById('roleAlertBanner');
+      function setManagerMode(enabled) {
+        isManagerMode = Boolean(enabled);
+        saveToStorage(STORAGE_KEY_MANAGER_MODE, isManagerMode);
 
-        if (!authContainer || !currentUser) return;
-
-        if (currentUser.role === 'MANAGER') {
-          authContainer.innerHTML = `
-            <div class="user-avatar-pill manager" title="Store Manager">${escapeHTML(currentUser.avatarInitials || 'SS')}</div>
-            <div class="user-identity-text">
-              <span class="user-identity-name">${escapeHTML(currentUser.name)}</span>
-              <span class="role-badge manager">🔑 Store Manager</span>
-            </div>
-            <button type="button" class="btn-text" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
-              Sign Out
-            </button>
-          `;
-
-          const pendingCount = shifts.filter(s => s.status === 'CLAIMED' && !s.approved).length;
-          if (roleBanner) {
-            roleBanner.className = 'role-alert-banner manager';
-            roleBanner.style.display = 'flex';
-            roleBanner.innerHTML = `
-              <div class="role-banner-content">
-                <span>🔑 <strong>Store Manager Mode Active</strong>: Logged in as <strong>${escapeHTML(currentUser.name)}</strong>. Supervisor authorization to approve claims, remove shifts, and manage team roster.</span>
-              </div>
-              <div class="role-banner-actions">
-                ${pendingCount > 0 ? `
-                  <button type="button" class="btn btn-sm-auth" style="background:#5b21b6; color:#ffffff;" onclick="window.shiftCoverApp.goToCoveredHistory()">
-                    ${pendingCount} Pending Approval${pendingCount > 1 ? 's' : ''} &rarr;
-                  </button>
-                ` : ''}
-              </div>
-            `;
-          }
-        } else {
-          // Employee
-          authContainer.innerHTML = `
-            <div class="user-avatar-pill" title="Employee">${escapeHTML(currentUser.avatarInitials || 'AR')}</div>
-            <div class="user-identity-text">
-              <span class="user-identity-name">${escapeHTML(currentUser.name)}</span>
-              <span class="role-badge employee">☕ Barista</span>
-            </div>
-            <button type="button" class="btn-text" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
-              Sign Out
-            </button>
-          `;
-
-          if (roleBanner) {
-            roleBanner.className = 'role-alert-banner employee';
-            roleBanner.style.display = 'flex';
-            roleBanner.innerHTML = `
-              <div class="role-banner-content">
-                <span>☕ <strong>Employee Portal Active</strong>: Logged in as <strong>${escapeHTML(currentUser.name)}</strong>. Ready to pick up open shifts or request coverage with teammates.</span>
-              </div>
-              <div class="role-banner-actions">
-                <button type="button" class="btn btn-sm-auth btn-outline" onclick="window.shiftCoverApp.goToPostShift()">
-                  + Post Request
-                </button>
-              </div>
-            `;
-          }
-        }
-      }
-
-      // -----------------------------------------------------------------------
-      // Navigation / Tab Switching
-      // -----------------------------------------------------------------------
-      function switchTab(targetTabId) {
-        activeTab = targetTabId;
-
-        // Desktop nav
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-          btn.classList.toggle('active', btn.dataset.tab === targetTabId);
-        });
-
-        // Mobile bottom nav
-        document.querySelectorAll('.mobile-nav-item').forEach(item => {
-          item.classList.toggle('active', item.dataset.tab === targetTabId);
-        });
-
-        // Sections
-        document.querySelectorAll('.view-section').forEach(sec => {
-          sec.classList.remove('active');
-        });
-        const activeSection = document.getElementById(`view-${targetTabId}`);
-        if (activeSection) {
-          activeSection.classList.add('active');
-        }
-
-        // If switching to post-shift, pre-fill requester name from current user
-        if (targetTabId === 'post-shift' && currentUser && currentUser.name) {
-          const reqInput = document.getElementById('requesterName');
-          if (reqInput && !reqInput.value) {
-            reqInput.value = currentUser.name;
+        if (isManagerMode) {
+          if (!currentUser) {
+            currentUser = DEMO_USERS.manager;
+            saveToStorage(STORAGE_KEY_AUTH, currentUser);
           }
         }
 
-        // If switching to staff-roster, pre-fill staff name from current user
-        if (targetTabId === 'staff-roster' && currentUser && currentUser.name) {
-          const staffName = document.getElementById('staffMemberName');
-          if (staffName && !staffName.value) {
-            staffName.value = currentUser.name;
-          }
-        }
-
-        // Scroll to top of section smoothly on mobile
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
+        renderManagerModeToggle();
         render();
       }
 
-      // Attach tab event listeners
-      document.querySelectorAll('.tab-btn, .mobile-nav-item').forEach(button => {
-        button.addEventListener('click', () => {
-          const tabId = button.dataset.tab;
-          if (tabId) switchTab(tabId);
-        });
-      });
+      function renderManagerModeToggle() {
+        const toggleBtn = document.getElementById('btnManagerModeToggle');
+        const labelEl = document.getElementById('managerToggleLabel');
+        const mobileNavEl = document.getElementById('mobileApprovalNav');
+
+        if (toggleBtn) {
+          toggleBtn.classList.toggle('active', isManagerMode);
+          if (labelEl) {
+            labelEl.textContent = isManagerMode ? 'Manager Mode: ACTIVE' : 'Manager Mode: OFF';
+          }
+          const iconEl = toggleBtn.querySelector('.toggle-icon');
+          if (iconEl) {
+            iconEl.textContent = isManagerMode ? '🔓' : '🔒';
+          }
+        }
+
+        if (mobileNavEl) {
+          mobileNavEl.style.display = isManagerMode ? 'flex' : 'none';
+        }
+      }
 
       // -----------------------------------------------------------------------
-      // Iteration B: Shift Period & Match Recommendation Engine
+      // Iteration D - Requirement 2: Manager Approval Queue Engine
+      // One-click Approve or Reject for pending claims
+      // -----------------------------------------------------------------------
+      function approveShift(id) {
+        if (!isManagerMode && (!currentUser || currentUser.role !== 'MANAGER')) {
+          showToast('Store Manager Mode required to approve claims.', 'error');
+          openPinModal();
+          return;
+        }
+
+        const shift = shifts.find(s => s.id === id);
+        if (shift) {
+          shift.approved = true;
+          shift.approvedAt = new Date().toISOString();
+          shift.approvedBy = (currentUser && currentUser.name) ? currentUser.name : 'Sarah Sterling (Supervisor)';
+          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          playClaimSuccessSound();
+          showToast(`✓ Approved coverage for ${shift.role}! (Covered by ${shift.claimedBy || 'Peer'})`, 'success');
+          render();
+        }
+      }
+
+      function rejectShiftClaim(id) {
+        if (!isManagerMode && (!currentUser || currentUser.role !== 'MANAGER')) {
+          showToast('Store Manager Mode required to reject claims.', 'error');
+          openPinModal();
+          return;
+        }
+
+        const shift = shifts.find(s => s.id === id);
+        if (shift) {
+          const rejectedStaff = shift.claimedBy || 'staff member';
+          shift.status = 'OPEN';
+          shift.claimedBy = null;
+          shift.claimedAt = null;
+          shift.approved = false;
+          shift.approvedAt = null;
+          shift.approvedBy = null;
+          shift.hasConflict = false;
+          shift.conflictDetails = null;
+          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          showToast(`✕ Claim by ${rejectedStaff} rejected. Shift is now back OPEN on peer board!`, 'info');
+          render();
+        }
+      }
+
+      function approveAllPendingClaims() {
+        if (!isManagerMode && (!currentUser || currentUser.role !== 'MANAGER')) {
+          showToast('Store Manager Mode required to approve claims.', 'error');
+          openPinModal();
+          return;
+        }
+
+        const pending = shifts.filter(s => s.status === 'CLAIMED' && !s.approved);
+        if (pending.length === 0) {
+          showToast('No pending shift claims to approve.', 'info');
+          return;
+        }
+
+        const supervisorName = (currentUser && currentUser.name) ? currentUser.name : 'Sarah Sterling (Supervisor)';
+        const nowIso = new Date().toISOString();
+
+        pending.forEach(s => {
+          s.approved = true;
+          s.approvedAt = nowIso;
+          s.approvedBy = supervisorName;
+        });
+
+        saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+        playClaimSuccessSound();
+        showToast(`✓ One-click approved all ${pending.length} pending shift claim${pending.length > 1 ? 's' : ''}!`, 'success');
+        render();
+      }
+
+      function renderApprovalQueue() {
+        const container = document.getElementById('approvalQueueContainer');
+        const pendingCountEl = document.getElementById('queuePendingCount');
+        const conflictCountEl = document.getElementById('queueConflictCount');
+        const approvedCountEl = document.getElementById('queueApprovedCount');
+        const managerNotice = document.getElementById('approvalManagerNotice');
+
+        if (!container) return;
+
+        const pendingList = shifts.filter(s => s.status === 'CLAIMED' && !s.approved);
+        const approvedList = shifts.filter(s => s.status === 'CLAIMED' && s.approved);
+        const conflictList = pendingList.filter(s => s.hasConflict);
+
+        if (pendingCountEl) pendingCountEl.textContent = pendingList.length;
+        if (conflictCountEl) conflictCountEl.textContent = conflictList.length;
+        if (approvedCountEl) approvedCountEl.textContent = approvedList.length;
+
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
+        if (managerNotice) {
+          managerNotice.style.display = isManager ? 'none' : 'flex';
+        }
+
+        if (pendingList.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+              <div class="empty-icon" style="color: #10b981; font-size: 2.5rem; line-height: 1; margin-bottom: 8px;">✓</div>
+              <h3 class="empty-title">All Shift Claims Are Approved &amp; Resolved!</h3>
+              <p class="empty-text">No pending peer coverage claims need review. When teammates claim open shifts, they will appear here for one-click authorization.</p>
+              <div style="display: flex; gap: 10px; justify-content: center; margin-top: 14px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-outline" onclick="window.shiftCoverApp.exportAuditTrailCsv()">
+                  📥 Export Weekly Audit CSV
+                </button>
+                <button type="button" class="btn btn-primary" onclick="window.shiftCoverApp.goToOpenShifts()">
+                  View Open Board
+                </button>
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = pendingList.map(shift => {
+          const duration = calculateDurationHours(shift.startTime, shift.endTime);
+          const readableDate = formatReadableDate(shift.date);
+          const timeWindow = `${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)}`;
+          const timeSinceClaim = timeAgo(shift.claimedAt);
+
+          let conflictBanner = '';
+          if (shift.hasConflict) {
+            conflictBanner = `
+              <div class="double-booking-warning" style="margin: 10px 0 12px 0; padding: 10px 12px;">
+                <div class="warning-icon" style="font-size: 1.25rem;">🚨</div>
+                <div class="warning-body">
+                  <div class="warning-title" style="font-size: 0.88rem;">Schedule Conflict / Double-Booking Flagged!</div>
+                  <div class="warning-desc" style="font-size: 0.82rem;">
+                    ${escapeHTML(shift.conflictDetails || 'Conflicting scheduled shift detected on this day.')}
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+
+          return `
+            <div class="shift-card pending-claim-card ${shift.hasConflict ? 'has-conflict' : ''}" id="queue-card-${shift.id}">
+              <div class="shift-card-header">
+                <div>
+                  <div class="shift-meta-badges">
+                    <span class="badge badge-urgent">⏳ PENDING MANAGER REVIEW</span>
+                    ${shift.hasConflict ? '<span class="badge-conflict-warning">🚨 CONFLICT FLAGGED</span>' : '<span class="badge badge-claimed">✓ No Time Conflict</span>'}
+                    <span class="badge badge-open">Reason: ${escapeHTML(shift.reason || 'Schedule Conflict')}</span>
+                  </div>
+                  <h3 class="shift-role-title">
+                    <span>${escapeHTML(shift.role)}</span>
+                  </h3>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-size: 0.76rem; color: var(--text-muted); display: block;">Claimed ${timeSinceClaim}</span>
+                </div>
+              </div>
+
+              <div class="shift-details-grid">
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span><strong>Date:</strong> ${readableDate}</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span><strong>Time:</strong> ${timeWindow} (${duration} hrs)</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <span><strong>Original:</strong> ${escapeHTML(shift.requester)}</span>
+                </div>
+                <div class="detail-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+                  <span><strong>Claimed By:</strong> <strong style="color: #15803d;">${escapeHTML(shift.claimedBy || 'Peer')}</strong> (${escapeHTML(shift.claimerContact || 'On file')})</span>
+                </div>
+              </div>
+
+              ${conflictBanner}
+
+              ${shift.notes ? `<div class="shift-notes" style="margin-top: 8px;">&ldquo;${escapeHTML(shift.notes)}&rdquo;</div>` : ''}
+
+              <!-- One-Click Approve and Reject Actions -->
+              <div class="claim-action-buttons">
+                <button type="button" class="btn btn-approve-claim" onclick="window.shiftCoverApp.approveShift('${shift.id}')" title="Approve coverage hand-off with one click">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Approve Coverage</span>
+                </button>
+
+                <button type="button" class="btn btn-reject-claim" onclick="window.shiftCoverApp.rejectShiftClaim('${shift.id}')" title="Reject claim and re-open shift for peers">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  <span>Reject Claim</span>
+                </button>
+
+                <span style="font-size: 0.78rem; color: var(--text-muted); margin-left: auto;">
+                  📍 ${escapeHTML(shift.location)}
+                </span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // -----------------------------------------------------------------------
+      // Iteration D - Requirement 3: Export Audit Trail (CSV & Printable Summary)
+      // -----------------------------------------------------------------------
+      function exportAuditTrailCsv() {
+        if (shifts.length === 0) {
+          showToast('No shifts available to export.', 'info');
+          return;
+        }
+
+        const headers = [
+          'Shift ID',
+          'Date',
+          'Day of Week',
+          'Role',
+          'Start Time',
+          'End Time',
+          'Duration Hours',
+          'Location',
+          'Requester (Original)',
+          'Reason',
+          'Status',
+          'Approval Status',
+          'Covered By (Claimer)',
+          'Claimer Contact',
+          'Claimed At',
+          'Approved By (Supervisor)',
+          'Approved At',
+          'Schedule Overlap Conflict',
+          'Hand-off Notes'
+        ];
+
+        const rows = shifts.map(s => {
+          const dayName = getShortWeekday(s.date);
+          const duration = calculateDurationHours(s.startTime, s.endTime);
+          const approvalStatus = s.approved ? 'Approved' : (s.status === 'CLAIMED' ? 'Pending Approval' : 'Unclaimed');
+          const conflictFlag = s.hasConflict ? `YES (${s.conflictDetails || 'Overlap'})` : 'No Conflict';
+
+          return [
+            s.id,
+            s.date,
+            dayName,
+            s.role,
+            formatTime12h(s.startTime),
+            formatTime12h(s.endTime),
+            duration,
+            s.location,
+            s.requester,
+            s.reason || 'None',
+            s.status,
+            approvalStatus,
+            s.claimedBy || 'Uncovered',
+            s.claimerContact || 'N/A',
+            s.claimedAt || 'N/A',
+            s.approvedBy || 'Pending',
+            s.approvedAt || 'Pending',
+            conflictFlag,
+            (s.notes || '').replace(/[\r\n]+/g, ' ')
+          ].map(field => {
+            const str = String(field || '');
+            if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+              return `"${str.replace(/"/g, '""')}"`;
+            }
+            return str;
+          }).join(',');
+        });
+
+        const csvContent = [headers.join(','), ...rows].join('\r\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const dateStamp = getRelativeDate(0);
+        link.href = url;
+        link.download = `ShiftCover_Weekly_Audit_Trail_${dateStamp}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        showToast('Weekly Audit Trail CSV exported successfully!', 'success');
+      }
+
+      function printAuditTrailSummary() {
+        const modal = document.getElementById('printableSummaryModal');
+        const bodyEl = document.getElementById('printModalBody');
+        if (!modal || !bodyEl) return;
+
+        const todayStr = new Date().toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        const supervisorName = (currentUser && currentUser.name) ? currentUser.name : 'Sarah Sterling';
+
+        const coveredList = shifts.filter(s => s.status === 'CLAIMED');
+        const totalHours = coveredList.reduce((acc, s) => acc + parseFloat(calculateDurationHours(s.startTime, s.endTime) || 0), 0).toFixed(1);
+        const pendingCount = shifts.filter(s => s.status === 'CLAIMED' && !s.approved).length;
+
+        bodyEl.innerHTML = `
+          <div class="printable-audit-report">
+            <div class="print-report-header">
+              <div>
+                <div class="print-store-title">Downtown Roastery &amp; Cafe #04</div>
+                <div class="print-report-title">Weekly Peer Shift Coverage &amp; Substitution Audit Trail</div>
+              </div>
+              <div style="text-align: right; font-size: 0.8rem; color: #57534e;">
+                <div><strong>Generated:</strong> ${escapeHTML(todayStr)}</div>
+                <div><strong>Supervisor on Duty:</strong> ${escapeHTML(supervisorName)}</div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 14px; background: #f5f5f4; border: 1px solid #d6d3d1; border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.82rem; flex-wrap: wrap;">
+              <div><strong>Total Logged Shifts:</strong> ${shifts.length}</div>
+              <div>&bull;</div>
+              <div><strong>Resolved &amp; Covered:</strong> ${coveredList.length} (${totalHours} hrs)</div>
+              <div>&bull;</div>
+              <div><strong>Pending Approvals:</strong> ${pendingCount}</div>
+              <div>&bull;</div>
+              <div><strong>Store Compliance:</strong> Privacy-Standard Compliant (Standardized Reasons)</div>
+            </div>
+
+            <table class="print-table">
+              <thead>
+                <tr>
+                  <th>Date &amp; Hours</th>
+                  <th>Role</th>
+                  <th>Original Staff</th>
+                  <th>Standard Reason</th>
+                  <th>Covering Peer</th>
+                  <th>Contact</th>
+                  <th>Manager Approval</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${shifts.map(s => {
+                  const dayName = getShortWeekday(s.date);
+                  const timeStr = `${formatTime12h(s.startTime)} – ${formatTime12h(s.endTime)}`;
+                  const approvalBadge = s.approved ? `✓ Approved (${escapeHTML(s.approvedBy || 'Supervisor')})` : (s.status === 'CLAIMED' ? '⏳ Pending Approval' : '⚪ Unclaimed');
+                  return `
+                    <tr>
+                      <td><strong>${dayName}, ${escapeHTML(s.date)}</strong><br><span style="color:#57534e; font-size:0.75rem;">${timeStr} (${calculateDurationHours(s.startTime, s.endTime)}h)</span></td>
+                      <td><strong>${escapeHTML(s.role)}</strong><br><span style="color:#78716c; font-size:0.75rem;">${escapeHTML(s.location)}</span></td>
+                      <td>${escapeHTML(s.requester)}</td>
+                      <td>${escapeHTML(s.reason || 'None')}</td>
+                      <td><strong>${escapeHTML(s.claimedBy || '—')}</strong></td>
+                      <td>${escapeHTML(s.claimerContact || '—')}</td>
+                      <td>${approvalBadge}</td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+
+            <div class="print-sign-off">
+              <div class="sign-line">
+                Store Manager Signature: _________________________________________
+              </div>
+              <div class="sign-line" style="flex: 0 0 200px;">
+                Date: ________________________
+              </div>
+            </div>
+          </div>
+        `;
+
+        modal.classList.add('active');
+      }
+
+      function closePrintModal() {
+        const modal = document.getElementById('printableSummaryModal');
+        if (modal) modal.classList.remove('active');
+      }
+
+      // -----------------------------------------------------------------------
+      // Iteration C: Trade Balance Visualizer Engine & 1-to-1 Swap Mode
+      // -----------------------------------------------------------------------
+      function getMemberTradeBalance(memberName) {
+        if (!memberName) {
+          return {
+            pickedUp: 0,
+            covered: 0,
+            net: 0,
+            ratioPercent: 50,
+            badgeText: 'Even (0 Net)',
+            badgeClass: 'tag-balanced'
+          };
+        }
+
+        const nameClean = memberName.toLowerCase().trim();
+        const member = roster.find(m => m.name.toLowerCase().trim() === nameClean);
+
+        let pickedUp = member && typeof member.basePickedUp === 'number' ? member.basePickedUp : 3;
+        let covered = member && typeof member.baseCovered === 'number' ? member.baseCovered : 2;
+
+        shifts.forEach(s => {
+          if (s.status === 'CLAIMED') {
+            const claimedByMatch = s.claimedBy && s.claimedBy.toLowerCase().trim() === nameClean;
+            const requesterMatch = s.requester && s.requester.toLowerCase().trim() === nameClean;
+
+            if (s.requestType === 'TRADE' && s.tradeAccepted) {
+              if (claimedByMatch || requesterMatch) {
+                pickedUp += 1;
+                covered += 1;
+              }
+            } else {
+              if (claimedByMatch) pickedUp += 1;
+              if (requesterMatch) covered += 1;
+            }
+          }
+        });
+
+        const net = pickedUp - covered;
+        const total = pickedUp + covered;
+        const ratioPercent = total > 0 ? Math.round((pickedUp / total) * 100) : 50;
+
+        let badgeText = 'Even (0 Net)';
+        let badgeClass = 'tag-balanced';
+
+        if (net >= 5) {
+          badgeText = `⭐ +${net} High Contributor`;
+          badgeClass = 'tag-super';
+        } else if (net > 0) {
+          badgeText = `↑ +${net} Net Pickups`;
+          badgeClass = 'tag-positive';
+        } else if (net < 0) {
+          badgeText = `↓ ${net} Needs Pickup`;
+          badgeClass = 'tag-needs-pickup';
+        }
+
+        return {
+          pickedUp,
+          covered,
+          net,
+          ratioPercent,
+          badgeText,
+          badgeClass
+        };
+      }
+
+      function toggleTradeMode(isTrade) {
+        const tradeSection = document.getElementById('tradeOfferSection');
+        if (tradeSection) {
+          tradeSection.style.display = isTrade ? 'block' : 'none';
+        }
+        updateTradeVisualPreview();
+      }
+
+      function applyTradePreset(presetKey) {
+        const roleSel = document.getElementById('tradeOfferedRole');
+        const locSel = document.getElementById('tradeOfferedLocation');
+        const dateIn = document.getElementById('tradeOfferedDate');
+        const startIn = document.getElementById('tradeOfferedStartTime');
+        const endIn = document.getElementById('tradeOfferedEndTime');
+
+        if (!roleSel || !locSel || !dateIn || !startIn || !endIn) return;
+
+        if (presetKey === 'PRESET_SUN_CLOSE') {
+          roleSel.value = 'Closing Barista';
+          locSel.value = 'Downtown Roastery';
+          dateIn.value = getRelativeDate(3);
+          startIn.value = '16:00';
+          endIn.value = '21:30';
+        } else if (presetKey === 'PRESET_MON_MID') {
+          roleSel.value = 'Mid Barista';
+          locSel.value = 'Main St. Flagship';
+          dateIn.value = getRelativeDate(4);
+          startIn.value = '11:00';
+          endIn.value = '16:00';
+        } else if (presetKey === 'PRESET_SAT_OPEN') {
+          roleSel.value = 'Opening Barista';
+          locSel.value = 'Downtown Roastery';
+          dateIn.value = getRelativeDate(2);
+          startIn.value = '06:00';
+          endIn.value = '12:30';
+        } else if (presetKey === 'PRESET_WED_BAKER') {
+          roleSel.value = 'Baker / Kitchen Prep';
+          locSel.value = 'Uptown Express';
+          dateIn.value = getRelativeDate(5);
+          startIn.value = '05:30';
+          endIn.value = '11:30';
+        }
+
+        updateTradeVisualPreview();
+      }
+
+      function updateTradeVisualPreview() {
+        const previewNeedRole = document.getElementById('previewNeedRole');
+        const previewNeedMeta = document.getElementById('previewNeedMeta');
+        const previewOfferRole = document.getElementById('previewOfferRole');
+        const previewOfferMeta = document.getElementById('previewOfferMeta');
+
+        const needRole = document.getElementById('shiftRole') ? document.getElementById('shiftRole').value : 'Opening Barista';
+        const needDate = document.getElementById('shiftDate') ? document.getElementById('shiftDate').value : getRelativeDate(0);
+        const needStart = document.getElementById('shiftStartTime') ? document.getElementById('shiftStartTime').value : '06:00';
+        const needEnd = document.getElementById('shiftEndTime') ? document.getElementById('shiftEndTime').value : '12:30';
+
+        const offerRole = document.getElementById('tradeOfferedRole') ? document.getElementById('tradeOfferedRole').value : 'Closing Barista';
+        const offerDate = document.getElementById('tradeOfferedDate') ? document.getElementById('tradeOfferedDate').value : getRelativeDate(3);
+        const offerStart = document.getElementById('tradeOfferedStartTime') ? document.getElementById('tradeOfferedStartTime').value : '16:00';
+        const offerEnd = document.getElementById('tradeOfferedEndTime') ? document.getElementById('tradeOfferedEndTime').value : '21:30';
+
+        if (previewNeedRole) previewNeedRole.textContent = needRole || 'Opening Barista';
+        if (previewNeedMeta) previewNeedMeta.textContent = `${formatReadableDate(needDate)} • ${formatTime12h(needStart)} – ${formatTime12h(needEnd)}`;
+        if (previewOfferRole) previewOfferRole.textContent = offerRole || 'Closing Barista';
+        if (previewOfferMeta) previewOfferMeta.textContent = `${formatReadableDate(offerDate)} • ${formatTime12h(offerStart)} – ${formatTime12h(offerEnd)}`;
+      }
+
+      function openTradeModal(shiftId) {
+        if (!currentUser || currentUser.role === 'GUEST') {
+          showToast('Please sign in to confirm a shift swap.', 'info');
+          switchTab('login');
+          return;
+        }
+
+        const shift = shifts.find(s => s.id === shiftId);
+        if (!shift) return;
+
+        const modal = document.getElementById('tradeModal');
+        const previewBox = document.getElementById('modalTradeDualPreview');
+        const hiddenId = document.getElementById('tradeShiftId');
+        const claimerName = document.getElementById('tradeClaimerName');
+        const claimerContact = document.getElementById('tradeClaimerContact');
+
+        if (hiddenId) hiddenId.value = shift.id;
+        if (claimerName && currentUser.name) claimerName.value = currentUser.name;
+        if (claimerContact && currentUser.phone) claimerContact.value = currentUser.phone;
+
+        const offered = shift.offeredShift || {
+          role: 'Closing Barista',
+          date: getRelativeDate(3),
+          startTime: '16:00',
+          endTime: '21:30',
+          location: shift.location
+        };
+
+        if (previewBox) {
+          previewBox.innerHTML = `
+            <div style="background: #ffffff; border: 1px solid #ddd6fe; border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+              <div style="font-size: 0.76rem; font-weight: 700; color: #5b21b6; text-transform: uppercase;">Shift You Will Work (Take):</div>
+              <strong style="font-size: 1rem; color: #1e1b4b;">${escapeHTML(shift.role)}</strong>
+              <div style="font-size: 0.82rem; color: #4b5563; margin-top: 2px;">
+                📅 ${formatReadableDate(shift.date)} &bull; ⏰ ${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)} (${calculateDurationHours(shift.startTime, shift.endTime)}h)
+              </div>
+              <div style="font-size: 0.78rem; color: #6b7280;">👤 Original Worker: ${escapeHTML(shift.requester)} (${escapeHTML(shift.reason || 'Swap')})</div>
+            </div>
+
+            <div style="text-align: center; font-size: 1.2rem; color: #7c3aed; margin: 4px 0;">⇅ Balanced 1-to-1 Trade</div>
+
+            <div style="background: #faf5ff; border: 1px solid #c084fc; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+              <div style="font-size: 0.76rem; font-weight: 700; color: #7e22ce; text-transform: uppercase;">Shift Requester Takes in Return:</div>
+              <strong style="font-size: 1rem; color: #3b0764;">${escapeHTML(offered.role)}</strong>
+              <div style="font-size: 0.82rem; color: #4b5563; margin-top: 2px;">
+                📅 ${formatReadableDate(offered.date)} &bull; ⏰ ${formatTime12h(offered.startTime)} – ${formatTime12h(offered.endTime)} (${calculateDurationHours(offered.startTime, offered.endTime)}h)
+              </div>
+              <div style="font-size: 0.78rem; color: #6b7280;">📍 Location: ${escapeHTML(offered.location || shift.location)}</div>
+            </div>
+          `;
+        }
+
+        if (modal) modal.classList.add('active');
+      }
+
+      function closeTradeModal() {
+        const modal = document.getElementById('tradeModal');
+        if (modal) modal.classList.remove('active');
+      }
+
+      // -----------------------------------------------------------------------
+      // Match & Recommend Engine (Iteration B)
       // -----------------------------------------------------------------------
       function getShiftPeriod(startTime24) {
         if (!startTime24) return 'MORNING';
         const hour = parseInt(startTime24.split(':')[0], 10);
-        if (hour < 11) return 'MORNING'; // Morning Rush: before 11:00 AM
-        if (hour < 16) return 'MID';     // Mid Shift: 11:00 AM - 4:00 PM
-        return 'CLOSE';                  // Evening Close: 4:00 PM onwards
+        if (hour < 11) return 'MORNING';
+        if (hour < 16) return 'MID';
+        return 'CLOSE';
       }
 
       function getShiftPeriodLabel(period) {
@@ -4634,21 +5897,17 @@
         const results = [];
 
         roster.forEach(member => {
-          // 1. Exclude the person requesting coverage
           if (member.name && member.name.toLowerCase().trim() === requester) return;
 
-          // 2. Exclude Unavailable
           const statusKey = member.status === 'AVAILABLE' ? 'AVAILABLE_ALL' : (member.status === 'STANDBY' ? 'ON_CALL' : member.status);
           if (statusKey === 'UNAVAILABLE') return;
 
-          // 3. Check role qualification
           const roles = Array.isArray(member.roles) ? member.roles : [member.roles];
           const isSupervisor = roles.some(r => r.toLowerCase().includes('manager') || r.toLowerCase().includes('supervisor'));
           const isQualified = roles.some(r => r.toLowerCase().trim() === shiftRole);
 
           if (!isQualified && !isSupervisor) return;
 
-          // 4. Calculate recommendation score and priority badge
           let score = 0;
           let rankBadgeClass = 'match-rank-top';
           let rankLabel = '#1 Recommended';
@@ -4702,10 +5961,6 @@
         return results;
       }
 
-      function getMatchingAvailableStaff(shift) {
-        return getRecommendedPeersForShift(shift).map(r => r.member);
-      }
-
       function buildPeerDirectSmsHref(member, shift) {
         const phone = (member.phone || '').replace(/[^0-9]/g, '');
         const dayShort = getShortWeekday(shift.date);
@@ -4741,7 +5996,7 @@
         const matches = getRecommendedPeersForShift(shift);
         const period = getShiftPeriod(shift.startTime);
         const periodLabel = getShiftPeriodLabel(period);
-        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
         const contactedList = shift.contactedPeers || [];
 
         if (matches.length === 0) {
@@ -4852,16 +6107,22 @@
       }
 
       // -----------------------------------------------------------------------
-      // Render Logic: Open Shifts List
+      // Render Logic: Open Shifts List (With Working Claim Shift Button)
       // -----------------------------------------------------------------------
       function renderOpenShifts() {
         const container = document.getElementById('shiftsContainer');
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-        const roleFilter = document.getElementById('roleFilter').value;
-        const urgencyFilter = document.getElementById('urgencyFilter').value;
-        const locationFilter = document.getElementById('locationFilter').value;
+        if (!container) return;
 
-        // Filter shifts that are OPEN
+        const searchEl = document.getElementById('searchInput');
+        const roleEl = document.getElementById('roleFilter');
+        const urgEl = document.getElementById('urgencyFilter');
+        const locEl = document.getElementById('locationFilter');
+
+        const searchTerm = searchEl ? searchEl.value.toLowerCase().trim() : '';
+        const roleFilter = roleEl ? roleEl.value : 'ALL';
+        const urgencyFilter = urgEl ? urgEl.value : 'ALL';
+        const locationFilter = locEl ? locEl.value : 'ALL';
+
         const openShifts = shifts.filter(s => s.status === 'OPEN').filter(shift => {
           if (roleFilter !== 'ALL' && shift.role !== roleFilter) return false;
           if (urgencyFilter !== 'ALL' && shift.urgency !== urgencyFilter) return false;
@@ -4874,7 +6135,6 @@
           return true;
         });
 
-        // Sort: CRITICAL first, then URGENT, then STANDARD, then by date
         openShifts.sort((a, b) => {
           const urgencyOrder = { CRITICAL: 1, URGENT: 2, STANDARD: 3 };
           if (urgencyOrder[a.urgency] !== urgencyOrder[b.urgency]) {
@@ -4902,12 +6162,9 @@
           return;
         }
 
-        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
 
         container.innerHTML = openShifts.map(shift => {
-          // ShiftCover High-Contrast Status Indicators:
-          // Red: Urgent / Uncovered (< 12 hours)
-          // Yellow: Open / Pending Coverage
           const isUrgentRed = shift.urgency === 'CRITICAL';
           const urgencyBadgeClass = isUrgentRed ? 'badge-critical' : 'badge-open';
           const cardBorderClass = isUrgentRed ? 'critical-shift' : 'urgent-shift';
@@ -4923,19 +6180,42 @@
           const alertPreviewText = buildShiftAlertText(shift);
           const smsLinkHref = buildSmsHref(shift);
 
-          const isMyPost = currentUser && currentUser.name && shift.requester && currentUser.name.toLowerCase() === shift.requester.toLowerCase();
+          const isMyPost = currentUser && currentUser.name && shift.requester && currentUser.name.toLowerCase().trim() === shift.requester.toLowerCase().trim();
 
-          // Iteration B: Dynamic Match & Recommend Section underneath the request
           const matchRecommendHtml = buildMatchRecommendSection(shift);
 
-          // Header action
+          // Check if current active user has a time conflict with this shift
+          let conflictNotice = '';
+          if (currentUser && currentUser.name && !isMyPost) {
+            const conflictCheck = checkScheduleConflict(shift.id, currentUser.name);
+            if (conflictCheck.hasConflict) {
+              conflictNotice = `<span class="badge-conflict-warning" title="${escapeHTML(conflictCheck.message)}">⚠️ Overlaps with your schedule</span>`;
+            }
+          }
+
           let headerActionBtn = '';
           if (isMyPost) {
             headerActionBtn = `<span class="shift-tag-badge shift-tag-my-post">📌 Your Request</span>`;
           }
 
-          // Footer actions: Manager or Owner can delete only
+          // Footer action buttons: Working Claim button + Delete button
           let footerActionBtns = '';
+          if (!isMyPost) {
+            if (shift.requestType === 'TRADE') {
+              footerActionBtns += `
+                <button type="button" class="btn btn-trade-claim" onclick="window.shiftCoverApp.openTradeModal('${shift.id}')">
+                  🔄 Swap Shift
+                </button>
+              `;
+            } else {
+              footerActionBtns += `
+                <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
+                  Claim Shift
+                </button>
+              `;
+            }
+          }
+
           if (isManager || isMyPost) {
             footerActionBtns += `
               <button type="button" class="btn btn-danger-outline" onclick="window.shiftCoverApp.deleteShift('${shift.id}')" title="Delete coverage request">
@@ -4951,6 +6231,7 @@
                   <div class="shift-meta-badges">
                     <span class="badge ${urgencyBadgeClass}">${urgencyLabel}</span>
                     <span class="badge badge-open">Reason: ${escapeHTML(standardizedReason)}</span>
+                    ${conflictNotice}
                     ${isMyPost ? '<span class="shift-tag-badge shift-tag-my-post">Posted by You</span>' : ''}
                   </div>
                   <h3 class="shift-role-title">
@@ -4981,10 +6262,10 @@
 
               ${shift.notes ? `<div class="shift-notes">&ldquo;${escapeHTML(shift.notes)}&rdquo;</div>` : ''}
 
-              <!-- Iteration B: Dynamic Match & Recommend Section underneath the request -->
+              <!-- Match & Recommend Section underneath the request -->
               ${matchRecommendHtml}
 
-              <!-- Iteration A: One-Tap Share Link/Summary & Direct SMS Group Launcher -->
+              <!-- Communication & Share Tooling -->
               <div class="comm-share-bar" aria-label="Shift Alert Sharing Tools">
                 <div class="comm-alert-preview" title="Pre-formatted plain-text shift alert">${escapeHTML(alertPreviewText)}</div>
                 <div class="comm-btn-group">
@@ -5019,9 +6300,9 @@
       // -----------------------------------------------------------------------
       function renderCoveredShifts() {
         const container = document.getElementById('coveredContainer');
-        const covered = shifts.filter(s => s.status === 'CLAIMED');
+        if (!container) return;
 
-        // Sort descending by claimedAt
+        const covered = shifts.filter(s => s.status === 'CLAIMED');
         covered.sort((a, b) => new Date(b.claimedAt || 0) - new Date(a.claimedAt || 0));
 
         if (covered.length === 0) {
@@ -5034,7 +6315,7 @@
           return;
         }
 
-        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
 
         container.innerHTML = covered.map(shift => {
           const durationHours = calculateDurationHours(shift.startTime, shift.endTime);
@@ -5048,19 +6329,21 @@
           if (isManager) {
             if (!isApproved) {
               actionButtons += `
-                <button type="button" class="btn btn-success" onclick="window.shiftCoverApp.approveShift('${shift.id}')">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                  Approve Coverage
+                <button type="button" class="btn btn-approve-claim" onclick="window.shiftCoverApp.approveShift('${shift.id}')" style="padding: 6px 12px; font-size: 0.82rem; min-height: 40px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  <span>Approve</span>
+                </button>
+                <button type="button" class="btn btn-reject-claim" onclick="window.shiftCoverApp.rejectShiftClaim('${shift.id}')" style="padding: 6px 12px; font-size: 0.82rem; min-height: 40px;">
+                  <span>Reject</span>
                 </button>
               `;
             }
             actionButtons += `
-              <button type="button" class="btn btn-outline" onclick="window.shiftCoverApp.reopenShift('${shift.id}')">
-                Re-open Shift
+              <button type="button" class="btn btn-outline" onclick="window.shiftCoverApp.reopenShift('${shift.id}')" style="padding: 6px 12px; font-size: 0.82rem; min-height: 40px;">
+                Re-open
               </button>
             `;
           } else {
-            // Employee role view
             if (!isApproved) {
               actionButtons += `
                 <span class="badge badge-urgent" style="font-size: 0.78rem;">
@@ -5094,12 +6377,13 @@
                     </span>
                     ${shift.reason ? `<span class="badge badge-open">Reason: ${escapeHTML(shift.reason)}</span>` : ''}
                     ${isMySwap ? '<span class="shift-tag-badge shift-tag-my-claim">Your Swap</span>' : ''}
+                    ${shift.hasConflict ? '<span class="badge-conflict-warning">🚨 Conflict Flagged</span>' : ''}
                   </div>
                   <h3 class="shift-role-title">
                     <span>${escapeHTML(shift.role)}</span>
                   </h3>
                 </div>
-                <div class="claim-action-group">
+                <div class="claim-action-group" style="gap: 8px;">
                   ${actionButtons}
                 </div>
               </div>
@@ -5140,10 +6424,9 @@
       }
 
       // -----------------------------------------------------------------------
-      // Render Logic: Staff Standby Roster & Peer Availability Toggles (Iteration B)
+      // Render Logic: Staff Standby Roster (Iteration B)
       // -----------------------------------------------------------------------
       function renderRoster() {
-        // 1. Update personal availability status widget at top of roster view
         const userAvatarEl = document.getElementById('currentMemberAvatar');
         const userNameEl = document.getElementById('currentMemberName');
         const userBadgeEl = document.getElementById('currentMemberStatusBadge');
@@ -5160,7 +6443,7 @@
         let myName = currentUser ? currentUser.name : 'Alex Rivera';
 
         if (currentUser && currentUser.name) {
-          const myEntry = roster.find(m => m.name.toLowerCase() === currentUser.name.toLowerCase());
+          const myEntry = roster.find(m => m.name.toLowerCase().trim() === currentUser.name.toLowerCase().trim());
           if (myEntry) {
             myStatusKey = myEntry.status;
             myName = myEntry.name;
@@ -5179,7 +6462,7 @@
             .toUpperCase()
             .substring(0, 2) || 'ME';
           userAvatarEl.textContent = initials;
-          if (currentUser && currentUser.role === 'MANAGER') {
+          if (isManagerMode || (currentUser && currentUser.role === 'MANAGER')) {
             userAvatarEl.classList.add('manager');
           } else {
             userAvatarEl.classList.remove('manager');
@@ -5195,13 +6478,11 @@
           userScopeEl.textContent = currentRosterScope === 'WEEK' ? '🗓️ This Week' : '📅 Today';
         }
 
-        // Highlight active toggle button
         document.querySelectorAll('.avail-toggle-btn').forEach(btn => {
           const btnStatus = btn.id.replace('toggleBtn-', '');
           btn.classList.toggle('active', btnStatus === myStatusKey);
         });
 
-        // 2. Filter & Render Roster Cards
         const container = document.getElementById('rosterContainer');
         const countSpan = document.getElementById('rosterCount');
         const searchInput = document.getElementById('rosterSearchInput');
@@ -5231,18 +6512,19 @@
         }
 
         if (filtered.length === 0) {
-          container.innerHTML = `
-            <div class="empty-state" style="grid-column: 1 / -1;">
-              <h3 class="empty-title">No Staff Found Matching Filters</h3>
-              <p class="empty-text">Try adjusting your status or timeframe filter above to view all teammates on standby.</p>
-            </div>
-          `;
+          if (container) {
+            container.innerHTML = `
+              <div class="empty-state" style="grid-column: 1 / -1;">
+                <h3 class="empty-title">No Staff Found Matching Filters</h3>
+                <p class="empty-text">Try adjusting your status or timeframe filter above to view all teammates on standby.</p>
+              </div>
+            `;
+          }
           return;
         }
 
-        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
 
-        // Sort: Morning Rush, Mid, Close, All Day first, then On Call, then Unavailable
         const sortedRoster = [...filtered].sort((a, b) => {
           const rank = {
             AVAILABLE_MORNING: 1,
@@ -5257,92 +6539,93 @@
           return (rank[aKey] || 9) - (rank[bKey] || 9);
         });
 
-        container.innerHTML = sortedRoster.map(member => {
-          const initials = member.name
-            .split(' ')
-            .map(n => n[0])
-            .join('')
-            .toUpperCase()
-            .substring(0, 2) || 'ST';
+        if (container) {
+          container.innerHTML = sortedRoster.map(member => {
+            const initials = member.name
+              .split(' ')
+              .map(n => n[0])
+              .join('')
+              .toUpperCase()
+              .substring(0, 2) || 'ST';
 
-          const sKey = member.status === 'AVAILABLE' ? 'AVAILABLE_ALL' : (member.status === 'STANDBY' ? 'ON_CALL' : member.status);
-          const info = getAvailabilityInfo(sKey);
-          const timeframeBadge = (member.timeframe === 'WEEK')
-            ? '<span class="timeframe-pill">🗓️ This Week</span>'
-            : '<span class="timeframe-pill">📅 Today</span>';
+            const sKey = member.status === 'AVAILABLE' ? 'AVAILABLE_ALL' : (member.status === 'STANDBY' ? 'ON_CALL' : member.status);
+            const info = getAvailabilityInfo(sKey);
+            const timeframeBadge = (member.timeframe === 'WEEK')
+              ? '<span class="timeframe-pill">🗓️ This Week</span>'
+              : '<span class="timeframe-pill">📅 Today</span>';
 
-          const rolesString = Array.isArray(member.roles) ? member.roles.join(', ') : member.roles;
-          const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
-          const isSupervisor = member.roles && (member.roles.includes('Store Manager') || member.roles.includes('Shift Supervisor'));
+            const rolesString = Array.isArray(member.roles) ? member.roles.join(', ') : member.roles;
+            const isMe = currentUser && currentUser.name && member.name.toLowerCase().trim() === currentUser.name.toLowerCase().trim();
+            const isSupervisor = member.roles && (member.roles.includes('Store Manager') || member.roles.includes('Shift Supervisor'));
 
-          const phoneDigits = (member.phone || '').replace(/[^0-9]/g, '');
-          const smsHref = phoneDigits ? `sms:${phoneDigits}?body=${encodeURIComponent(`Hey ${member.name.split(' ')[0]}, local shift coverage check-in from ShiftCover.`)}` : 'sms:';
-          const callHref = phoneDigits ? `tel:${phoneDigits}` : 'javascript:void(0)';
+            const phoneDigits = (member.phone || '').replace(/[^0-9]/g, '');
+            const smsHref = phoneDigits ? `sms:${phoneDigits}?body=${encodeURIComponent(`Hey ${member.name.split(' ')[0]}, local shift coverage check-in from ShiftCover.`)}` : 'sms:';
+            const callHref = phoneDigits ? `tel:${phoneDigits}` : 'javascript:void(0)';
 
-          return `
-            <div class="staff-card ${isMe ? 'my-roster-card' : ''}">
-              <div class="staff-card-top">
-                <div class="staff-avatar ${isSupervisor ? 'manager' : ''}">${initials}</div>
-                <div class="staff-info">
-                  <div class="staff-name">
-                    ${escapeHTML(member.name)}
-                    ${isMe ? '<span class="shift-tag-badge shift-tag-my-post">You</span>' : ''}
-                  </div>
-                  <div class="staff-roles">${escapeHTML(rolesString)}</div>
-                  <div class="staff-status-badges-row">
-                    <span class="staff-status-pill ${info.cssClass}">${info.icon} ${info.label}</span>
-                    ${timeframeBadge}
+            return `
+              <div class="staff-card ${isMe ? 'my-roster-card' : ''}">
+                <div class="staff-card-top">
+                  <div class="staff-avatar ${isSupervisor ? 'manager' : ''}">${initials}</div>
+                  <div class="staff-info">
+                    <div class="staff-name">
+                      ${escapeHTML(member.name)}
+                      ${isMe ? '<span class="shift-tag-badge shift-tag-my-post">You</span>' : ''}
+                    </div>
+                    <div class="staff-roles">${escapeHTML(rolesString)}</div>
+                    <div class="staff-status-badges-row">
+                      <span class="staff-status-pill ${info.cssClass}">${info.icon} ${info.label}</span>
+                      ${timeframeBadge}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              ${member.notes ? `<div class="staff-notes-box">${escapeHTML(member.notes)}</div>` : ''}
+                ${member.notes ? `<div class="staff-notes-box">${escapeHTML(member.notes)}</div>` : ''}
 
-              <!-- Direct Contact Tools on Roster Card -->
-              <div class="staff-contact-btns">
-                <a href="${smsHref}" class="btn-staff-sms" title="Send direct SMS to ${escapeHTML(member.name)}">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                  <span>Text</span>
-                </a>
-                ${member.phone ? `
-                  <a href="${callHref}" class="btn-staff-call" title="Call ${escapeHTML(member.name)}">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                    <span>${escapeHTML(member.phone)}</span>
+                <div class="staff-contact-btns">
+                  <a href="${smsHref}" class="btn-staff-sms" title="Send direct SMS to ${escapeHTML(member.name)}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Text</span>
                   </a>
-                ` : ''}
-              </div>
+                  ${member.phone ? `
+                    <a href="${callHref}" class="btn-staff-call" title="Call ${escapeHTML(member.name)}">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      <span>${escapeHTML(member.phone)}</span>
+                    </a>
+                  ` : ''}
+                </div>
 
-              <div class="staff-footer">
-                ${(isManager || isMe) ? `
-                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    <button type="button" class="btn-text" style="color: var(--primary); font-weight: 650; font-size: 0.82rem;" onclick="window.shiftCoverApp.cycleMemberStatus('${member.id}')" title="Cycle through availability statuses">
-                      🔄 ${isMe ? 'Cycle My Status' : 'Cycle Status'}
+                <div class="staff-footer">
+                  ${(isManager || isMe) ? `
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                      <button type="button" class="btn-text" style="color: var(--primary); font-weight: 650; font-size: 0.82rem;" onclick="window.shiftCoverApp.cycleMemberStatus('${member.id}')" title="Cycle through availability statuses">
+                        🔄 ${isMe ? 'Cycle My Status' : 'Cycle Status'}
+                      </button>
+                      <select class="filter-select" style="font-size: 0.74rem; padding: 4px 8px; border-radius: var(--radius-sm);" onchange="window.shiftCoverApp.setMemberStatusDirect('${member.id}', this.value)" aria-label="Change Status">
+                        <option value="AVAILABLE_MORNING" ${sKey === 'AVAILABLE_MORNING' ? 'selected' : ''}>☀️ Morning Rush</option>
+                        <option value="AVAILABLE_MID" ${sKey === 'AVAILABLE_MID' ? 'selected' : ''}>☕ Mid Shift</option>
+                        <option value="AVAILABLE_CLOSE" ${sKey === 'AVAILABLE_CLOSE' ? 'selected' : ''}>🌙 Evening Close</option>
+                        <option value="AVAILABLE_ALL" ${sKey === 'AVAILABLE_ALL' ? 'selected' : ''}>🟢 All Day</option>
+                        <option value="ON_CALL" ${sKey === 'ON_CALL' ? 'selected' : ''}>⚡ On Call</option>
+                        <option value="UNAVAILABLE" ${sKey === 'UNAVAILABLE' ? 'selected' : ''}>⚪ Unavailable</option>
+                      </select>
+                    </div>
+                  ` : `
+                    <span style="font-size: 0.74rem; color: var(--text-muted);">&bull; Standby Peer</span>
+                  `}
+                  ${isManager ? `
+                    <button type="button" class="btn-text" style="color: #dc2626; font-size: 0.82rem;" onclick="window.shiftCoverApp.removeRosterMember('${member.id}')">
+                      Remove
                     </button>
-                    <select class="filter-select" style="font-size: 0.74rem; padding: 4px 8px; border-radius: var(--radius-sm);" onchange="window.shiftCoverApp.setMemberStatusDirect('${member.id}', this.value)" aria-label="Change Status">
-                      <option value="AVAILABLE_MORNING" ${sKey === 'AVAILABLE_MORNING' ? 'selected' : ''}>☀️ Morning Rush</option>
-                      <option value="AVAILABLE_MID" ${sKey === 'AVAILABLE_MID' ? 'selected' : ''}>☕ Mid Shift</option>
-                      <option value="AVAILABLE_CLOSE" ${sKey === 'AVAILABLE_CLOSE' ? 'selected' : ''}>🌙 Evening Close</option>
-                      <option value="AVAILABLE_ALL" ${sKey === 'AVAILABLE_ALL' ? 'selected' : ''}>🟢 All Day</option>
-                      <option value="ON_CALL" ${sKey === 'ON_CALL' ? 'selected' : ''}>⚡ On Call</option>
-                      <option value="UNAVAILABLE" ${sKey === 'UNAVAILABLE' ? 'selected' : ''}>⚪ Unavailable</option>
-                    </select>
-                  </div>
-                ` : `
-                  <span style="font-size: 0.74rem; color: var(--text-muted);">&bull; Standby Peer</span>
-                `}
-                ${isManager ? `
-                  <button type="button" class="btn-text" style="color: #dc2626; font-size: 0.82rem;" onclick="window.shiftCoverApp.removeRosterMember('${member.id}')">
-                    Remove
-                  </button>
-                ` : ''}
+                  ` : ''}
+                </div>
               </div>
-            </div>
-          `;
-        }).join('');
+            `;
+          }).join('');
+        }
       }
 
       // -----------------------------------------------------------------------
-      // Metric Counters Update
+      // Metric Counters & Navigation Badges Update
       // -----------------------------------------------------------------------
       function updateStats() {
         const openList = shifts.filter(s => s.status === 'OPEN');
@@ -5351,42 +6634,53 @@
         const coveredCount = shifts.filter(s => s.status === 'CLAIMED').length;
         const pendingCount = shifts.filter(s => s.status === 'CLAIMED' && !s.approved).length;
 
-        // Header statistics
-        document.getElementById('statOpenCount').textContent = openList.length;
-        document.getElementById('statUrgentCount').textContent = urgentCount;
-        document.getElementById('statStaffAvailable').textContent = availableCount;
+        const statOpen = document.getElementById('statOpenCount');
+        const statUrgent = document.getElementById('statUrgentCount');
+        const statAvail = document.getElementById('statStaffAvailable');
+        const statPendCard = document.getElementById('statPendingCard');
+        const statPendCount = document.getElementById('statPendingCount');
 
-        // Manager pending approvals card
-        const pendingCard = document.getElementById('statPendingCard');
-        const pendingStat = document.getElementById('statPendingCount');
-        if (pendingCard && pendingStat) {
-          if (currentUser && currentUser.role === 'MANAGER') {
-            pendingCard.style.display = 'flex';
-            pendingStat.textContent = pendingCount;
+        if (statOpen) statOpen.textContent = openList.length;
+        if (statUrgent) statUrgent.textContent = urgentCount;
+        if (statAvail) statAvail.textContent = availableCount;
+
+        if (statPendCard && statPendCount) {
+          if (isManagerMode || (currentUser && currentUser.role === 'MANAGER')) {
+            statPendCard.style.display = 'flex';
+            statPendCount.textContent = pendingCount;
           } else {
-            pendingCard.style.display = 'none';
+            statPendCard.style.display = 'none';
           }
         }
 
-        // Badges in tabs
-        document.getElementById('tabOpenBadge').textContent = openList.length;
-        document.getElementById('tabRosterBadge').textContent = roster.length;
-        document.getElementById('tabCoveredBadge').textContent = coveredCount;
+        const tabOpen = document.getElementById('tabOpenBadge');
+        const tabRoster = document.getElementById('tabRosterBadge');
+        const tabCovered = document.getElementById('tabCoveredBadge');
+        const tabPending = document.getElementById('tabPendingBadge');
 
-        // Mobile badges
+        if (tabOpen) tabOpen.textContent = openList.length;
+        if (tabRoster) tabRoster.textContent = roster.length;
+        if (tabCovered) tabCovered.textContent = coveredCount;
+        if (tabPending) {
+          tabPending.textContent = pendingCount;
+          tabPending.style.display = pendingCount > 0 ? 'inline-flex' : 'none';
+        }
+
         const mobBadge = document.getElementById('mobileOpenBadge');
         if (mobBadge) {
-          if (openList.length > 0) {
-            mobBadge.textContent = openList.length;
-            mobBadge.style.display = 'block';
-          } else {
-            mobBadge.style.display = 'none';
-          }
+          mobBadge.textContent = openList.length;
+          mobBadge.style.display = openList.length > 0 ? 'block' : 'none';
+        }
+
+        const mobPending = document.getElementById('mobilePendingBadge');
+        if (mobPending) {
+          mobPending.textContent = pendingCount;
+          mobPending.style.display = pendingCount > 0 ? 'block' : 'none';
         }
       }
 
       // -----------------------------------------------------------------------
-      // Live Match & Recommend Preview in Post Shift Form (Iteration B)
+      // Real-Time Match Preview in Post Shift Form (Iteration B)
       // -----------------------------------------------------------------------
       function updateLiveMatchPreview() {
         const peersContainer = document.getElementById('postShiftMatchPeers');
@@ -5446,17 +6740,16 @@
       }
 
       // -----------------------------------------------------------------------
-      // Peer Availability Status Toggles Methods (Iteration B)
+      // Peer Availability Status Toggles Methods
       // -----------------------------------------------------------------------
       function setMyAvailability(statusKey) {
         if (!currentUser || currentUser.role === 'GUEST') {
           showToast('Please sign in to update your standby availability.', 'info');
-          switchTab('login');
           return;
         }
 
         const myName = currentUser.name;
-        let member = roster.find(m => m.name.toLowerCase() === myName.toLowerCase());
+        let member = roster.find(m => m.name.toLowerCase().trim() === myName.toLowerCase().trim());
 
         if (member) {
           member.status = statusKey;
@@ -5486,7 +6779,7 @@
         currentRosterScope = scope;
         const myName = currentUser ? currentUser.name : '';
         if (myName) {
-          const member = roster.find(m => m.name.toLowerCase() === myName.toLowerCase());
+          const member = roster.find(m => m.name.toLowerCase().trim() === myName.toLowerCase().trim());
           if (member) {
             member.timeframe = scope;
             saveToStorage(STORAGE_KEY_ROSTER, roster);
@@ -5500,8 +6793,8 @@
         const member = roster.find(m => m.id === memberId);
         if (!member) return;
 
-        const isManager = currentUser && currentUser.role === 'MANAGER';
-        const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
+        const isMe = currentUser && currentUser.name && member.name.toLowerCase().trim() === currentUser.name.toLowerCase().trim();
 
         if (!isManager && !isMe) {
           showToast('Only managers or the staff member can change their status.', 'error');
@@ -5523,8 +6816,8 @@
         const member = roster.find(m => m.id === memberId);
         if (!member) return;
 
-        const isManager = currentUser && currentUser.role === 'MANAGER';
-        const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
+        const isMe = currentUser && currentUser.name && member.name.toLowerCase().trim() === currentUser.name.toLowerCase().trim();
 
         if (!isManager && !isMe) {
           showToast('Only managers or the staff member can change their status.', 'error');
@@ -5549,11 +6842,208 @@
         }
       }
 
-      // Master render function
+      function removeRosterMember(id) {
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
+        if (!isManager) {
+          showToast('Store Manager authorization required to remove roster members.', 'error');
+          return;
+        }
+
+        if (!confirm('Remove this peer from the standby roster?')) return;
+        roster = roster.filter(m => m.id !== id);
+        saveToStorage(STORAGE_KEY_ROSTER, roster);
+        showToast('Staff member removed from roster.', 'info');
+        render();
+      }
+
+      // -----------------------------------------------------------------------
+      // User Auth & Session Management
+      // -----------------------------------------------------------------------
+      function updateAuthScreenVisibility() {
+        const authScreen = document.getElementById('authGatewayScreen');
+        const appDashboard = document.getElementById('appDashboardScreen');
+        if (!authScreen || !appDashboard) return;
+
+        const isAuthenticated = currentUser && (currentUser.role === 'EMPLOYEE' || currentUser.role === 'MANAGER');
+
+        if (isAuthenticated) {
+          authScreen.style.display = 'none';
+          appDashboard.style.display = 'block';
+          render();
+        } else {
+          authScreen.style.display = 'flex';
+          appDashboard.style.display = 'none';
+        }
+      }
+
+      function loginUser(userObj) {
+        currentUser = userObj;
+        saveToStorage(STORAGE_KEY_AUTH, currentUser);
+
+        if (currentUser.role === 'MANAGER') {
+          isManagerMode = true;
+          saveToStorage(STORAGE_KEY_MANAGER_MODE, true);
+        }
+
+        const roleLabel = currentUser.role === 'MANAGER' ? 'Store Manager' : 'Employee (Barista)';
+        showToast(`Signed in as ${currentUser.name} (${roleLabel})!`, 'success');
+
+        const reqInput = document.getElementById('requesterName');
+        if (reqInput && currentUser.name) reqInput.value = currentUser.name;
+
+        const staffNameInput = document.getElementById('staffMemberName');
+        if (staffNameInput && currentUser.name) staffNameInput.value = currentUser.name;
+
+        updateAuthScreenVisibility();
+        switchTab('open-shifts');
+      }
+
+      function logoutUser() {
+        currentUser = null;
+        isManagerMode = false;
+        try {
+          localStorage.removeItem(STORAGE_KEY_AUTH);
+          localStorage.removeItem(STORAGE_KEY_MANAGER_MODE);
+        } catch (e) {}
+        showToast('You have signed out. Please sign in to access ShiftCover.', 'info');
+        updateAuthScreenVisibility();
+      }
+
+      function switchRole(targetRole) {
+        if (targetRole === 'MANAGER') {
+          loginUser(DEMO_USERS.manager);
+        } else {
+          loginUser(DEMO_USERS.employee);
+        }
+      }
+
+      function renderAuthHeader() {
+        const authContainer = document.getElementById('headerAuthPill');
+        const roleBanner = document.getElementById('roleAlertBanner');
+
+        if (!authContainer || !currentUser) return;
+
+        const isManager = isManagerMode || currentUser.role === 'MANAGER';
+
+        if (isManager) {
+          authContainer.innerHTML = `
+            <div class="user-avatar-pill manager" title="Store Manager">${escapeHTML(currentUser.avatarInitials || 'SS')}</div>
+            <div class="user-identity-text">
+              <span class="user-identity-name">${escapeHTML(currentUser.name)}</span>
+              <span class="role-badge manager">🔑 Store Manager</span>
+            </div>
+            <button type="button" class="btn-text" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
+              Sign Out
+            </button>
+          `;
+
+          const pendingCount = shifts.filter(s => s.status === 'CLAIMED' && !s.approved).length;
+          if (roleBanner) {
+            roleBanner.className = 'role-alert-banner manager';
+            roleBanner.style.display = 'flex';
+            roleBanner.innerHTML = `
+              <div class="role-banner-content">
+                <span>🔑 <strong>Manager Mode Active:</strong> Logged in as <strong>${escapeHTML(currentUser.name)}</strong>. Supervisor PIN verified for 1-click approvals, rejections, and audit trail export.</span>
+              </div>
+              <div class="role-banner-actions">
+                ${pendingCount > 0 ? `
+                  <button type="button" class="btn btn-sm-auth" style="background:#5b21b6; color:#ffffff;" onclick="window.shiftCoverApp.goToApprovalQueue()">
+                    ${pendingCount} Pending Approval${pendingCount > 1 ? 's' : ''} &rarr;
+                  </button>
+                ` : `
+                  <button type="button" class="btn btn-sm-auth btn-outline" onclick="window.shiftCoverApp.exportAuditTrailCsv()">
+                    📥 Export CSV
+                  </button>
+                `}
+              </div>
+            `;
+          }
+        } else {
+          authContainer.innerHTML = `
+            <div class="user-avatar-pill" title="Employee">${escapeHTML(currentUser.avatarInitials || 'AR')}</div>
+            <div class="user-identity-text">
+              <span class="user-identity-name">${escapeHTML(currentUser.name)}</span>
+              <span class="role-badge employee">☕ Barista</span>
+            </div>
+            <button type="button" class="btn-text" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
+              Sign Out
+            </button>
+          `;
+
+          if (roleBanner) {
+            roleBanner.className = 'role-alert-banner employee';
+            roleBanner.style.display = 'flex';
+            roleBanner.innerHTML = `
+              <div class="role-banner-content">
+                <span>☕ <strong>Employee Portal Active:</strong> Logged in as <strong>${escapeHTML(currentUser.name)}</strong>. Ready to pick up open shifts or request coverage.</span>
+              </div>
+              <div class="role-banner-actions">
+                <button type="button" class="btn btn-sm-auth btn-outline" onclick="window.shiftCoverApp.goToPostShift()">
+                  + Post Request
+                </button>
+              </div>
+            `;
+          }
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // Navigation / Tab Switching
+      // -----------------------------------------------------------------------
+      function switchTab(targetTabId) {
+        activeTab = targetTabId;
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.tab === targetTabId);
+        });
+
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+          item.classList.toggle('active', item.dataset.tab === targetTabId);
+        });
+
+        document.querySelectorAll('.view-section').forEach(sec => {
+          sec.classList.remove('active');
+        });
+
+        const activeSection = document.getElementById(`view-${targetTabId}`);
+        if (activeSection) {
+          activeSection.classList.add('active');
+        }
+
+        if (targetTabId === 'post-shift' && currentUser && currentUser.name) {
+          const reqInput = document.getElementById('requesterName');
+          if (reqInput && !reqInput.value) {
+            reqInput.value = currentUser.name;
+          }
+        }
+
+        if (targetTabId === 'staff-roster' && currentUser && currentUser.name) {
+          const staffName = document.getElementById('staffMemberName');
+          if (staffName && !staffName.value) {
+            staffName.value = currentUser.name;
+          }
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        render();
+      }
+
+      document.querySelectorAll('.tab-btn, .mobile-nav-item').forEach(button => {
+        button.addEventListener('click', () => {
+          const tabId = button.dataset.tab;
+          if (tabId) switchTab(tabId);
+        });
+      });
+
+      // -----------------------------------------------------------------------
+      // Master Render Function
+      // -----------------------------------------------------------------------
       function render() {
         renderAuthHeader();
+        renderManagerModeToggle();
         renderOpenShifts();
         renderCoveredShifts();
+        renderApprovalQueue();
         renderRoster();
         updateStats();
       }
@@ -5566,11 +7056,9 @@
       function validateShiftForm() {
         let isValid = true;
 
-        // Clear previous error styles
         document.querySelectorAll('.error-hint').forEach(el => el.classList.remove('visible'));
         document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
 
-        // Requester name
         const reqName = document.getElementById('requesterName');
         if (!reqName.value.trim()) {
           document.getElementById('err-requesterName').classList.add('visible');
@@ -5578,7 +7066,6 @@
           isValid = false;
         }
 
-        // Shift Role
         const role = document.getElementById('shiftRole');
         if (!role.value) {
           document.getElementById('err-shiftRole').classList.add('visible');
@@ -5586,7 +7073,6 @@
           isValid = false;
         }
 
-        // Shift Date
         const dateInput = document.getElementById('shiftDate');
         if (!dateInput.value) {
           document.getElementById('err-shiftDate').classList.add('visible');
@@ -5594,7 +7080,6 @@
           isValid = false;
         }
 
-        // Start & End Time
         const startTime = document.getElementById('shiftStartTime');
         const endTime = document.getElementById('shiftEndTime');
 
@@ -5608,146 +7093,158 @@
           document.getElementById('err-shiftEndTime').classList.add('visible');
           endTime.classList.add('error');
           isValid = false;
-        } else if (startTime.value && endTime.value) {
-          // If start == end, invalid
-          if (startTime.value === endTime.value) {
-            const errEl = document.getElementById('err-shiftEndTime');
-            errEl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Please select a valid shift end time after the start time.`;
-            errEl.classList.add('visible');
-            endTime.classList.add('error');
-            isValid = false;
-          }
+        } else if (startTime.value && endTime.value && startTime.value === endTime.value) {
+          const errEl = document.getElementById('err-shiftEndTime');
+          errEl.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg> Please select a valid shift end time after the start time.`;
+          errEl.classList.add('visible');
+          endTime.classList.add('error');
+          isValid = false;
         }
 
         return isValid;
       }
 
-      shiftForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+      if (shiftForm) {
+        shiftForm.addEventListener('submit', function (e) {
+          e.preventDefault();
 
-        if (!currentUser || currentUser.role === 'GUEST') {
-          showToast('Please sign in to post shift coverage requests.', 'info');
-          switchTab('login');
-          return;
-        }
+          if (!currentUser || currentUser.role === 'GUEST') {
+            showToast('Please sign in to post shift coverage requests.', 'info');
+            return;
+          }
 
-        if (!validateShiftForm()) {
-          showToast('Please select a shift time and fill required fields before posting.', 'error');
-          return;
-        }
+          if (!validateShiftForm()) {
+            showToast('Please select a shift time and fill required fields before posting.', 'error');
+            return;
+          }
 
-        const urgencyRadio = document.querySelector('input[name="urgency"]:checked');
-        const urgencyVal = urgencyRadio ? urgencyRadio.value : 'CRITICAL';
-        const reasonSelect = document.getElementById('shiftReason');
-        const reasonVal = reasonSelect ? reasonSelect.value : 'Personal Emergency';
+          const urgencyRadio = document.querySelector('input[name="urgency"]:checked');
+          const urgencyVal = urgencyRadio ? urgencyRadio.value : 'CRITICAL';
+          const reasonSelect = document.getElementById('shiftReason');
+          const reasonVal = reasonSelect ? reasonSelect.value : 'Personal Emergency';
+          const requestTypeRadio = document.querySelector('input[name="requestType"]:checked');
+          const requestTypeVal = requestTypeRadio ? requestTypeRadio.value : 'DROP';
 
-        const newShift = {
-          id: 'shift_' + Date.now(),
-          requester: document.getElementById('requesterName').value.trim() || currentUser.name,
-          role: document.getElementById('shiftRole').value,
-          location: document.getElementById('shiftLocation').value,
-          date: document.getElementById('shiftDate').value,
-          startTime: document.getElementById('shiftStartTime').value,
-          endTime: document.getElementById('shiftEndTime').value,
-          urgency: urgencyVal,
-          reason: reasonVal,
-          notes: document.getElementById('shiftNotes').value.trim(),
-          status: 'OPEN',
-          createdAt: new Date().toISOString(),
-          claimedBy: null,
-          claimedAt: null,
-          claimerContact: null,
-          approved: false,
-          contactedPeers: []
-        };
+          let offeredShiftObj = null;
+          if (requestTypeVal === 'TRADE') {
+            offeredShiftObj = {
+              role: document.getElementById('tradeOfferedRole') ? document.getElementById('tradeOfferedRole').value : 'Closing Barista',
+              location: document.getElementById('tradeOfferedLocation') ? document.getElementById('tradeOfferedLocation').value : 'Downtown Roastery',
+              date: document.getElementById('tradeOfferedDate') ? document.getElementById('tradeOfferedDate').value : getRelativeDate(3),
+              startTime: document.getElementById('tradeOfferedStartTime') ? document.getElementById('tradeOfferedStartTime').value : '16:00',
+              endTime: document.getElementById('tradeOfferedEndTime') ? document.getElementById('tradeOfferedEndTime').value : '21:30'
+            };
+          }
 
-        shifts.unshift(newShift);
-        saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+          const newShift = {
+            id: 'shift_' + Date.now(),
+            requester: document.getElementById('requesterName').value.trim() || currentUser.name,
+            role: document.getElementById('shiftRole').value,
+            location: document.getElementById('shiftLocation').value,
+            date: document.getElementById('shiftDate').value,
+            startTime: document.getElementById('shiftStartTime').value,
+            endTime: document.getElementById('shiftEndTime').value,
+            urgency: urgencyVal,
+            reason: reasonVal,
+            notes: document.getElementById('shiftNotes').value.trim(),
+            status: 'OPEN',
+            createdAt: new Date().toISOString(),
+            claimedBy: null,
+            claimedAt: null,
+            claimerContact: null,
+            approved: false,
+            requestType: requestTypeVal,
+            offeredShift: offeredShiftObj,
+            contactedPeers: []
+          };
 
-        const matchedPeers = getRecommendedPeersForShift(newShift);
-        const matchNotice = matchedPeers.length > 0 ? ` Matched ${matchedPeers.length} available peer${matchedPeers.length > 1 ? 's' : ''} to contact first!` : '';
-        showToast(`Coverage requested for ${newShift.role}!${matchNotice}`, 'success');
-        shiftForm.reset();
+          shifts.unshift(newShift);
+          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
 
-        // Reset default date to today's date per ShiftCover standards
-        document.getElementById('shiftDate').value = getRelativeDate(0);
-        document.getElementById('shiftStartTime').value = '06:00';
-        document.getElementById('shiftEndTime').value = '12:30';
-        if (currentUser && currentUser.name) {
-          document.getElementById('requesterName').value = currentUser.name;
-        }
+          const matchedPeers = getRecommendedPeersForShift(newShift);
+          const matchNotice = matchedPeers.length > 0 ? ` Matched ${matchedPeers.length} available peer${matchedPeers.length > 1 ? 's' : ''} to contact first!` : '';
+          showToast(`Coverage requested for ${newShift.role}!${matchNotice}`, 'success');
 
-        updateLiveMatchPreview();
+          shiftForm.reset();
+          document.getElementById('shiftDate').value = getRelativeDate(0);
+          document.getElementById('shiftStartTime').value = '06:00';
+          document.getElementById('shiftEndTime').value = '12:30';
+          if (currentUser && currentUser.name) {
+            document.getElementById('requesterName').value = currentUser.name;
+          }
 
-        // Switch to open shifts tab to view newly posted card with recommendations
-        switchTab('open-shifts');
-      });
+          updateLiveMatchPreview();
+          switchTab('open-shifts');
+        });
+      }
 
-      document.getElementById('btnResetForm').addEventListener('click', () => {
-        shiftForm.reset();
-        document.getElementById('shiftDate').value = getRelativeDate(0);
-        if (currentUser && currentUser.name) {
-          document.getElementById('requesterName').value = currentUser.name;
-        }
-        document.querySelectorAll('.error-hint').forEach(el => el.classList.remove('visible'));
-        document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
-        updateLiveMatchPreview();
-      });
+      const btnResetForm = document.getElementById('btnResetForm');
+      if (btnResetForm) {
+        btnResetForm.addEventListener('click', () => {
+          if (shiftForm) shiftForm.reset();
+          const dInput = document.getElementById('shiftDate');
+          if (dInput) dInput.value = getRelativeDate(0);
+          if (currentUser && currentUser.name) {
+            const req = document.getElementById('requesterName');
+            if (req) req.value = currentUser.name;
+          }
+          document.querySelectorAll('.error-hint').forEach(el => el.classList.remove('visible'));
+          document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+          updateLiveMatchPreview();
+        });
+      }
 
       // -----------------------------------------------------------------------
       // Form: Roster Availability Status Update
       // -----------------------------------------------------------------------
       const rosterForm = document.getElementById('rosterStatusForm');
+      if (rosterForm) {
+        rosterForm.addEventListener('submit', function (e) {
+          e.preventDefault();
 
-      rosterForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+          const nameInput = document.getElementById('staffMemberName');
+          const errName = document.getElementById('err-staffMemberName');
 
-        const nameInput = document.getElementById('staffMemberName');
-        const errName = document.getElementById('err-staffMemberName');
+          if (!nameInput.value.trim()) {
+            if (errName) errName.classList.add('visible');
+            nameInput.classList.add('error');
+            showToast('Please enter your name.', 'error');
+            return;
+          } else {
+            if (errName) errName.classList.remove('visible');
+            nameInput.classList.remove('error');
+          }
 
-        if (!nameInput.value.trim()) {
-          errName.classList.add('visible');
-          nameInput.classList.add('error');
-          showToast('Please enter your name.', 'error');
-          return;
-        } else {
-          errName.classList.remove('visible');
-          nameInput.classList.remove('error');
-        }
+          const rolesVal = document.getElementById('staffRolesQualified') ? document.getElementById('staffRolesQualified').value : '';
+          const rolesArray = rolesVal.split(',').map(r => r.trim()).filter(Boolean);
+          const timeframeVal = document.getElementById('staffTimeframeSelect') ? document.getElementById('staffTimeframeSelect').value : 'TODAY';
+          const phoneVal = document.getElementById('staffPhone') ? document.getElementById('staffPhone').value.trim() : '(555) 345-6789';
 
-        const rolesArray = document.getElementById('staffRolesQualified').value
-          .split(',')
-          .map(r => r.trim())
-          .filter(Boolean);
+          const newMember = {
+            id: 'staff_' + Date.now(),
+            name: nameInput.value.trim(),
+            status: document.getElementById('staffStatusSelect').value,
+            timeframe: timeframeVal,
+            phone: phoneVal,
+            roles: rolesArray.length > 0 ? rolesArray : ['Barista'],
+            notes: document.getElementById('staffAvailabilityNotes').value.trim()
+          };
 
-        const timeframeVal = document.getElementById('staffTimeframeSelect') ? document.getElementById('staffTimeframeSelect').value : 'TODAY';
-        const phoneVal = document.getElementById('staffPhone') ? document.getElementById('staffPhone').value.trim() : '(555) 345-6789';
+          const existingIdx = roster.findIndex(m => m.name.toLowerCase().trim() === newMember.name.toLowerCase().trim());
+          if (existingIdx !== -1) {
+            roster[existingIdx] = newMember;
+            showToast(`Updated standby status for ${newMember.name}!`, 'success');
+          } else {
+            roster.unshift(newMember);
+            showToast(`Added ${newMember.name} to standby roster!`, 'success');
+          }
 
-        const newMember = {
-          id: 'staff_' + Date.now(),
-          name: nameInput.value.trim(),
-          status: document.getElementById('staffStatusSelect').value,
-          timeframe: timeframeVal,
-          phone: phoneVal,
-          roles: rolesArray.length > 0 ? rolesArray : ['Barista'],
-          notes: document.getElementById('staffAvailabilityNotes').value.trim()
-        };
-
-        // Check if member with same name exists, update them; else add
-        const existingIdx = roster.findIndex(m => m.name.toLowerCase() === newMember.name.toLowerCase());
-        if (existingIdx !== -1) {
-          roster[existingIdx] = newMember;
-          showToast(`Updated standby status for ${newMember.name}!`, 'success');
-        } else {
-          roster.unshift(newMember);
-          showToast(`Added ${newMember.name} to standby roster!`, 'success');
-        }
-
-        saveToStorage(STORAGE_KEY_ROSTER, roster);
-        toggleAddMemberForm();
-        render();
-        updateLiveMatchPreview();
-      });
+          saveToStorage(STORAGE_KEY_ROSTER, roster);
+          toggleAddMemberForm();
+          render();
+          updateLiveMatchPreview();
+        });
+      }
 
       // -----------------------------------------------------------------------
       // Claim Shift Modal Workflow
@@ -5758,118 +7255,215 @@
       function openClaimModal(shiftId) {
         if (!currentUser || currentUser.role === 'GUEST') {
           showToast('Please sign in as an Employee or Manager to claim shifts.', 'info');
-          switchTab('login');
           return;
         }
 
         const shift = shifts.find(s => s.id === shiftId);
         if (!shift) return;
 
-        document.getElementById('claimShiftId').value = shift.id;
-        document.getElementById('modalShiftTitle').textContent = `Claim ${shift.role}`;
+        const hiddenId = document.getElementById('claimShiftId');
+        if (hiddenId) hiddenId.value = shift.id;
+
+        const titleEl = document.getElementById('modalShiftTitle');
+        if (titleEl) titleEl.textContent = `Claim ${shift.role}`;
 
         const previewContainer = document.getElementById('modalShiftPreview');
-        previewContainer.innerHTML = `
-          <div class="preview-role">${escapeHTML(shift.role)}</div>
-          <div class="preview-meta">
-            <span>📅 <strong>Date:</strong> ${formatReadableDate(shift.date)}</span>
-            <span>⏰ <strong>Hours:</strong> ${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)} (${calculateDurationHours(shift.startTime, shift.endTime)} hrs)</span>
-            <span>📍 <strong>Location:</strong> ${escapeHTML(shift.location)}</span>
-            <span>👤 <strong>Requester:</strong> ${escapeHTML(shift.requester)} (${escapeHTML(shift.reason || 'Schedule Conflict')})</span>
-            ${shift.notes ? `<span style="margin-top: 4px; font-style: italic;">&ldquo;${escapeHTML(shift.notes)}&rdquo;</span>` : ''}
-          </div>
-        `;
+        if (previewContainer) {
+          previewContainer.innerHTML = `
+            <div class="preview-role">${escapeHTML(shift.role)}</div>
+            <div class="preview-meta">
+              <span>📅 <strong>Date:</strong> ${formatReadableDate(shift.date)}</span>
+              <span>⏰ <strong>Hours:</strong> ${formatTime12h(shift.startTime)} – ${formatTime12h(shift.endTime)} (${calculateDurationHours(shift.startTime, shift.endTime)} hrs)</span>
+              <span>📍 <strong>Location:</strong> ${escapeHTML(shift.location)}</span>
+              <span>👤 <strong>Requester:</strong> ${escapeHTML(shift.requester)} (${escapeHTML(shift.reason || 'Schedule Conflict')})</span>
+              ${shift.notes ? `<span style="margin-top: 4px; font-style: italic;">&ldquo;${escapeHTML(shift.notes)}&rdquo;</span>` : ''}
+            </div>
+          `;
+        }
 
-        // Pre-fill from current active user
         const nameInput = document.getElementById('claimerName');
         const contactInput = document.getElementById('claimerContact');
-        if (currentUser && currentUser.name) {
-          nameInput.value = currentUser.name;
-        }
-        if (currentUser && currentUser.phone) {
-          contactInput.value = currentUser.phone;
-        }
+        if (nameInput && currentUser.name) nameInput.value = currentUser.name;
+        if (contactInput && currentUser.phone) contactInput.value = currentUser.phone;
 
-        // Reset errors
-        document.getElementById('err-claimerName').classList.remove('visible');
-        document.getElementById('err-claimerContact').classList.remove('visible');
-        nameInput.classList.remove('error');
-        contactInput.classList.remove('error');
+        const errName = document.getElementById('err-claimerName');
+        const errContact = document.getElementById('err-claimerContact');
+        if (errName) errName.classList.remove('visible');
+        if (errContact) errContact.classList.remove('visible');
+        if (nameInput) nameInput.classList.remove('error');
+        if (contactInput) contactInput.classList.remove('error');
 
-        claimModal.classList.add('active');
+        // Populate quick staff picker buttons & trigger overlap check
+        populateQuickStaffPicker(shift.id);
+        updateClaimConflictWarning();
+
+        if (claimModal) claimModal.classList.add('active');
       }
 
       function closeClaimModal() {
-        claimModal.classList.remove('active');
-        claimForm.reset();
+        if (claimModal) claimModal.classList.remove('active');
+        if (claimForm) claimForm.reset();
+        const warningBox = document.getElementById('doubleBookingWarning');
+        if (warningBox) warningBox.style.display = 'none';
       }
 
-      document.getElementById('btnCloseModal').addEventListener('click', closeClaimModal);
-      document.getElementById('btnCancelClaim').addEventListener('click', closeClaimModal);
+      const btnCloseModal = document.getElementById('btnCloseModal');
+      const btnCancelClaim = document.getElementById('btnCancelClaim');
+      if (btnCloseModal) btnCloseModal.addEventListener('click', closeClaimModal);
+      if (btnCancelClaim) btnCancelClaim.addEventListener('click', closeClaimModal);
 
-      // Close modal on click outside container
-      claimModal.addEventListener('click', (e) => {
-        if (e.target === claimModal) closeClaimModal();
-      });
+      if (claimModal) {
+        claimModal.addEventListener('click', (e) => {
+          if (e.target === claimModal) closeClaimModal();
+        });
+      }
 
-      // Confirm claim submission
-      claimForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+      // Confirm claim submission (Handles Conflict Detection & Flagging)
+      if (claimForm) {
+        claimForm.addEventListener('submit', function (e) {
+          e.preventDefault();
 
-        const shiftId = document.getElementById('claimShiftId').value;
-        const nameInput = document.getElementById('claimerName');
-        const contactInput = document.getElementById('claimerContact');
-        const noteInput = document.getElementById('claimNote');
+          const shiftId = document.getElementById('claimShiftId').value;
+          const nameInput = document.getElementById('claimerName');
+          const contactInput = document.getElementById('claimerContact');
+          const noteInput = document.getElementById('claimNote');
 
-        let valid = true;
-        if (!nameInput.value.trim()) {
-          document.getElementById('err-claimerName').classList.add('visible');
-          nameInput.classList.add('error');
-          valid = false;
-        } else {
-          document.getElementById('err-claimerName').classList.remove('visible');
-          nameInput.classList.remove('error');
-        }
-
-        if (!contactInput.value.trim()) {
-          document.getElementById('err-claimerContact').classList.add('visible');
-          contactInput.classList.add('error');
-          valid = false;
-        } else {
-          document.getElementById('err-claimerContact').classList.remove('visible');
-          contactInput.classList.remove('error');
-        }
-
-        if (!valid) return;
-
-        const shift = shifts.find(s => s.id === shiftId);
-        if (shift) {
-          shift.status = 'CLAIMED';
-          shift.claimedBy = nameInput.value.trim();
-          shift.claimedAt = new Date().toISOString();
-          shift.claimerContact = contactInput.value.trim();
-          shift.approved = false;
-          if (noteInput.value.trim()) {
-            shift.notes = (shift.notes ? shift.notes + ' | Note: ' : '') + noteInput.value.trim();
+          let valid = true;
+          if (!nameInput.value.trim()) {
+            document.getElementById('err-claimerName').classList.add('visible');
+            nameInput.classList.add('error');
+            valid = false;
+          } else {
+            document.getElementById('err-claimerName').classList.remove('visible');
+            nameInput.classList.remove('error');
           }
 
-          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
-          playClaimSuccessSound();
-          closeClaimModal();
-          showToast(`Shift confirmed! You claimed ${shift.role} on ${formatReadableDate(shift.date)}.`, 'success');
-          render();
-        }
-      });
+          if (!contactInput.value.trim()) {
+            document.getElementById('err-claimerContact').classList.add('visible');
+            contactInput.classList.add('error');
+            valid = false;
+          } else {
+            document.getElementById('err-claimerContact').classList.remove('visible');
+            contactInput.classList.remove('error');
+          }
+
+          if (!valid) return;
+
+          const shift = shifts.find(s => s.id === shiftId);
+          if (shift) {
+            const claimerNameVal = nameInput.value.trim();
+            const conflict = checkScheduleConflict(shiftId, claimerNameVal);
+
+            shift.status = 'CLAIMED';
+            shift.claimedBy = claimerNameVal;
+            shift.claimedAt = new Date().toISOString();
+            shift.claimerContact = contactInput.value.trim();
+            shift.approved = false;
+
+            if (conflict.hasConflict) {
+              shift.hasConflict = true;
+              shift.conflictDetails = conflict.message;
+            } else {
+              shift.hasConflict = false;
+              shift.conflictDetails = null;
+            }
+
+            if (noteInput && noteInput.value.trim()) {
+              shift.notes = (shift.notes ? shift.notes + ' | Note: ' : '') + noteInput.value.trim();
+            }
+
+            saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+            playClaimSuccessSound();
+            closeClaimModal();
+
+            if (shift.hasConflict) {
+              showToast(`⚠️ Shift claimed with schedule conflict! Flagged for Supervisor review in Approval Queue.`, 'warning');
+            } else {
+              showToast(`Shift confirmed! You claimed ${shift.role} on ${formatReadableDate(shift.date)}.`, 'success');
+            }
+
+            render();
+          }
+        });
+      }
 
       // -----------------------------------------------------------------------
-      // Shift & Roster Actions (Delete, Re-open, Approve, Toggle Availability)
+      // Trade Modal Workflow (Iteration C)
+      // -----------------------------------------------------------------------
+      const tradeForm = document.getElementById('tradeShiftForm');
+      const btnCloseTrade = document.getElementById('btnCloseTradeModal');
+      const btnCancelTrade = document.getElementById('btnCancelTrade');
+      if (btnCloseTrade) btnCloseTrade.addEventListener('click', closeTradeModal);
+      if (btnCancelTrade) btnCancelTrade.addEventListener('click', closeTradeModal);
+
+      const tradeModal = document.getElementById('tradeModal');
+      if (tradeModal) {
+        tradeModal.addEventListener('click', (e) => {
+          if (e.target === tradeModal) closeTradeModal();
+        });
+      }
+
+      if (tradeForm) {
+        tradeForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          const shiftId = document.getElementById('tradeShiftId').value;
+          const nameInput = document.getElementById('tradeClaimerName');
+          const contactInput = document.getElementById('tradeClaimerContact');
+          const noteInput = document.getElementById('tradeClaimNote');
+
+          let valid = true;
+          if (!nameInput.value.trim()) {
+            document.getElementById('err-tradeClaimerName').classList.add('visible');
+            nameInput.classList.add('error');
+            valid = false;
+          } else {
+            document.getElementById('err-tradeClaimerName').classList.remove('visible');
+            nameInput.classList.remove('error');
+          }
+
+          if (!contactInput.value.trim()) {
+            document.getElementById('err-tradeClaimerContact').classList.add('visible');
+            contactInput.classList.add('error');
+            valid = false;
+          } else {
+            document.getElementById('err-tradeClaimerContact').classList.remove('visible');
+            contactInput.classList.remove('error');
+          }
+
+          if (!valid) return;
+
+          const shift = shifts.find(s => s.id === shiftId);
+          if (shift) {
+            shift.status = 'CLAIMED';
+            shift.claimedBy = nameInput.value.trim();
+            shift.claimedAt = new Date().toISOString();
+            shift.claimerContact = contactInput.value.trim();
+            shift.approved = false;
+            shift.tradeAccepted = true;
+
+            if (noteInput && noteInput.value.trim()) {
+              shift.notes = (shift.notes ? shift.notes + ' | Swap Note: ' : '') + noteInput.value.trim();
+            }
+
+            saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+            playClaimSuccessSound();
+            closeTradeModal();
+            showToast(`🔄 Shift swap confirmed between ${shift.requester} and ${shift.claimedBy}!`, 'success');
+            render();
+          }
+        });
+      }
+
+      // -----------------------------------------------------------------------
+      // Shift Actions (Delete, Re-open)
       // -----------------------------------------------------------------------
       function deleteShift(id) {
         const shift = shifts.find(s => s.id === id);
         if (!shift) return;
 
-        const isManager = currentUser && currentUser.role === 'MANAGER';
-        const isOwner = currentUser && currentUser.name && shift.requester && currentUser.name.toLowerCase() === shift.requester.toLowerCase();
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
+        const isOwner = currentUser && currentUser.name && shift.requester && currentUser.name.toLowerCase().trim() === shift.requester.toLowerCase().trim();
 
         if (!isManager && !isOwner) {
           showToast('Only managers or the employee who posted this shift can remove it.', 'error');
@@ -5887,10 +7481,10 @@
         const shift = shifts.find(s => s.id === id);
         if (!shift) return;
 
-        const isManager = currentUser && currentUser.role === 'MANAGER';
+        const isManager = isManagerMode || (currentUser && currentUser.role === 'MANAGER');
         const isOwner = currentUser && currentUser.name && (
-          (shift.requester && shift.requester.toLowerCase() === currentUser.name.toLowerCase()) ||
-          (shift.claimedBy && shift.claimedBy.toLowerCase() === currentUser.name.toLowerCase())
+          (shift.requester && shift.requester.toLowerCase().trim() === currentUser.name.toLowerCase().trim()) ||
+          (shift.claimedBy && shift.claimedBy.toLowerCase().trim() === currentUser.name.toLowerCase().trim())
         );
 
         if (!isManager && !isOwner) {
@@ -5904,97 +7498,59 @@
         shift.approved = false;
         shift.approvedAt = null;
         shift.approvedBy = null;
+        shift.hasConflict = false;
+        shift.conflictDetails = null;
         saveToStorage(STORAGE_KEY_SHIFTS, shifts);
         showToast(`Re-opened coverage request for ${shift.role}.`, 'info');
         render();
       }
 
-      function approveShift(id) {
-        const isManager = currentUser && currentUser.role === 'MANAGER';
-        if (!isManager) {
-          showToast('Store Manager authorization required to officially approve coverage.', 'error');
-          return;
-        }
-
-        const shift = shifts.find(s => s.id === id);
-        if (shift) {
-          shift.approved = true;
-          shift.approvedAt = new Date().toISOString();
-          shift.approvedBy = currentUser.name;
-          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
-          playClaimSuccessSound();
-          showToast(`Approved coverage for ${shift.role} (Covered by ${shift.claimedBy}).`, 'success');
-          render();
-        }
+      // -----------------------------------------------------------------------
+      // Demo Data Reset
+      // -----------------------------------------------------------------------
+      const btnResetDemo = document.getElementById('btnResetDemoData');
+      if (btnResetDemo) {
+        btnResetDemo.addEventListener('click', () => {
+          if (confirm('Reset shift log and roster back to coffee shop demo state?')) {
+            shifts = JSON.parse(JSON.stringify(INITIAL_SHIFTS));
+            roster = JSON.parse(JSON.stringify(INITIAL_ROSTER));
+            saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+            saveToStorage(STORAGE_KEY_ROSTER, roster);
+            showToast('Demo data restored successfully!', 'success');
+            render();
+            updateLiveMatchPreview();
+          }
+        });
       }
 
-      function toggleRosterStatus(id) {
-        const member = roster.find(m => m.id === id);
-        if (!member) return;
-
-        const isManager = currentUser && currentUser.role === 'MANAGER';
-        const isMe = currentUser && currentUser.name && member.name.toLowerCase() === currentUser.name.toLowerCase();
-
-        if (!isManager && !isMe) {
-          showToast('You can only update your own standby status, or ask a manager.', 'info');
-          return;
-        }
-
-        const cycle = { AVAILABLE: 'STANDBY', STANDBY: 'UNAVAILABLE', UNAVAILABLE: 'AVAILABLE' };
-        member.status = cycle[member.status] || 'AVAILABLE';
-        saveToStorage(STORAGE_KEY_ROSTER, roster);
-        showToast(`${member.name} status updated to ${member.status}.`, 'success');
-        render();
-      }
-
-      function removeRosterMember(id) {
-        const isManager = currentUser && currentUser.role === 'MANAGER';
-        if (!isManager) {
-          showToast('Store Manager authorization required to remove roster members.', 'error');
-          return;
-        }
-
-        if (!confirm('Remove this peer from the standby roster?')) return;
-        roster = roster.filter(m => m.id !== id);
-        saveToStorage(STORAGE_KEY_ROSTER, roster);
-        showToast('Staff member removed from roster.', 'info');
-        render();
+      const btnClearAll = document.getElementById('btnClearAllData');
+      if (btnClearAll) {
+        btnClearAll.addEventListener('click', () => {
+          if (confirm('Clear all shifts and roster entries? (This cannot be undone)')) {
+            shifts = [];
+            roster = [];
+            saveToStorage(STORAGE_KEY_SHIFTS, shifts);
+            saveToStorage(STORAGE_KEY_ROSTER, roster);
+            showToast('All logs cleared.', 'info');
+            render();
+            updateLiveMatchPreview();
+          }
+        });
       }
 
       // -----------------------------------------------------------------------
-      // Demo Data Reset & Filters (Iteration B)
+      // Event Listeners (Filters & Forms)
       // -----------------------------------------------------------------------
-      document.getElementById('btnResetDemoData').addEventListener('click', () => {
-        if (confirm('Reset shift log and roster back to coffee shop demo state?')) {
-          shifts = JSON.parse(JSON.stringify(INITIAL_SHIFTS));
-          roster = JSON.parse(JSON.stringify(INITIAL_ROSTER));
-          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
-          saveToStorage(STORAGE_KEY_ROSTER, roster);
-          showToast('Demo data restored successfully!', 'success');
-          render();
-          updateLiveMatchPreview();
-        }
-      });
+      const searchIn = document.getElementById('searchInput');
+      const roleFilt = document.getElementById('roleFilter');
+      const urgFilt = document.getElementById('urgencyFilter');
+      const locFilt = document.getElementById('locationFilter');
 
-      document.getElementById('btnClearAllData').addEventListener('click', () => {
-        if (confirm('Clear all shifts and roster entries? (This cannot be undone)')) {
-          shifts = [];
-          roster = [];
-          saveToStorage(STORAGE_KEY_SHIFTS, shifts);
-          saveToStorage(STORAGE_KEY_ROSTER, roster);
-          showToast('All logs cleared.', 'info');
-          render();
-          updateLiveMatchPreview();
-        }
-      });
+      if (searchIn) searchIn.addEventListener('input', renderOpenShifts);
+      if (roleFilt) roleFilt.addEventListener('change', renderOpenShifts);
+      if (urgFilt) urgFilt.addEventListener('change', renderOpenShifts);
+      if (locFilt) locFilt.addEventListener('change', renderOpenShifts);
 
-      // Filter input event listeners (Open Shifts)
-      document.getElementById('searchInput').addEventListener('input', renderOpenShifts);
-      document.getElementById('roleFilter').addEventListener('change', renderOpenShifts);
-      document.getElementById('urgencyFilter').addEventListener('change', renderOpenShifts);
-      document.getElementById('locationFilter').addEventListener('change', renderOpenShifts);
-
-      // Filter & Search input event listeners (Roster - Iteration B)
       const rosterSearchEl = document.getElementById('rosterSearchInput');
       const rosterStatusEl = document.getElementById('rosterStatusFilter');
       const rosterTimeframeEl = document.getElementById('rosterTimeframeFilter');
@@ -6002,7 +7558,6 @@
       if (rosterStatusEl) rosterStatusEl.addEventListener('change', renderRoster);
       if (rosterTimeframeEl) rosterTimeframeEl.addEventListener('change', renderRoster);
 
-      // Real-time Match & Recommend event listeners (Post Shift Form - Iteration B)
       const shiftRoleEl = document.getElementById('shiftRole');
       const shiftStartTimeEl = document.getElementById('shiftStartTime');
       const shiftDateEl = document.getElementById('shiftDate');
@@ -6010,9 +7565,39 @@
       if (shiftStartTimeEl) shiftStartTimeEl.addEventListener('input', updateLiveMatchPreview);
       if (shiftDateEl) shiftDateEl.addEventListener('change', updateLiveMatchPreview);
 
-      // -----------------------------------------------------------------------
-      // Portal Login View Event Listeners
-      // -----------------------------------------------------------------------
+      // Manager PIN Modal Listeners
+      const pinForm = document.getElementById('managerPinForm');
+      const btnSubmitPin = document.getElementById('btnSubmitPin');
+      const btnCancelPin = document.getElementById('btnCancelPin');
+      const btnClosePin = document.getElementById('btnClosePinModal');
+      const pinModal = document.getElementById('managerPinModal');
+
+      if (pinForm) {
+        pinForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          verifyManagerPin();
+        });
+      }
+      if (btnSubmitPin) btnSubmitPin.addEventListener('click', verifyManagerPin);
+      if (btnCancelPin) btnCancelPin.addEventListener('click', closePinModal);
+      if (btnClosePin) btnClosePin.addEventListener('click', closePinModal);
+      if (pinModal) {
+        pinModal.addEventListener('click', (e) => {
+          if (e.target === pinModal) closePinModal();
+        });
+      }
+
+      // Printable Modal Listeners
+      const printModal = document.getElementById('printableSummaryModal');
+      const btnClosePrint = document.getElementById('btnClosePrintModal');
+      if (btnClosePrint) btnClosePrint.addEventListener('click', closePrintModal);
+      if (printModal) {
+        printModal.addEventListener('click', (e) => {
+          if (e.target === printModal) closePrintModal();
+        });
+      }
+
+      // Portal Switcher Tabs
       const tabPortalEmp = document.getElementById('tabPortalEmployee');
       const tabPortalMgr = document.getElementById('tabPortalManager');
       const panelPortalEmp = document.getElementById('portalPanelEmployee');
@@ -6024,8 +7609,8 @@
           tabPortalEmp.setAttribute('aria-selected', 'true');
           tabPortalMgr.classList.remove('active');
           tabPortalMgr.setAttribute('aria-selected', 'false');
-          panelPortalEmp.classList.add('active');
-          panelPortalMgr.classList.remove('active');
+          if (panelPortalEmp) panelPortalEmp.classList.add('active');
+          if (panelPortalMgr) panelPortalMgr.classList.remove('active');
         });
 
         tabPortalMgr.addEventListener('click', () => {
@@ -6033,12 +7618,12 @@
           tabPortalMgr.setAttribute('aria-selected', 'true');
           tabPortalEmp.classList.remove('active');
           tabPortalEmp.setAttribute('aria-selected', 'false');
-          panelPortalMgr.classList.add('active');
-          panelPortalEmp.classList.remove('active');
+          if (panelPortalMgr) panelPortalMgr.classList.add('active');
+          if (panelPortalEmp) panelPortalEmp.classList.remove('active');
         });
       }
 
-      // Employee Login Form Submission
+      // Employee Login Form
       const empLoginForm = document.getElementById('employeeLoginForm');
       if (empLoginForm) {
         empLoginForm.addEventListener('submit', (e) => {
@@ -6072,7 +7657,7 @@
         });
       }
 
-      // Manager Login Form Submission
+      // Manager Login Form
       const mgrLoginForm = document.getElementById('managerLoginForm');
       if (mgrLoginForm) {
         mgrLoginForm.addEventListener('submit', (e) => {
@@ -6111,10 +7696,29 @@
       // -----------------------------------------------------------------------
       window.shiftCoverApp = {
         openClaimModal,
+        closeClaimModal,
         copyShiftAlert,
         deleteShift,
         reopenShift,
         approveShift,
+        rejectShiftClaim,
+        approveAllPendingClaims,
+        toggleManagerMode,
+        openPinModal,
+        closePinModal,
+        verifyManagerPin,
+        setManagerMode,
+        checkScheduleConflict,
+        updateClaimConflictWarning,
+        selectQuickStaff,
+        exportAuditTrailCsv,
+        printAuditTrailSummary,
+        closePrintModal,
+        toggleTradeMode,
+        applyTradePreset,
+        updateTradeVisualPreview,
+        openTradeModal,
+        closeTradeModal,
         toggleRosterStatus: cycleMemberStatus,
         cycleMemberStatus,
         setMemberStatusDirect,
@@ -6124,8 +7728,10 @@
         togglePeerContacted,
         removeRosterMember,
         updateLiveMatchPreview,
+        goToOpenShifts: () => switchTab('open-shifts'),
         goToPostShift: () => switchTab('post-shift'),
         goToCoveredHistory: () => switchTab('covered-history'),
+        goToApprovalQueue: () => switchTab('approval-queue'),
         goToLogin: () => logoutUser(),
         loginUser,
         logoutUser,
@@ -6136,14 +7742,18 @@
       // Initialization
       // -----------------------------------------------------------------------
       function init() {
-        // Set default date input to today's date per ShiftCover standards
         const dateInput = document.getElementById('shiftDate');
         if (dateInput) {
           dateInput.value = getRelativeDate(0);
           dateInput.min = getRelativeDate(0);
         }
 
-        // If user is logged in, pre-fill forms with their identity
+        const tradeDateInput = document.getElementById('tradeOfferedDate');
+        if (tradeDateInput) {
+          tradeDateInput.value = getRelativeDate(3);
+          tradeDateInput.min = getRelativeDate(0);
+        }
+
         if (currentUser && currentUser.name) {
           const reqInput = document.getElementById('requesterName');
           if (reqInput) reqInput.value = currentUser.name;
@@ -6152,17 +7762,13 @@
           if (staffNameInput) staffNameInput.value = currentUser.name;
         }
 
-        // Initialize real-time match preview on load
         updateLiveMatchPreview();
-
-        // Enforce login gating: show auth screen if not logged in, dashboard if logged in
         updateAuthScreenVisibility();
 
         if (currentUser && (currentUser.role === 'EMPLOYEE' || currentUser.role === 'MANAGER')) {
           switchTab('open-shifts');
         }
 
-        // Support deep-link URL hash from shared alert links (#shift=shift_1)
         if (window.location.hash && window.location.hash.startsWith('#shift=')) {
           const targetId = decodeURIComponent(window.location.hash.replace('#shift=', ''));
           const targetShift = shifts.find(s => s.id === targetId && s.status === 'OPEN');
@@ -6174,6 +7780,7 @@
 
       init();
     })();
+
   </script>
 </body>
 </html>
