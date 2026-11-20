@@ -3548,6 +3548,17 @@
           <span>Approval Queue</span>
           <span id="tabPendingBadge" class="tab-badge" style="background:#ef4444; color:#ffffff;">0</span>
         </button>
+
+        <!-- Manager Only: Manage Employees Tab -->
+        <button type="button" class="tab-btn" data-tab="manage-employees" id="tabManageEmployees" style="display:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <line x1="19" y1="8" x2="19" y2="14"></line>
+            <line x1="22" y1="11" x2="16" y2="11"></line>
+          </svg>
+          <span>Manage Employees</span>
+        </button>
       </nav>
 
     <!-- ======================================================================
@@ -4181,6 +4192,71 @@
       </div>
     </section>
 
+    <!-- ======================================================================
+         VIEW: Manage Employees (Manager Only)
+         ====================================================================== -->
+    <section id="view-manage-employees" class="view-section">
+      <div class="form-card" style="margin-bottom:24px;">
+        <div style="background:#ede9fe; border:1px solid #c4b5fd; border-radius:var(--radius-md); padding:10px 14px; margin-bottom:20px; font-size:0.85rem; color:#4c1d95;">
+          🔑 <strong>Manager Only:</strong> Create and manage employee login accounts. Employees can sign in using the credentials you create below.
+        </div>
+
+        <h3 style="font-size:1.05rem; font-weight:700; margin-bottom:16px; color:var(--text-primary);">Add New Employee Account</h3>
+
+        <form id="addEmployeeForm" novalidate>
+          <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label" for="newEmpName">Full Name <span style="color:#ef4444;">*</span></label>
+              <input type="text" id="newEmpName" class="form-control" placeholder="e.g. Jordan Lee" autocomplete="off" required>
+              <div id="err-newEmpName" class="error-hint">Please enter the employee's full name.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newEmpRole">Role / Title <span style="color:#ef4444;">*</span></label>
+              <select id="newEmpRole" class="form-control" required>
+                <option value="">— Select Role —</option>
+                <option value="Opening Barista">Opening Barista</option>
+                <option value="Mid Barista">Mid Barista</option>
+                <option value="Closing Barista">Closing Barista</option>
+                <option value="Shift Supervisor">Shift Supervisor</option>
+                <option value="Cashier / Register">Cashier / Register</option>
+                <option value="Baker / Kitchen Prep">Baker / Kitchen Prep</option>
+              </select>
+              <div id="err-newEmpRole" class="error-hint">Please select a role.</div>
+            </div>
+          </div>
+
+          <div class="form-row" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px;">
+            <div class="form-group">
+              <label class="form-label" for="newEmpUsername">Username <span style="color:#ef4444;">*</span></label>
+              <input type="text" id="newEmpUsername" class="form-control" placeholder="e.g. jordan.lee" autocomplete="off" required>
+              <div id="err-newEmpUsername" class="error-hint">Please enter a unique username.</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newEmpPassword">Password <span style="color:#ef4444;">*</span> <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">(min 6 chars)</span></label>
+              <input type="text" id="newEmpPassword" class="form-control" placeholder="Create a password" autocomplete="new-password" required>
+              <div id="err-newEmpPassword" class="error-hint">Password must be at least 6 characters.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+            <button type="submit" class="btn btn-primary" style="min-width:200px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
+              Create Employee Account
+            </button>
+            <span id="empCreateStatus" style="font-size:0.85rem; color:var(--text-muted);"></span>
+          </div>
+        </form>
+      </div>
+
+      <!-- Employee Accounts List -->
+      <div class="form-card">
+        <h3 style="font-size:1.05rem; font-weight:700; margin-bottom:16px; color:var(--text-primary);">Employee Accounts</h3>
+        <div id="employeeAccountsList">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </section>
+
     <!-- App Footer -->
     <footer class="app-footer">
       <div>
@@ -4419,6 +4495,17 @@
       <span id="mobilePendingBadge" class="mobile-badge" style="display:none;">0</span>
     </button>
 
+    <!-- Manager Only: Mobile Manage Employees Nav -->
+    <button type="button" class="mobile-nav-item" data-tab="manage-employees" id="mobileManageEmployeesNav" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <line x1="19" y1="8" x2="19" y2="14"></line>
+        <line x1="22" y1="11" x2="16" y2="11"></line>
+      </svg>
+      <span>Employees</span>
+    </button>
+
     <button type="button" class="mobile-nav-item" onclick="window.shiftCoverApp.logoutUser()" title="Sign Out">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -4445,6 +4532,7 @@
       const STORAGE_KEY_ROSTER = 'shiftcover_roster_data';
       const STORAGE_KEY_AUTH = 'shiftcover_auth_user';
       const STORAGE_KEY_MANAGER_MODE = 'shiftcover_manager_mode';
+      const STORAGE_KEY_EMPLOYEES = 'shiftcover_employee_accounts';
       const MANAGER_PIN = '1234';
 
       // -----------------------------------------------------------------------
@@ -4911,6 +4999,8 @@
         isManagerMode = true;
       }
 
+      let employeeAccounts = loadFromStorage(STORAGE_KEY_EMPLOYEES, []);
+
       let activeTab = 'open-shifts';
       let currentRosterScope = 'TODAY'; // 'TODAY' or 'WEEK'
 
@@ -5019,8 +5109,7 @@
         const dayShort = getShortWeekday(shift.date);
         const startCompact = formatCompactTime(shift.startTime);
         const endCompact = formatCompactTime(shift.endTime);
-        const claimUrl = getShareClaimUrl(shift.id);
-        return `🚨 OPEN SHIFT: ${shift.role} | ${dayShort} ${startCompact} - ${endCompact}. Claim here: ${claimUrl}`;
+        return `🚨 OPEN SHIFT: ${shift.role} | ${dayShort} ${startCompact} - ${endCompact}. Contact your manager if you can cover.`;
       }
 
       function buildSmsHref(shift) {
@@ -5305,6 +5394,13 @@
         if (mobileNavEl) {
           mobileNavEl.style.display = isManagerMode ? 'flex' : 'none';
         }
+
+        // Show/hide Manage Employees tabs (manager only)
+        const desktopEmpTab = document.getElementById('tabManageEmployees');
+        const mobileEmpNav = document.getElementById('mobileManageEmployeesNav');
+        const isManager = currentUser && currentUser.role === 'MANAGER';
+        if (desktopEmpTab) desktopEmpTab.style.display = isManager ? '' : 'none';
+        if (mobileEmpNav) mobileEmpNav.style.display = isManager ? 'flex' : 'none';
       }
 
       // -----------------------------------------------------------------------
@@ -6200,26 +6296,24 @@
 
           // Footer action buttons: Working Claim button + Delete button
           let footerActionBtns = '';
-          if (!isMyPost) {
-            if (shift.requestType === 'TRADE') {
-              footerActionBtns += `
-                <button type="button" class="btn btn-trade-claim" onclick="window.shiftCoverApp.openTradeModal('${shift.id}')">
-                  🔄 Swap Shift
-                </button>
-              `;
-            } else {
-              footerActionBtns += `
-                <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
-                  Claim Shift
-                </button>
-              `;
-            }
-          }
-
           if (isManager || isMyPost) {
             footerActionBtns += `
               <button type="button" class="btn btn-danger-outline" onclick="window.shiftCoverApp.deleteShift('${shift.id}')" title="Delete coverage request">
                 Delete
+              </button>
+            `;
+          }
+
+          if (shift.requestType === 'TRADE') {
+            footerActionBtns += `
+              <button type="button" class="btn btn-trade-claim" onclick="window.shiftCoverApp.openTradeModal('${shift.id}')">
+                🔄 Swap Shift
+              </button>
+            `;
+          } else {
+            footerActionBtns += `
+              <button type="button" class="btn btn-claim" onclick="window.shiftCoverApp.openClaimModal('${shift.id}')">
+                Claim Shift &rarr;
               </button>
             `;
           }
@@ -7045,6 +7139,7 @@
         renderCoveredShifts();
         renderApprovalQueue();
         renderRoster();
+        renderEmployeeAccounts();
         updateStats();
       }
 
@@ -7649,7 +7744,13 @@
           const isValidUser = validUsernames.includes(u.toLowerCase());
           const isValidPass = (p === 'employee123' || p === 'password123' || p === 'alex123' || p === '1234');
 
-          if (isValidUser && isValidPass) {
+          // Check manager-created employee accounts first
+          const customMatch = employeeAccounts.find(
+            acc => acc.username.toLowerCase() === u.toLowerCase() && acc.password === p
+          );
+          if (customMatch) {
+            loginUser(customMatch);
+          } else if (isValidUser && isValidPass) {
             loginUser(DEMO_USERS.employee);
           } else {
             showToast('Invalid username or password. Please try again.', 'error');
@@ -7687,6 +7788,97 @@
             loginUser(DEMO_USERS.manager);
           } else {
             showToast('Invalid username or password. Please try again.', 'error');
+          }
+        });
+      }
+
+      // -----------------------------------------------------------------------
+      // Employee Account Management (Manager Only)
+      // -----------------------------------------------------------------------
+      function addEmployeeAccount(accountObj) {
+        const exists = employeeAccounts.find(
+          a => a.username.toLowerCase() === accountObj.username.toLowerCase()
+        );
+        if (exists) {
+          showToast('Username already exists. Please choose a different one.', 'error');
+          return false;
+        }
+        // Also check against built-in accounts
+        const builtIn = ['employee', 'alex', 'alex.barista@shiftcover.com', 'barista', 'manager', 'sarah', 'admin', 'supervisor'];
+        if (builtIn.includes(accountObj.username.toLowerCase())) {
+          showToast('That username is reserved. Please choose a different one.', 'error');
+          return false;
+        }
+        employeeAccounts.push(accountObj);
+        saveToStorage(STORAGE_KEY_EMPLOYEES, employeeAccounts);
+        showToast(`Employee account created for ${accountObj.name}.`, 'success');
+        renderEmployeeAccounts();
+        return true;
+      }
+
+      function removeEmployeeAccount(username) {
+        employeeAccounts = employeeAccounts.filter(a => a.username !== username);
+        saveToStorage(STORAGE_KEY_EMPLOYEES, employeeAccounts);
+        showToast('Employee account removed.', 'info');
+        renderEmployeeAccounts();
+      }
+
+      function renderEmployeeAccounts() {
+        const container = document.getElementById('employeeAccountsList');
+        if (!container) return;
+        if (employeeAccounts.length === 0) {
+          container.innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem; margin:0;">No employee accounts created yet. Use the form above to add one.</p>';
+          return;
+        }
+        container.innerHTML = employeeAccounts.map(acc => `
+          <div class="roster-member-card" style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+              <div class="user-avatar-pill" style="flex-shrink:0; width:36px; height:36px; font-size:0.85rem;">${escapeHTML((acc.avatarInitials || '??'))}</div>
+              <div>
+                <strong style="display:block;">${escapeHTML(acc.name)}</strong>
+                <span style="font-size:0.8rem; color:var(--text-muted);">@${escapeHTML(acc.username)} &bull; ${escapeHTML(acc.title || 'Employee')}</span>
+              </div>
+            </div>
+            <button type="button" class="btn btn-danger-outline" style="flex-shrink:0;" onclick="window.shiftCoverApp.removeEmployeeAccount('${escapeHTML(acc.username)}')">Remove</button>
+          </div>
+        `).join('');
+      }
+
+      // Add Employee Form submission
+      const addEmpForm = document.getElementById('addEmployeeForm');
+      if (addEmpForm) {
+        addEmpForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          // Clear previous errors
+          document.querySelectorAll('#addEmployeeForm .error-hint').forEach(el => el.classList.remove('visible'));
+
+          const name = document.getElementById('newEmpName').value.trim();
+          const username = document.getElementById('newEmpUsername').value.trim();
+          const password = document.getElementById('newEmpPassword').value.trim();
+          const title = document.getElementById('newEmpRole').value;
+
+          let valid = true;
+          if (!name) { document.getElementById('err-newEmpName').classList.add('visible'); valid = false; }
+          if (!username) { document.getElementById('err-newEmpUsername').classList.add('visible'); valid = false; }
+          if (!title) { document.getElementById('err-newEmpRole').classList.add('visible'); valid = false; }
+          if (!password || password.length < 6) { document.getElementById('err-newEmpPassword').classList.add('visible'); valid = false; }
+          if (!valid) return;
+
+          const initials = name.split(' ').map(w => w[0]).filter(Boolean).join('').toUpperCase().substring(0, 2);
+          const newAcc = {
+            id: 'user_emp_' + Date.now(),
+            username,
+            password,
+            role: 'EMPLOYEE',
+            name,
+            title,
+            avatarInitials: initials,
+            phone: '',
+            location: 'Downtown Roastery',
+            qualifiedRoles: []
+          };
+          if (addEmployeeAccount(newAcc)) {
+            addEmpForm.reset();
           }
         });
       }
@@ -7735,7 +7927,9 @@
         goToLogin: () => logoutUser(),
         loginUser,
         logoutUser,
-        switchRole
+        switchRole,
+        removeEmployeeAccount,
+        renderEmployeeAccounts
       };
 
       // -----------------------------------------------------------------------
